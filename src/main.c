@@ -17,7 +17,7 @@ unsigned long readInput(){
     {
 		printf("Input number: ");
         fgets(inputPtr, sizeof inputPtr, stdin);
-        value = strtoll(inputPtr, &errorPtr, 10);
+        value = strtoul(inputPtr, &errorPtr, 10);
     } while (*errorPtr != '\n' && *errorPtr != '\0');
 
 	return value;
