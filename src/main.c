@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <limits.h>
 #pragma GCC diagnostic ignored "-Wformat-zero-length"
 
 
@@ -7,10 +8,10 @@ extern int getDivisorCount_variant1(unsigned int value);
 extern void getDivisorCount_variant2(int value, int *result);
 
 
-unsigned int readInput(){
-	unsigned int value;
+unsigned long readInput(){
+	unsigned long value;
 	
-	char inputPtr[32];
+	char inputPtr[64];
     char *errorPtr;
     do
     {
@@ -23,9 +24,17 @@ unsigned int readInput(){
 }
 
 int main() {
-	unsigned int value = readInput();
-	int tmp1;
+	unsigned long input = readInput();
+	long tmp1;
 	scanf("", &tmp1); // clear buffers
+
+	if(input > INT_MAX){
+		printf("Error: Number is not an integer.");
+		return 1;
+	}
+
+	unsigned int value = (unsigned int)input;
+	
 
 	// variant 1
 	int divisorCount = getDivisorCount_variant1(value);
