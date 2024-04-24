@@ -16,12 +16,12 @@ include_directories(
 add_executable(
         Study-Operating-System
         src/main.cc
-        src/lib/tools.c
-        src/lib/finit.cc
-        src/initfini.c
-        src/device/CgaChannel.cc
-        src/device/CgaScreen.cc
-        src/io/PrintStream.cc
+        #src/lib/tools.c
+        #src/lib/finit.cc
+        #src/initfini.c
+        #src/device/CgaChannel.cc
+        #src/device/CgaScreen.cc
+        #src/io/PrintStream.cc
 )
 
 set_target_properties(Study-Operating-System PROPERTIES
