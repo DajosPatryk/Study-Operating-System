@@ -33,7 +33,11 @@ void CgaScreen::scroll(){
     this->screen = (CgaChar*)VIDEO_ADDRESS;
 
     // Shifting screen one line up using memory copy
-    memcpy(screen, screen + COLUMNS, (ROWS - 1) * COLUMNS * sizeof(CgaChar));
+    memcpy(
+            screen,
+            screen + COLUMNS,
+            (ROWS - 1) * COLUMNS * sizeof(CgaChar)
+    );
 
     // Clearing last line
     int lastIndex = (ROWS - 1) * COLUMNS;
@@ -44,13 +48,10 @@ void CgaScreen::scroll(){
 }
 
 void CgaScreen::setCursor(int column, int row){
-    // Overflow
-    while (column >= COLUMNS) { column = column - COLUMNS; row++; }
-    while (row >= ROWS) { row--; this->scroll(); }
-
-    // Underflow
-    while (column < 0) { column = column + COLUMNS; row--; }
-    row = (row < 0) ? 0 : row;
+    while (column >= COLUMNS) { column = column - COLUMNS; row++; } // Column overflow
+    while (row    >= ROWS)    { row--; this->scroll();            } // Row overflow
+    while (column <  0)       { column = column + COLUMNS; row--; } // Column underflow
+    row = (row    <  0)?      0 : row;                              // Row underflow
 
     // Setting data
     unsigned pos = row * COLUMNS + column;

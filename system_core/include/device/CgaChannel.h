@@ -40,10 +40,7 @@ public:
     /**
      * Displays a blue screen with a standard error message.
      */
-	void blueScreen()
-	{
-		blueScreen("ERROR");
-	}
+	void blueScreen(){ this->blueScreen("ERROR"); }
 
     /**
      * Displays a blue screen with a custom error message.
