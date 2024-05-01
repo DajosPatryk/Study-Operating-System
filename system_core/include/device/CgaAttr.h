@@ -1,122 +1,76 @@
 #ifndef CgaAttr_h
 #define CgaAttr_h
 
-/**
- * CgaAttr is class of a singular CGA pixel.
- * |7|6 5 4|3|2 1 0|
- * |B|R G B|I|R G B|
+/*
+ * CgaAttr: 	Softwareprototyp fuer CGA Darstellungsattribute
+ *		Hier braucht man Bitoperationen!
  *
- * 7: Blinking Foreground.
- * 6, 5, 4: Background Color.
- * 3: Intensity Foreground.
- * 2, 1, 0: Foreground Color.
+ *		Da *alle* Operationen sehr einfach und kurz sind,
+ *		duerft Ihr sie direkt in der Klasse
+ *		als inline Methoden deklarieren.
  */
-class CgaAttr {
-public:
-    enum Color {
-        BLACK = 0,
-        BLUE,
-        GREEN,
-        CYAN,
-        RED,
-        MAGENTA,
-        BROWN,
-        LIGHT_GRAY,
-        DARK_GRAY,
-        LIGHT_BLUE,
-        LIGHT_GREEN,
-        LIGHT_CYAN,
-        LIGHT_RED,
-        LIGHT_MAGENTA,
-        YELLOW,
-        WHITE
-    };
 
+class CgaAttr {
 private:
 	enum AttrMaskAndShifts {
-        FGPOS   = 0,
-        BGPOS   = 4,
-        BLPOS   = 7,
-        FGCLEAR = 0xF0, // 11110000
-        BGCLEAR = 0x8F, // 10001111
-        BLCLEAR = 0x7F, // 01111111
 	};
-    char val_;
+
 
 public:
+	/** 	Diese Aufzählung enthält die CGA-Farben als Farbkonstanten
+	 *	Tragt hier *alle* CGA Farben mit den richtigen Werten ein
+	 */
+	enum Color {
+	};
 
-    /**
-     * Constructor for CgaAttr, initializing with optional parameters.
-     * @param fg Color (default WHITE): foreground color.
-     * @param bg Color (default BLACK): background color.
-     * @param blink bool (default false): blink state.
-     */
-    explicit CgaAttr(Color fg=WHITE, Color bg=BLACK, bool blink=false) {
-        this->setForeground(fg);
-        this->setBackground(bg);
-        this->setBlinkState(blink);
-    }
 
-    /**
-     * Sets the foreground color.
-     * @param col Color: The new foreground color.
-     */
-    void setForeground(Color col) {
-        this->val_ = this->val_ & FGCLEAR;
-        this->val_ = this->val_ | (col << FGPOS);
-    }
+	/** Konstruktor. Erzeugt ein CgaAttr-Objekt mit den uebergebenen Werten für
+	  * Vorder- und Hintergrundfarbe. Werden keine Parameter uebergeben,
+	  * so werden die Defaultwerte (Vordergrund weiss, Hintergrund schwarz, Blinken deaktiviert)
+	  * verwendet.
+	  */
+	CgaAttr(Color fg=WHITE, Color bg=BLACK, bool blink=false)
+	{
+	}
 
-    /**
-     * Sets the background color.
-     * @param col Color: The new background color.
-     */
-    void setBackground(Color col) {
-        this->val_ = this->val_ & BGCLEAR;
-        this->val_ = this->val_ | ((col << BGPOS) & BLCLEAR);
-    }
+	// setzen der Schriftfarbe
+	void setForeground(Color col)
+	{
+	}
 
-    /**
-     * Sets the blink state.
-     * @param blink bool: The new blink state (true enables blinking).
-     */
-    void setBlinkState(bool blink) {
-        this->val_ = this->val_ & BLCLEAR;
-        this->val_ = this->val_ | (blink << BLPOS);
-    }
+	// setzen der Hintergrundfarbe
+	void setBackground(Color col)
+	{
+	}
 
-    /**
-     * Sets all attributes from another CgaAttr object.
-     * @param attr CgaAttr: The other CgaAttr object to copy attributes from.
-     */
-    void setAttr(CgaAttr attr) {
-        this->setForeground(attr.getForeground());
-        this->setBackground(attr.getBackground());
-        this->setBlinkState(attr.getBlinkState());
-    }
+	// setzen blinkender/nicht blinkender Text
+	void setBlinkState(bool blink)
+	{
+	}
 
-    /**
-     * Retrieves the current foreground color.
-     * @return Color: The current foreground color.
-     */
-    Color getForeground() {
-        return (Color)(this->val_ & ~FGCLEAR);
-    }
+	// setzen aller Attribute
+	void setAttr(CgaAttr attr)
+	{
+	}
 
-    /**
-     * Retrieves the current background color.
-     * @return Color: The current background color.
-     */
-    Color getBackground() {
-        return (Color)((this->val_ & ~BGCLEAR) >> BGPOS);
-    }
+	// ermitteln der Schriftfarbe
+	Color getForeground()
+	{
+	}
 
-    /**
-     * Retrieves the current blinking state..
-     * @return bool: True if blinking is enabled, false otherwise.
-     */
-    bool getBlinkState() {
-        return (bool)((this->val_ & ~BLCLEAR) >> BLPOS);
-    }
+	// ermitteln der Hintergrundfarbe
+	Color getBackground()
+	{
+	}
+
+	// ermitteln ob Blink-Flag gesetzt ist
+	bool getBlinkState()
+	{
+	}
+
+private:
+
+
 };
 
 #endif

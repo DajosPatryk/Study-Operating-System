@@ -1,26 +1,27 @@
 #include "device/CgaChannel.h"
 #include "io/PrintStream.h"
 
-CgaChannel cga;		    // CGA screen
-PrintStream out(cga);	// Pointing PrintStream to CGA
+CgaChannel cga;		// unser CGA-Ausgabekanal
+PrintStream out(cga);	// unseren PrintStream mit Ausgabekanal verknuepfen
 
 extern "C" int main()
 {
-    out.println("Hello World");
 
-    for(int i = 0; i < 1000; i++) {
-        out.print("Dezimal ");
-        out.print(i);
-        out.print(" Binaer ");
-        out.print(i, 2);
-        out.print(" Hexadezimal ");
-        out.print(i, 16);
-        out.println();
-    }
+	out.println("Hello World");
 
-    out.println("done");
+	for(int i = 0; i < 1000; i++) {
+		out.print("Dezimal ");
+		out.print(i);
+		out.print(" Binaer ");
+		out.print(i, 2);
+		out.print(" Hexadezimal ");
+		out.print(i, 16);
+		out.println();
+	}
 
-    while(1){}
+	out.println("done");
 
-    return 0;
+	while(1){}
+
+	return 0;
 }

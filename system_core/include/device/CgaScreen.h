@@ -5,106 +5,82 @@
 #include "device/CgaChar.h"
 #include "io/IOPort.h"
 
-/**
- * CgaScreen: Handles CGA screen operations including attribute management, cursor control, and display functionalities.
+/*
+ * CgaScreen:	Diese Klasse ist der Softwareprototyp fuer den
+ *		CGA-Bildschirm
+ *		
+ *      Hier soll es ausschliesslich um die Kontrolle der Hardware
+ *      gehen. Komplexere Aufgaben koennen in den erbenden Klassen
+ *      implementiert werden.
  */
+
+
 class CgaScreen {
 
 private:
+
+	// Die I/O-Ports des Grafikcontrollers
 	enum Ports  {
-        INDEX = 0x3d4,
-        DATA = 0x3d5
 	};
 
+	// Die Kommandos zum Cursor setzen
 	enum Cursor {
-        HIGH = 14,
-        LOW = 15
 	};
 
+	// Die Adresse des Video RAMs
 	enum Video  {
-        VIDEO_ADDRESS = 0x88000
 	};
-
-    /**
-     * Fills the entire screen with a blank character using current attributes.
-     */
-    void fillScreen();
 
 public:
+	// Die Bildschirmdimensionen
 	enum Screen {
 		ROWS = 25,
 		COLUMNS = 80
 	};
 
-    /**
-     * Default constructor that initializes the screen with standard attributes and clears it.
-     */
+	// Standardattribute waehlen und Bildschirm loeschen
 	CgaScreen();
 
-    /**
-     * Constructor that initializes the screen with specified attributes and clears it.
-     * @param attr CgaAttr: Screen attributes to apply.
-     */
+	// Angegebene Attribute setzen und Bildschirm loeschen
 	explicit CgaScreen(CgaAttr attr);
 
-    /**
-     * Clears the screen using default attributes.
-     */
-	void clear();
+	// Loeschen des Bildschirms
+	void clear ();
 
-    /**
-     * Clears the screen using specified attributes.
-     * @param attr const CgaAttr&: Attributes to use when clearing.
-     */
-    void clear(const CgaAttr& attr);
-
-    /**
-     * Scrolls the screen content up by one row.
-     */
+	// Verschieben des Bildschirms um eine Zeile
 	void scroll();
 
-	/** Setter CgaAttr attribute. */
-	void setAttr(const CgaAttr& attr) { this->attr = attr; }
-    /** Getter CgaAttr attribute. */
-	void getAttr(CgaAttr& attr) { attr = this->attr; }
+	// Setzen/Lesen der globalen Bildschirmattribute
+	void setAttr(const CgaAttr& attr)
+	{
+	}
 
-    /**
-     * Sets the cursor position on the screen.
-     * @param column int: The column to place the cursor.
-     * @param row int: The row to place the cursor.
-     */
+	void getAttr(CgaAttr& attr)
+	{
+	}
+
+	// Setzen/Lesen des HW-Cursors
 	void setCursor(int column, int row);
-
-    /**
-     * Retrieves the current cursor position from the screen.
-     * @param column int&: Variable to store the cursor column.
-     * @param row int&: Variable to store the cursor row.
-     */
 	void getCursor(int& column, int& row);
 
 
-    /**
-     * Displays a character at the current cursor position with specified attributes.
-     * @param ch char: The character to display.
-     * @param attr const CgaAttr&: The attributes to use for the character.
-     */
-	void show(char ch, const CgaAttr& attr){
-        this->attr = attr;
-        this->show(ch);
-    }
+	// Anzeigen von c an aktueller Cursorposition
+    	// Darstellung mit angegebenen Bildschirmattributen
+	void show(char ch, const CgaAttr& attr);
 
-    /**
-     * Displays a character at the current cursor position using current screen attributes.
-     * @param ch char: The character to display.
-     */
-	void show(char ch);
+	// Anzeigen von c an aktueller Cursorposition
+    	// Darstellung mit aktuellen Bildschirmattributen
+	void show(char ch)
+	{
+	}
+
 
 protected:
-	CgaAttr attr;
-	IOPort8 index = IOPort8(INDEX);
-	IOPort8 data = IOPort8(DATA);
-	CgaChar* screen;
 
+	CgaAttr attr;
+	IOPort8 index;
+	IOPort8 data;
+	CgaChar* screen;
 };
 
 #endif
