@@ -18,18 +18,28 @@ class CgaChar {
 public:
 
 	// setzen des Zeichens
-	void setChar(char c);
+	void setChar(char c){
+		 this->c = c; 
+	};
 	
 	// auslesen des Zeichens
-	char getChar();
+	char getChar(){
+		return this->c;
+	};
 	
 	// setzen der Darstellungsattribure
-	void setAttr(const CgaAttr& attr);
+	void setAttr(const CgaAttr& attr){
+		this->attr = attr;
+	};
 	
 	// auslesen der Darstellungsattribute
-	CgaAttr getAttr();
+	CgaAttr getAttr(){
+		return this->attr;
+	};
 
 private:
+char c;
+CgaAttr attr = CgaAttr();
 
 
 };

@@ -6,13 +6,13 @@
 # 'Betriebssysteme 1' an der BTU-Cottbus im SS11
 # -----------------------------------------------------------------------------
 #
-# Folgende Make-Targets sind möglich
+# Folgende Make-Targets sind mï¿½glich
 #
-# depend 	: überprüft alle Abhängigkeiten und schreibt diese in eine Datei
+# depend 	: ï¿½berprï¿½ft alle Abhï¿½ngigkeiten und schreibt diese in eine Datei
 # system.img 	: erstellt das Speicherabbild des Betriebssystems
 # bootdisk.img	: erstellt das Speicherabbild des Betriebssystem + Bootcode
-# bootdisk	: kopiert das bootfähig Speicherabbild auf Diskette
-# clean		: löscht alle generierten Dateien
+# bootdisk	: kopiert das bootfï¿½hig Speicherabbild auf Diskette
+# clean		: lï¿½scht alle generierten Dateien
 #
 # -----------------------------------------------------------------------------
 #LINUX and CYGWIN so far
@@ -41,6 +41,7 @@ SYSTEM_CC = \
 	device/CgaChannel.cc \
 	device/CgaScreen.cc \
 	io/PrintStream.cc \
+	main.cc
 
 
 ##############################################################################
@@ -95,8 +96,8 @@ LDHEAD = $(shell $(CXX) -m32 --print-file-name=crti.o && \
 LDTAIL = $(shell $(CXX) -m32 --print-file-name=crtend.o && \
 	   $(CXX) -m32 --print-file-name=crtn.o)
 
-# Prüfe ob LLVM-Cross Toolchein genutzt wird
-# Wenn ja füge Cross Target i386 hinzu
+# Prï¿½fe ob LLVM-Cross Toolchein genutzt wird
+# Wenn ja fï¿½ge Cross Target i386 hinzu
 # Verhindert Probleme welche auftreten wenn
 # gcc annahmen aus der Host-Plotform in
 # die Kompilierung einbezieht
@@ -110,7 +111,7 @@ endif
 endif
 
 # -------------------------------------------------------------------------
-# Die Targets für die Kompilierung
+# Die Targets fï¿½r die Kompilierung
 
 %.o : %.asm
 	$(AS) $(ASFLAGS) -o $@ $<
@@ -132,7 +133,7 @@ bootdisk: system
 	cp system isodir/boot/costubs.elf
 	grub-mkrescue -d /usr/lib/grub/i386-pc -o costubs.iso isodir
 
-# Ease of life statt ständig bochs separat auszuführen
+# Ease of life statt stï¿½ndig bochs separat auszufï¿½hren
 bochs-run: bootdisk
 	bochs -q
 
@@ -143,8 +144,8 @@ bochs-debug: bootdisk
 
 # Wenn statt bochs qemu genutzt wird
 # Wichtig:
-# qemu hat bei Aufgabe 1 keine Möglichkeit zu blinken
-# stattdessem stehen mehr Hintergrundfarben zur Verfügung
+# qemu hat bei Aufgabe 1 keine Mï¿½glichkeit zu blinken
+# stattdessem stehen mehr Hintergrundfarben zur Verfï¿½gung
 qemu-run: system
 	qemu-system-i386 -kernel system
 
@@ -154,7 +155,7 @@ qemu-debug: COMMON_FLAGS += -ggdb3
 qemu-debug: system
 	qemu-system-i386 -kernel system -s -S & sleep 1 && gdb -x gdb.script system
 
-# Bekanntmachen von Targets die keine Abhängigkeiten haben
+# Bekanntmachen von Targets die keine Abhï¿½ngigkeiten haben
 .PHONY: clean depend
 
 depend:
@@ -171,11 +172,11 @@ clean:
 	@rm -f system
 	@rm -f $(DEPENDENCIES_FILE)
 
-# erstellt die Datei mit den Abhängigkeiten
+# erstellt die Datei mit den Abhï¿½ngigkeiten
 $(DEPENDENCIES_FILE):
 	touch $(DEPENDENCIES_FILE)
 	$(MAKE) depend
 
-# einbinden der Datei mit den aktuellen Abhängigkeiten
+# einbinden der Datei mit den aktuellen Abhï¿½ngigkeiten
 sinclude $(DEPENDENCIES_FILE)
 
