@@ -1,4 +1,4 @@
-#include "include/device/CgaScreen.h"
+#include "../include/device/CgaScreen.h"
 
 CgaScreen::CgaScreen() { setCursor(0, 0); }
 

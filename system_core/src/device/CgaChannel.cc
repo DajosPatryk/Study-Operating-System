@@ -1,4 +1,4 @@
-#include "include/device/CgaChannel.h"
+#include "../include/device/CgaChannel.h"
 
 CgaChannel::CgaChannel() {}
 
