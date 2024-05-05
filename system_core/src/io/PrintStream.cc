@@ -20,7 +20,7 @@ void PrintStream::println(const char *str) {
 }
 
 void PrintStream::println() {
-    channel.write((const char *) "\n", 1);
+    channel.write((const char*) "\n", 1);
 }
 
 void PrintStream::print(int x, int base) {
@@ -94,7 +94,7 @@ void PrintStream::print(int x, int base) {
     for (i = 0; i < index; i++) { arr[i] = arr1[index - i]; }
     arr[i] = '\0';  // Char array truncates by null
 
-    if (negativ == false) {
+    if (!negativ) {
         if (base == 2) {
             print("0b");
             print(arr);
