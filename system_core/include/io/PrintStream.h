@@ -3,55 +3,77 @@
 
 #include "io/OutputChannel.h"
 
-/*
- * PrintStream:	Diese Klasse ist aehnlich der Java-PrintStream Klasse
- *		Sie konvertiert u.A. numerische Werte in sichtbare Zeichen
- *		und gibt Sie auf dem im Konstruktor spezifizierten
- *		Ausgabekanal aus.
- *		Daraus ergeben sich 2 Teilaufgaben:
- *
- *		1. Die Feststellung der Ziffern einer Zahl
- *		2. Die Umwandlung der Ziffern in darstellbare Zeichen
- *
- *		Man beachte, dass diese Klasse unabhaengig
- *		von dem tatsaechlich verwendeten Ausgabekanal arbeitet.
- *
- *		Anmerkung: Diese Klasse werden wir spaeter noch in
- *		C++ konforme Ausgabe umwandeln.
+/**
+ * Simulates Java's PrintStream for outputting characters and strings.
+ * This class converts numeric values to readable chars and outputs them to a specified channel.
  */
-
 class PrintStream {
 private:
 	enum Base {
-		BINARY = 2,
+		BINARY  = 2,
 		DECIMAL = 10,
-		HEX = 16
+		HEX     = 16
 	};
 
 public:
+    /**
+     * Constructor using pointer to OutputChannel.
+     * @param chan OutputChannel*: Pointer to output channel.
+     */
 	explicit PrintStream(OutputChannel* chan);
+
+    /**
+     * Constructor using reference to OutputChannel.
+     * @param chan OutputChannel&: Reference to output channel.
+     */
 	explicit PrintStream(OutputChannel& chan);
 
-    	// Ausgabe eines mit einem NULL-Byte terminierten Strings
+    /**
+     * Prints a null-terminated string to the output channel.
+     * @param str const char*: Null-terminated C-Style string.
+     */
 	void print(const char* str);
+
+    /**
+     * Prints a single character to the output channel.
+     * @param ch char: Character to print.
+     */
 	void print(char ch);
 
-	// Ausgabe eines Strings mit anschliessendem Zeilenvorschub
+    /**
+     * Prints string followed by a newline to the output channel.
+     * @param str const char*: C-Style String to print.
+     */
 	void println(const char* str);
 
-	// Zeilenvorschub
+    /***
+     * Outputs a newline character to the output channel.
+     */
 	void println();
 
-	// numerische Werte werden zur Basis 'base' Ausgegeben
-	// implementiere die Basen 2, 10 und 16
+    /**
+     * Prints an integer in specified base to the output channel.
+     * @param x int: Integer to print.
+     * @param base int (default DECIMAL): Base for number representation.
+     */
 	void print(int x, int base = DECIMAL);
+
+    /**
+     * Prints an unsigned integer in specified base to the output channel.
+     * @param x unsigned: Unsigned integer to print.
+     * @param base int (default DECIMAL): Base for number representation.
+     */
 	void print(unsigned x, int base = DECIMAL);
 
-	// Zeigertypen werden immer zur Basis 16 ausgegeben!
+    /**
+     * Prints a pointer in hexadecimal format to the output channel.
+     * @param p void*: Pointer to print.
+     */
 	void print(void* p);
 
 private:
 	OutputChannel& channel;
+
 };
 
 #endif

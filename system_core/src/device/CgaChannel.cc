@@ -1,7 +1,6 @@
 #include "../include/device/CgaChannel.h"
 
 CgaChannel::CgaChannel() {}
-
 CgaChannel::CgaChannel(const CgaAttr &attr) { this->attr = attr; }
 
 int CgaChannel::write(const char *data, int size) {
@@ -14,27 +13,23 @@ int CgaChannel::write(const char *data, int size) {
 		char c = data[i];
 
 		switch (c) {
-		case '\n':
-			lastLineLength = column;
-			row++;
-
-		case '\r':
-			column = 0;
-			break;
-
-		default:
-			setCursor(column, row);
-			show(c);
-
-			// check if line is full
-			if (++column == Screen::COLUMNS) {
-				lastLineLength = 0;
-				column = 0;
-				row++;
-			}
+		    case '\n':
+			    lastLineLength = column;
+			    row++;
+                break;
+		    case '\r':
+			    column = 0;
+			    break;
+		    default:
+			    setCursor(column, row);
+			    show(c);
+			    if (++column == Screen::COLUMNS) {
+				    lastLineLength = 0;
+				    column = 0;
+				    row++;
+			    }
 		}
 
-		// check if screen is full
 		if (row >= Screen::ROWS) {
 			column = 0;
 			row = Screen::ROWS - 1;
@@ -44,9 +39,7 @@ int CgaChannel::write(const char *data, int size) {
 		writtenCharacters++;
 	}
 
-	// set cursor after written content
 	setCursor(column, row);
-
 	return writtenCharacters;
 }
 
@@ -59,11 +52,8 @@ void CgaChannel::blueScreen(const char *error) {
 	clear(attr);
 	setCursor(0, 0);
 
+    // Finds first NULL and write
 	int i = 0;
-
-	// find first NULL char
-	while (error[i++] != 0)
-		;
-	// now write error message
+	while (error[i++] != 0);
 	write(error, i - 1);
 }

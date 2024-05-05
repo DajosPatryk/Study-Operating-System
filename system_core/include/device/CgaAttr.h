@@ -1,101 +1,98 @@
 #ifndef CgaAttr_h
 #define CgaAttr_h
 
-/*
- * CgaAttr: 	Softwareprototyp fuer CGA Darstellungsattribute
- *		Hier braucht man Bitoperationen!
+/**
+ * CgaAttr is class of a singular CGA pixel.
+ * |7|6 5 4|3|2 1 0|
+ * |B|R G B|I|R G B|
  *
- *		Da *alle* Operationen sehr einfach und kurz sind,
- *		duerft Ihr sie direkt in der Klasse
- *		als inline Methoden deklarieren.
+ * 7: Blinking Foreground.
+ * 6, 5, 4: Background Color.
+ * 3: Intensity Foreground.
+ * 2, 1, 0: Foreground Color.
  */
-
 class CgaAttr {
 private:
 	enum AttrMaskAndShifts {
-		BACKGROUND_COLOR_SHIFTED_BITS = 4,
-		ENABLE_BLINKING = 0b10000000,
+        FGPOS            = 0,
+        BGPOS            = 4,
+        FGCLEAR          = 0b11110000,
+        BGCLEAR          = 0b10001111,
+        BLCLEAR          = 0b01111111,
+		ENABLE_BLINKING  = 0b10000000,
 		DISABLE_BLINKING = 0b01111111
 	};
 
 
 public:
-	/** 	Diese Aufz�hlung enth�lt die CGA-Farben als Farbkonstanten
-	 *	Tragt hier *alle* CGA Farben mit den richtigen Werten ein
-	 */
 	enum Color {
-		BLACK = 0xb0000,
-		BLUE = 0b0001,
-		GREEN = 0b0010,
-		CYAN = 0b0011,
-		RED = 0b0100,
-		MAGENTA = 0b0101,
-		BROWN = 0b0110,
-		LIGHT_GRAY = 0b0111,
-		GRAY = 0b1000,
-		LIGHT_BLUE = 0b1001,
-		LIGHT_GREEN = 0b1010,
-		LIGHT_CYAN = 0b1011,
-		LIGHT_RED = 0b1100,
+		BLACK         = 0xb0000,
+		BLUE          = 0b0001,
+		GREEN         = 0b0010,
+		CYAN          = 0b0011,
+		RED           = 0b0100,
+		MAGENTA       = 0b0101,
+		BROWN         = 0b0110,
+		LIGHT_GRAY    = 0b0111,
+		GRAY          = 0b1000,
+		LIGHT_BLUE    = 0b1001,
+		LIGHT_GREEN   = 0b1010,
+		LIGHT_CYAN    = 0b1011,
+		LIGHT_RED     = 0b1100,
 		LIGHT_MAGENTA = 0b1101,
-		YELLOW = 0b1110,
-		WHITE = 0b1111
+		YELLOW        = 0b1110,
+		WHITE         = 0b1111
 	};
 
 
-	/** Konstruktor. Erzeugt ein CgaAttr-Objekt mit den uebergebenen Werten f�r
-	  * Vorder- und Hintergrundfarbe. Werden keine Parameter uebergeben,
-	  * so werden die Defaultwerte (Vordergrund weiss, Hintergrund schwarz, Blinken deaktiviert)
-	  * verwendet.
-	  */
-	CgaAttr(Color fg=WHITE, Color bg=BLACK, bool blink=false)
-	{	this->setForeground(fg);
+    /**
+    * Constructor for CgaAttr, initializing with optional parameters.
+    * @param fg Color (default WHITE): foreground color.
+    * @param bg Color (default BLACK): background color.
+    * @param blink bool (default false): blink state.
+    */
+	CgaAttr(Color fg=WHITE, Color bg=BLACK, bool blink=false) {
+        this->setForeground(fg);
 		this->setBackground(bg);
 		this->setBlinkState(blink);
 	}
 
-	// setzen der Schriftfarbe
-	void setForeground(Color col)
-	{
+    /**
+     * Sets the foreground color.
+     * @param col Color: The new foreground color.
+     */
+	void setForeground(Color col) {
 		this->fg = col;
-
-		// clear last 4 bits
-		byte &= 0b11110000;
-
-		// write foreground color to byte
+		byte &= AttrMaskAndShifts::FGCLEAR;
 		byte |= col;
 	}
 
-	// setzen der Hintergrundfarbe
-	void setBackground(Color col)
-	{
+    /**
+     * Sets the background color.
+     * @param col Color: The new background color.
+     */
+	void setBackground(Color col) {
 		this->bg = col;
-
-		// clear background bits
-		byte &= 0b10001111;
-
-		char backgroundByte =
-		    col << AttrMaskAndShifts::BACKGROUND_COLOR_SHIFTED_BITS;
-
-		// clear first bit (reserved for blinking)
-		backgroundByte &= 0b01111111;
-
-		// write background byte to byte
+		byte &= AttrMaskAndShifts::BGCLEAR;
+		char backgroundByte = col << AttrMaskAndShifts::BGPOS;
+		backgroundByte &= AttrMaskAndShifts::BLCLEAR;
 		byte |= backgroundByte;
 	}
 
-	// setzen blinkender/nicht blinkender Text
-	void setBlinkState(bool blink)
-	{
+    /**
+     * Sets the blink state.
+     * @param blink bool: The new blink state (true enables blinking).
+     */
+	void setBlinkState(bool blink) {
 		this->blink = blink;
-
-		byte = blink ? byte | AttrMaskAndShifts::ENABLE_BLINKING
-			     : byte & AttrMaskAndShifts::DISABLE_BLINKING;
+		byte = blink ? byte | AttrMaskAndShifts::ENABLE_BLINKING : byte & AttrMaskAndShifts::DISABLE_BLINKING;
 	}
 
-	// setzen aller Attribute
-	void setAttr(CgaAttr attr)
-	{
+    /**
+     * Sets all attributes from another CgaAttr object.
+     * @param attr CgaAttr: The other CgaAttr object to copy attributes from.
+     */
+	void setAttr(CgaAttr attr) {
 		Color fg = attr.getForeground();
 		Color bg = attr.getBackground();
 		bool blink = attr.getBlinkState();
@@ -105,23 +102,34 @@ public:
 		setBlinkState(blink);
 	}
 
-	// ermitteln der Schriftfarbe
-	Color getForeground()
-	{
+    /**
+     * Retrieves the current foreground color.
+     * @return Color: The current foreground color.
+     */
+	Color getForeground() {
 		return this->fg;
 	}
 
-	// ermitteln der Hintergrundfarbe
-	Color getBackground()
-	{
+    /**
+     * Retrieves the current background color.
+     * @return Color: The current background color.
+     */
+	Color getBackground() {
 		return this->bg;
 	}
 
-	// ermitteln ob Blink-Flag gesetzt ist
-	bool getBlinkState()
-	{
+    /**
+     * Retrieves the current blinking state.
+     * @return bool: True if blinking is enabled, false otherwise.
+     */
+	bool getBlinkState() {
 		return this->blink;
 	}
+
+    /**
+     * Retrieves the current Attr as byte.
+     * @return char: Byte value of Attr.
+     */
 	char asByte() { return byte; }
 
 private:
