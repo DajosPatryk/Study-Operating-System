@@ -22,7 +22,7 @@ public:
         MAGENTA,
         BROWN,
         LIGHT_GRAY,
-        DARK_GRAY,
+        GRAY,
         LIGHT_BLUE,
         LIGHT_GREEN,
         LIGHT_CYAN,
