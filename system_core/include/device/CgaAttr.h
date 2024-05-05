@@ -111,11 +111,19 @@ public:
     }
 
     /**
-     * Retrieves the current blinking state..
+     * Retrieves the current blinking state.
      * @return bool: True if blinking is enabled, false otherwise.
      */
     bool getBlinkState() {
         return (bool)((this->val_ & ~BLCLEAR) >> BLPOS);
+    }
+
+    /**
+     * Retrieves the current CGA Attr as byte char.
+     * @return char: Byte char..
+     */
+    char asByte() {
+        return val_;
     }
 };
 
