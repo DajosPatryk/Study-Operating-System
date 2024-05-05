@@ -1,37 +1,59 @@
-#include "device/CgaChannel.h"
-#include "CgaScreen.cc"
+#include "../include/device/CgaChannel.h"
 
-CgaChannel::CgaChannel() { this -> setAttr(CgaAttr()); }
-CgaChannel::CgaChannel(const CgaAttr& attr) { this->attr = attr; }
+CgaChannel::CgaChannel() {}
+CgaChannel::CgaChannel(const CgaAttr &attr) { this->attr = attr; }
 
-int CgaChannel::write(const char* data, int size) {
-    int col, row;
+int CgaChannel::write(const char *data, int size) {
+	int column, row;
+	getCursor(column, row);
 
-    for (int i = 0; i < size; i++) {
-        switch (data[i]) {
-            case '\n': // Newline character - Move cursor to the beginning of the next line
-                this->setCursor(0, row + 1);
+	int writtenCharacters = 0;
+
+	for (int i = 0; i < size; i++) {
+		char c = data[i];
+
+		switch (c) {
+		    case '\n':
+			    lastLineLength = column;
+			    row++;
                 break;
-            case '\r': // Carriage return - Move cursor to the beginning of the current line
-                getCursor(col, row);
-                this->setCursor(0, row);
-                break;
-            default:
-                this->show(data[i]);
+		    case '\r':
+			    column = 0;
+			    break;
+		    default:
+			    setCursor(column, row);
+			    show(c);
+			    if (++column == Screen::COLUMNS) {
+				    lastLineLength = 0;
+				    column = 0;
+				    row++;
+			    }
+		}
 
-                getCursor(col, row);
-                this->setCursor(col + 1, row);
-        }
-    }
+		if (row >= Screen::ROWS) {
+			column = 0;
+			row = Screen::ROWS - 1;
+			scroll();
+		}
 
-    return 0;
+		writtenCharacters++;
+	}
+
+	setCursor(column, row);
+	return writtenCharacters;
 }
 
-void CgaChannel::blueScreen(const char* error) {
-    this->clear(CgaAttr(CgaAttr::WHITE, CgaAttr::BLUE));
-    this->write(error, this->strlen(error));
-}
+void CgaChannel::blueScreen(const char *error) {
+	attr.setBackground(CgaAttr::Color::BLUE);
+	attr.setForeground(CgaAttr::Color::WHITE);
+	attr.setBlinkState(false);
 
-int CgaChannel::strlen(const char* str){
-    int size = 0; while (str[size] != '\0') { size++; } return size;
+	setCursor(0, 0);
+	clear(attr);
+	setCursor(0, 0);
+
+    // Finds first NULL and write
+	int i = 0;
+	while (error[i++] != 0);
+	write(error, i - 1);
 }

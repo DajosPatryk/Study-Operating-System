@@ -1,3 +1,4 @@
-# shellcheck disable=SC2164
-cd ./bin
+cd bin
 make clean bootdisk
+bochs -q
+cd ..

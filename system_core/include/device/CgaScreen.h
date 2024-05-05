@@ -5,6 +5,10 @@
 #include "device/CgaChar.h"
 #include "io/IOPort.h"
 
+extern "C" {
+    #include "lib/tools.h"
+}
+
 /**
  * CgaScreen: Handles CGA screen operations including attribute management, cursor control, and display functionalities.
  */
@@ -12,23 +16,19 @@ class CgaScreen {
 
 private:
 	enum Ports  {
-        INDEX = 0x3d4,
-        DATA = 0x3d5
+		INDEX = 0x3d4,
+		DATA = 0x3d5
 	};
 
 	enum Cursor {
-        HIGH = 14,
+		HIGH = 14,
         LOW = 15
 	};
 
 	enum Video  {
-        VIDEO_ADDRESS = 0x88000
+		CGA_START = 0x0B8000, 
+		CGA_END = 0x0B8FFF
 	};
-
-    /**
-     * Fills the entire screen with a blank character using current attributes.
-     */
-    void fillScreen();
 
 public:
 	enum Screen {
@@ -50,23 +50,28 @@ public:
     /**
      * Clears the screen using default attributes.
      */
-	void clear();
+	void clear ();
 
     /**
      * Clears the screen using specified attributes.
      * @param attr const CgaAttr&: Attributes to use when clearing.
      */
-    void clear(const CgaAttr& attr);
+	void clear(CgaAttr attr);
 
     /**
      * Scrolls the screen content up by one row.
      */
 	void scroll();
 
-	/** Setter CgaAttr attribute. */
-	void setAttr(const CgaAttr& attr) { this->attr = attr; }
+    /** Setter CgaAttr attribute. */
+	void setAttr(const CgaAttr& attr) {
+		this->attr = attr;
+	}
+
     /** Getter CgaAttr attribute. */
-	void getAttr(CgaAttr& attr) { attr = this->attr; }
+	void getAttr(CgaAttr& attr) {
+		attr = this->attr;
+	}
 
     /**
      * Sets the cursor position on the screen.
@@ -84,26 +89,29 @@ public:
 
 
     /**
-     * Displays a character at the current cursor position with specified attributes.
-     * @param ch char: The character to display.
-     * @param attr const CgaAttr&: The attributes to use for the character.
-     */
-	void show(char ch, const CgaAttr& attr){
-        this->attr = attr;
-        this->show(ch);
-    }
+    * Displays a character at the current cursor position with specified attributes.
+    * @param ch char: The character to display.
+    * @param attr const CgaAttr&: The attributes to use for the character.
+    */
+	void show(char ch, const CgaAttr& attr);
 
     /**
      * Displays a character at the current cursor position using current screen attributes.
      * @param ch char: The character to display.
      */
-	void show(char ch);
+	void show(char ch) {
+		show(ch, this->attr);
+	}
+
 
 protected:
 	CgaAttr attr;
 	IOPort8 index = IOPort8(INDEX);
 	IOPort8 data = IOPort8(DATA);
 	CgaChar* screen;
+	const char content[Screen::COLUMNS * Screen::ROWS * 2] = {0};
+	CgaAttr defaultCgaAttr = CgaAttr();
+	int lastLineLength = 0;
 
 };
 
