@@ -16,7 +16,6 @@ int CgaChannel::write(const char *data, int size) {
 		    case '\n':
 			    lastLineLength = column;
 			    row++;
-                break;
 		    case '\r':
 			    column = 0;
 			    break;
