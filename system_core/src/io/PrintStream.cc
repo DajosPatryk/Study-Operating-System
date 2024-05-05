@@ -20,7 +20,7 @@ void PrintStream::println(const char *str) {
 }
 
 void PrintStream::println() {
-    channel.write((const char*) "\n", 1);
+    channel.write((const char*)"\n",1);
 }
 
 void PrintStream::print(int x, int base) {
