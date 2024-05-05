@@ -17,22 +17,22 @@ class CgaScreen {
 private:
 	enum Ports  {
 		INDEX = 0x3d4,
-		DATA = 0x3d5
+		DATA  = 0x3d5
 	};
 
 	enum Cursor {
 		HIGH = 14,
-        LOW = 15
+        LOW  = 15
 	};
 
 	enum Video  {
 		CGA_START = 0x0B8000, 
-		CGA_END = 0x0B8FFF
+		CGA_END   = 0x0B8FFF
 	};
 
 public:
 	enum Screen {
-		ROWS = 25,
+		ROWS    = 25,
 		COLUMNS = 80
 	};
 
@@ -106,12 +106,12 @@ public:
 
 protected:
 	CgaAttr attr;
-	IOPort8 index = IOPort8(INDEX);
-	IOPort8 data = IOPort8(DATA);
-	CgaChar* screen;
+    CgaChar* screen;
+	IOPort8 index          = IOPort8(INDEX);
+	IOPort8 data           = IOPort8(DATA);
+    CgaAttr defaultCgaAttr = CgaAttr();
+    int lastLineLength     = 0;
 	const char content[Screen::COLUMNS * Screen::ROWS * 2] = {0};
-	CgaAttr defaultCgaAttr = CgaAttr();
-	int lastLineLength = 0;
 
 };
 
