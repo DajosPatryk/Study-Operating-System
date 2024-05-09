@@ -39,12 +39,12 @@ SYSTEM_C = \
 
 # Test Coroutiness
 #SYSTEM_CC = \
-	$(INITFINI) \
-	device/CgaChannel.cc \
-	device/CgaScreen.cc \
-	io/PrintStream.cc \
-	thread/Coroutine.cc \
-	mainCo.cc
+#	$(INITFINI) \
+#	device/CgaChannel.cc \
+#	device/CgaScreen.cc \
+#	io/PrintStream.cc \
+#	thread/Coroutine.cc \
+#	mainCo.cc
 
 # Test Activities
 SYSTEM_CC = \

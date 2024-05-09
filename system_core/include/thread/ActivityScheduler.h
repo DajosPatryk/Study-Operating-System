@@ -3,7 +3,7 @@
 
 /*
  * ActivityScheduler: 	Diese Klasse implementiert die Zustandsverwaltung
- * 			für Activities
+ * 			fï¿½r Activities
  *
  */
 
@@ -18,13 +18,11 @@ public:
 	{
 	}
 
-	/* Initialisieren der ersten Aktivität, des Schedulers
+	/* Initialisieren der ersten Aktivitï¿½t, des Schedulers
 	 * und des Dispatchers.
 	 * Wird nur einmal aufgerufen.
 	 */
-	void start(Activity* act)
-	{
-	}
+	void start(Activity* act);
 
 	/* Suspendieren des aktiven Prozesses
 	 * Der korrekte Ausfuehrungszustand ist zu setzen
@@ -50,7 +48,7 @@ protected:
 	/* Der aktive Prozess ist, sofern er sich nicht im Zustand
 	 * Blocked oder Zombie befindet, wieder auf die Ready-Liste
 	 * zu setzen. Danach ist "to" mittels dispatch die Kontrolle
-	 * zu übergeben.
+	 * zu ï¿½bergeben.
 	 */
 	virtual void activate(Schedulable* to);
 
