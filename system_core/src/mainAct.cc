@@ -40,7 +40,6 @@ public:
 			cout.print(" ");
 			cout.print(i);
 			cout.println();
-
 			yield();
 		}
 	}
@@ -72,7 +71,7 @@ extern "C" int main()
 	Hello caesar("Caesar", out, &stack1[1024], 15);
 
 	anton.body();
-
+	
 	return 0;
 }
 
