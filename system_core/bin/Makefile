@@ -34,14 +34,29 @@ MACHINE_S = \
 
 SYSTEM_C = \
 	lib/tools.c
+	thread/switchContext.asm
 
-
+# Test Coroutiness
 SYSTEM_CC = \
 	$(INITFINI) \
 	device/CgaChannel.cc \
 	device/CgaScreen.cc \
 	io/PrintStream.cc \
-	main1.cc
+	thread/Coroutine.cc \
+	mainCo.cc
+
+# Test Activities
+#SYSTEM_CC = \
+	$(INITFINI) \
+	device/CgaChannel.cc \
+	device/CgaScreen.cc \
+	io/PrintStream.cc \
+	lib/Queue.cc \
+	thread/Activity.cc \
+	thread/ActivityScheduler.cc \
+	thread/Coroutine.cc \
+	thread/Scheduler.cc \
+	mainAct.cc
 
 
 ##############################################################################

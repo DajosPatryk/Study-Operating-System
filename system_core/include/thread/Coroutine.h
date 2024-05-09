@@ -4,7 +4,7 @@
 /*
  * Coroutine:
  * Diese Klasse implementiert Coroutinen, welche die Basis
- * für alle Arten von Prozessen in Co-Stubs sind.
+ * fï¿½r alle Arten von Prozessen in Co-Stubs sind.
  *
  *	Anmerkung: wir verwenden ein objektorientiertes
  *	Coroutinen-Modell, daher ist diese Klasse abstrakt.
@@ -39,7 +39,7 @@ extern "C" {
  * wir einfach eine "ret" Instruktion aus, die dazu fuehrt,
  * dass die Coroutine "to" an der Stelle weiterlaeuft,
  * an der sie das letzte mal "switchContext" aufgerufen hat.
- * Für Coroutinen die zum ersten mal aktiviert werden, muss
+ * Fï¿½r Coroutinen die zum ersten mal aktiviert werden, muss
  * deshalb ein Stackframe existieren, was gleich aussieht mit
  * dem einer Coroutine die "switchContext" aufgerufen hat.
  */
@@ -95,6 +95,29 @@ private:
 
 	void* sp; // Der gerettete Stackpointer
 
+	/**
+	 * Stack fur speichern von lokale Variablen und Parameter
+	 */
+	struct Stack
+	{
+		// Verwendbar 32-Bit (extended 16-Bit) Registern
+		unsigned int edi; // ext. Destination Index Register
+		unsigned int esi; // ext. Source Index Register
+		unsigned int ebx; // ext. Base Register
+		void* ebp;	  // Stack Basepointer, fuer lokale Basis
+
+		/**
+		 * @param Coroutine* Parameteruebergabe. Diese Parameter werden
+		 * zur laufzeit bestimmt.
+		 */
+		void (*coroutine)(Coroutine*); // startadresse
+
+		/* Return Address, leads to nowhere */
+		void* ret; // simulierte Rueckgabeadresse
+
+		/* Return Object */
+		Coroutine* arg; // parameter an coroutine
+	};
 
 };
 
