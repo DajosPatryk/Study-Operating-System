@@ -1,26 +1,22 @@
 #ifndef Schedulable_h
 #define Schedulable_h
-
-/*
- * Schedulable: Diese Klasse implementiert ein Element
- *		der Ready-Liste des Schedulers
- *
- *	Anmerkung: Die Klasse ist von Chain abgeleitet,
- *	damit Instanzen dieser Klasse verkettet werden koennen.
- *	Hier wuerden typischerweise Informationen
- *	wie prozesspezifische Laufzeitstatistiken,
- *	Prioritaeten etc. verwaltet werden.
- *	Gegenwaertig brauchen wir diese Informationen
- *	aber noch nicht und die Klasse ist deshalb vorlaeufig leer.
- *
- */
-
 #include "lib/Chain.h"
 
+/**
+ * Schedulable class:
+ * Implements an element that can be used within the scheduler's ready list. This class is derived
+ * from the Chain class, allowing instances to be linked together, facilitating easy management
+ * in a linked list structure used by the scheduler.
+ *
+ * Notes:
+ * - The class is designed to potentially store process-specific information such as runtime statistics
+ *   and priorities which can be crucial for advanced scheduling decisions. However, as of now, these
+ *   features are not implemented, and the class serves primarily as a chainable entity within the
+ *   scheduler's ready list.
+ * - The current implementation does not contain any member variables or methods, making it a placeholder
+ *   for future enhancements where process-specific attributes may be required.
+ */
 class Schedulable: public Chain {
-public:
-
-private:
 };
 
 #endif

@@ -1,61 +1,67 @@
 #ifndef ActivityScheduler_h
 #define ActivityScheduler_h
-
-/*
- * ActivityScheduler: 	Diese Klasse implementiert die Zustandsverwaltung
- * 			f�r Activities
- *
- */
-
 #include "lib/Queue.h"
 #include "thread/Activity.h"
 #include "thread/Dispatcher.h"
 #include "thread/Scheduler.h"
 
+/**
+ * ActivityScheduler class that extends both Dispatcher and Scheduler to integrate task
+ * scheduling with the dispatch mechanism. This class manages the lifecycle and execution
+ * state of activities, coordinating when they run, suspend, or terminate.
+ */
 class ActivityScheduler: public Dispatcher, public Scheduler {
 public:
-	ActivityScheduler()
-	{
+    /**
+     * Default constructor for ActivityScheduler.
+     * Initializes a new instance of the ActivityScheduler.
+     */
+	ActivityScheduler() {
 	}
 
-	/* Initialisieren der ersten Aktivit�t, des Schedulers
-	 * und des Dispatchers.
-	 * Wird nur einmal aufgerufen.
-	 */
+    /**
+     * Starts the execution of an activity. This method sets the activity's state to RUNNING,
+     * and uses the Dispatcher to make it the currently active process.
+     * @param act Pointer to the Activity to be started.
+     */
 	void start(Activity* act);
 
-	/* Suspendieren des aktiven Prozesses
-	 * Der korrekte Ausfuehrungszustand ist zu setzen
-	 * und danach der naechste lauffaehige Prozess zu aktivieren.
-	 */
+    /**
+     * Suspends the currently active activity, changing its state to BLOCKED and scheduling
+     * another activity to run. Uses the Scheduler's reschedule method to find and activate
+     * the next available activity.
+     */
 	void suspend();
 
-	/* Explizites Terminieren des angegebenen Prozesses
-	 * Der Prozesszustand ist korrekt zu setzen
-	 * und der Prozess aus der Ready-Liste des Schedulers
-	 * zu entfernen. Falls der aktive Prozess zerstoert wird,
-	 * ist dem naechsten lauffaehigen Prozess die CPU
-	 * zuzuteilen.
-	 */
+    /**
+     * Terminates a specified activity, setting its state to ZOMBIE and removing it from the
+     * scheduling queue. If the activity being killed is the current one, it triggers a
+     * rescheduling to activate another activity.
+     * @param act Pointer to the Activity to be terminated.
+     */
 	void kill(Activity*);
 
-	/* Terminieren des aktiven Prozesses,
-	 * und Wechsel zum naechsten lauffaehigen Prozess
-	 */
+    /**
+     * Exits the currently active activity, effectively calling `kill` on it and then
+     * rescheduling to continue with another activity.
+     */
 	void exit();
 
 protected:
-	/* Der aktive Prozess ist, sofern er sich nicht im Zustand
-	 * Blocked oder Zombie befindet, wieder auf die Ready-Liste
-	 * zu setzen. Danach ist "to" mittels dispatch die Kontrolle
-	 * zu �bergeben.
-	 */
+    /**
+     * Activates a new activity to run. This method is called by the Scheduler's rescheduling
+     * mechanism and uses the Dispatcher's dispatch method to switch the context to the new
+     * activity. This is a virtual method, allowing for customization in derived classes.
+     * @param to Pointer to the Schedulable (activity) to be activated.
+     */
 	virtual void activate(Schedulable* to);
-
-private:
 
 };
 
+/**
+ * Global instance of ActivityScheduler.
+ * Provides a system-wide accessible scheduler that can be used to manage all activities.
+ */
 extern ActivityScheduler scheduler;
 
 #endif

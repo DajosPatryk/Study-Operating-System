@@ -1,127 +1,122 @@
 #ifndef Activity_h
 #define Activity_h
-
-/*
- * Activity:
- * Diese Klasse implementiert kooperative aktive Objekte
- * fuer Co-Stubs.
- *
- * Anmerkung:
- * Im Gegensatz zur Coroutine wird eine
- * Instanz der Klasse Activity von einem Scheduler verwaltet.
- * Ein explizites Umschalten zu einer anderen Coroutine
- * wird damit hinfaellig.
- */
-
 #include "thread/Schedulable.h"
 #include "thread/Coroutine.h"
 
+/**
+ * Activity class that extends Schedulable and Coroutine to implement task management
+ * in a cooperative multitasking environment. It handles the lifecycle and state management
+ * of processes/tasks.
+ */
 class Activity: public Schedulable, public Coroutine {
 public:
-	/* Die logischen Ausfuehrungszustaende
-	 * fuer diese Aktivitaet
-	 */
 	enum State {
-		BLOCKED,	//Prozesse die auf etwas warten
-		READY,      	//Prozesse die aktiviert werden k�nnen
-		RUNNING,	//Status des aktiven Prozesses
-		ZOMBIE		//Kindprozesse die vor den Eltern beendet werden
+		BLOCKED,    // Processes waiting on a resource or condition.
+		READY,      // Processes that can be activated.
+		RUNNING,    // The current active process.
+		ZOMBIE      // Terminated child processes that outlive their parent.
 	};
 
-	/* Aufsetzen eines Threads, der initiale Zustand ist "Blocked",
-	 * da der Thread erst laufen darf, wenn der spezielle Konstruktor
-	 * der abgeleiteten Klasse abgearbeitet ist. Die Aktivierung
-	 * erfolgt von der abgeleiteten Klasse mittels "wakeup".
-	*/
+    /**
+     * Explicit constructor for initializing an Activity with a specific stack pointer.
+     * This constructor sets up the initial stack context for the coroutine.
+     * @param tos Pointer to the top of stack space allocated for this coroutine.
+     */
 	explicit Activity(void* tos);
 
-	/* Verpacken des aktuellen Kontrollflusses als Thread.
-	 * Wird nur f�r den Hauptkontrollfluss "main" ben�tigt.
-	 * Es wird hier kein Stack initialisiert.
-	 * Beachte das Activity wegen der Vererbungsbeziehung von
-	 * Coroutine abstrakt ist. Bei Bedarf muss "body" direkt
-	 * aufgerufen werden.
-	 */
+    /**
+     * Default constructor for Activity, initializes state to BLOCKED.
+     */
 	Activity();
 
-	/* Im Destruktor muss ein explizites Terminieren dieser Aktivitaet erfolgen.
-	 * Das muss geschehen, da aufgrund der Aufrufreihenfolge von
-	 * Destruktoren bereits der abgeleitete Teil des Activity-Objekts zerstoert
-	 * wurde und diese Aktivitaet daher keine Laufzeit mehr erhalten darf.
-	 * Das Warten auf die Beendigung (mittels join()) muss im Destruktor der
-	 * von Activity am weitesten abgeleiteten Klasse erfolgen.
-	 */
+    /**
+     * Virtual destructor for cleaning up resources or performing specific actions
+     * when an Activity is destroyed, such as removing from scheduler if needed.
+     */
 	virtual ~Activity();
 
-	/* Veranlasst den Scheduler, diese Aktivitaet zu suspendieren.
-	 */
+    /**
+     * Puts the current process into a sleep state, effectively marking it as BLOCKED.
+     */
 	void sleep();
 
-	/* Veranlasst den Scheduler, diese Aktivitaet aufzuwecken.
-	 */
+    /**
+     * Wakes up the activity if it is blocked, changing its state to READY.
+     */
 	void wakeup();
 
-	/* Diese Aktivitaet gibt die CPU vorruebergehend ab.
-	 */
+    /**
+     * Yields the CPU by allowing the scheduler to select another process to run.
+     * The current process state is set to READY.
+     */
 	void yield();
 
-	/* Diese Aktivitaet wird terminiert. Hier muss eine eventuell
-	 * auf die Beendigung wartende Aktivit�t geweckt werden.
-	 */
+    /**
+     * Terminates the current activity and removes it from the scheduler.
+     */
 	void exit();
 
-	/* Der aktuelle Prozess wird solange schlafen gelegt, bis der
-	 * Prozess auf dem join aufgerufen wird beendet ist. Das
-	 * Wecken des wartenden Prozesses �bernimmt exit.
-	 */
+    /**
+     * Allows one activity to wait for the completion of another. If the other activity is
+     * not finished, the current activity is suspended.
+     */
 	void join();
 
-
-	// Folgende Methoden d�rfen "inline" implementiert werden
-
-	/* �ndern des Ausf�hrungszustandes. Diese Methode sollte nur vom
-	 * Scheduler verwendet werden.
-	 */
-	void changeTo(State state)
-	{
+    /**
+     * Changes the current state of the activity to the specified state.
+     * @param state The new state for this activity.
+     */
+	void changeTo(State state) {
 		this->state = state; 
 	}
 
-	// Ausf�hrungszustand abfragen.
-	bool isBlocked()
-	{
-		return this->state == BLOCKED;
-	}
+    /**
+     * Checks if the activity is in a BLOCKED state.
+     * @return true if the activity is BLOCKED, false otherwise.
+     */
+	bool isBlocked() { return this->state == BLOCKED; }
 
-	bool isReady()
-	{
-		return this->state == READY;	
-	}
+    /**
+     * Checks if the activity is in a READY state.
+     * @return true if the activity is READY, false otherwise.
+     */
+	bool isReady() { return this->state == READY; }
 
-	bool isRunning()
-	{
-		return this->state == RUNNING;
-	}
+    /**
+     * Checks if the activity is in a RUNNING state.
+     * @return true if the activity is RUNNING, false otherwise.
+     */
+	bool isRunning() { return this->state == RUNNING; }
 
-	bool isZombie()
-	{
-		return this->state == ZOMBIE;
-	}
+    /**
+     * Checks if the activity is in a ZOMBIE state.
+     * @return true if the activity is ZOMBIE, false otherwise.
+     */
+	bool isZombie() { return this->state == ZOMBIE; }
 
-    // alle Klassen mit virtuellen Destruktoren brauchen die
-    // folgende Operator-Ueberladung:
+    /**
+     * Overloaded delete operator to handle specific deallocation needs for activities,
+     * possibly to prevent deletion or manage memory pools.
+     * @param p Pointer to the activity object to be deleted.
+     */
     static void operator delete(void* p) {}
 
-	//setter und getter fur joined
+    /**
+     * Gets the activity that this one is joined with (waiting on).
+     * @return Pointer to the joined activity.
+     */
 	Activity* getJoined() { return this->joined; }
+
+    /**
+     * Sets the activity that this one is joined with (waiting on).
+     * @param activity Pointer to the activity to join with.
+     */
 	void setJoined(Activity* activity) { this->joined = activity; }
 
 private:
-//Zustand von Activity
-State state;
+State state;        // Current state of the activity.
+Activity* joined;   // Pointer to another activity that this one may be waiting on.
 
-//joined Activity speichern
-Activity* joined;
 };
 
 #endif

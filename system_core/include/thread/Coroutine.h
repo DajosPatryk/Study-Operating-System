@@ -1,122 +1,91 @@
 #ifndef Coroutine_h
 #define Coroutine_h
 
-/*
+/**
  * Coroutine:
- * Diese Klasse implementiert Coroutinen, welche die Basis
- * f�r alle Arten von Prozessen in Co-Stubs sind.
- *
- *	Anmerkung: wir verwenden ein objektorientiertes
- *	Coroutinen-Modell, daher ist diese Klasse abstrakt.
- *	Eine Coroutine muss sich von dieser Klasse ableiten
- *	und eine "body" Methode definieren.
- *	Diese Methode ist dann gewissermassen die "main" Funktion
- *	fuer die Coroutine.
- *
+ * This class serves as the base for all types of processes in Co-Stubs,
+ * using an object-oriented coroutine model. It is abstract, requiring derived
+ * classes to implement the 'body' method, which acts as the main function
+ * for the coroutine.
  */
 
-
-/* Diese Deklaration verweist auf die von Euch zu
- * implementierende Assemblerprozedur "switchContext".
+/**
+ * Declaration for the assembly procedure "switchContext", which is expected to be implemented.
+ * This procedure performs the control transfer between coroutines by switching their stacks.
  */
 extern "C" {
 	void switchContext(void*& from, void*& to);
 }
-/* switchContext hat die Aufgabe, die Kontrolle
- * vom Stack der Coroutine "from" auf den Stack der
- * Coroutine "to" zu wechseln und damit einen Kontrolltransfer
- * zu vollziehen.
- *
- * Hinweis: Am einfachsten ist es, einfach die betreffenden Register
- * auf den aktuellen Stack zu retten (pushen) und den Stackpointer (esp)
- * danach an der Adresse auf die "from" verweist, zu sichern.
- * Nachdem das geschehen ist, wird der Stack gewechselt,
- * indem man den neuen Stackpointerwert von der Adresse
- * auf die "to" zeigt in das Stackpointerregister esp laedt.
- * Dadurch haben wir den Stack gewechselt und wir koennen nun
- * einfach alle auf diesem Stack geretteten Register wiederherstellen
- * (in umgekehrter Reihenfolge poppen). Zum Schluss fuehren
- * wir einfach eine "ret" Instruktion aus, die dazu fuehrt,
- * dass die Coroutine "to" an der Stelle weiterlaeuft,
- * an der sie das letzte mal "switchContext" aufgerufen hat.
- * F�r Coroutinen die zum ersten mal aktiviert werden, muss
- * deshalb ein Stackframe existieren, was gleich aussieht mit
- * dem einer Coroutine die "switchContext" aufgerufen hat.
- */
-
 
 class Coroutine {
 public:
-	/* Aufsetzen einer neuen Coroutine.
-	*/
-	explicit Coroutine(void* tos = 0)
-	{
-		setup(tos);
-	}
+    /**
+     * Constructor for initializing a new coroutine.
+     * Sets up the initial stack context if provided.
+     * @param tos Pointer to the top of the stack space for this coroutine, can be NULL.
+     */
+	explicit Coroutine(void* tos = 0) { setup(tos); }
 
-	/* Kontrolltransfer von dieser Coroutine zu "next"
-	 * Die eigentliche Arbeit erledigt "switchContext"
-	 */
-	void resume(Coroutine* next)
-	{
-		switchContext(this->sp, next->sp);
-	}
+    /**
+     * Transfers control from this coroutine to another specified coroutine 'next'.
+     * The actual context switching is handled by the assembly function "switchContext".
+     * @param next Pointer to the next coroutine to resume.
+     */
+	void resume(Coroutine* next) { switchContext(this->sp, next->sp); }
 
-	/* Dies ist der Rumpf der Coroutine
-	 * und muss in abgeleiteten Klassen definiert werden.
-	 */
+    /**
+     * Pure virtual function defining the body of the coroutine.
+     * Must be implemented by derived classes to specify the coroutine's behavior.
+     */
 	virtual void body() = 0;
 
-	/* Diese Methode wird aufgerufen
-	 * wenn der Rumpf unserer Coroutine beendet ist
-	 * und muss in abgeleiteten Klassen definiert werden.
-	 */
+    /**
+     * Pure virtual function that is called when the body of the coroutine has completed.
+     * Must be implemented by derived classes to handle cleanup or termination actions.
+     */
 	virtual void exit() = 0;
 
 private:
-
-	/* Diese Funktion hat nur die Aufgabe
-	 * den Rumpf der uebergebenen Coroutine aufzurufen
-	 * und nach der Rueckkehr exit() aufzurufen,
-	 * um die Termination des Rumpfes bekanntzugeben.
-	 * Diese Prozedur dient so als eine Bruecke zwischen der
-	 * nicht objektorientierten und der objektorientierten Welt
-	 * Beachte, das "startup" als "static deklariert ist
-	 * und deshalb keinen impliziten "this"-Zeiger uebergeben bekommt.
-	 */
+    /**
+     * Static function to invoke the body of a given coroutine and call its exit method upon completion.
+     * Serves as a bridge between non-object-oriented and object-oriented parts of the system.
+     * Note: Since "startup" is static, it does not receive an implicit "this" pointer.
+     * @param obj Pointer to the coroutine instance.
+     */
 	static void startup(Coroutine* obj);
 
-	/* Aufsetzen einer neuen Coroutine.
-	 * Der Parameter "tos" (top of stack) ist der
-	 * initiale Stackpointerwert fuer die neue Coroutine
-	 * ACHTUNG: tos kann NULL sein (siehe Constructor)!
-	 */
+    /**
+     * Sets up a new coroutine using the provided stack top pointer.
+     * @param tos Initial stack pointer value for the new coroutine. Can be NULL, implying no stack is set.
+     */
 	void setup(void* tos);
 
-	void* sp; // Der gerettete Stackpointer
+    void* sp;   // Saved stack pointer for this coroutine.
 
-	/**
-	 * Stack fur speichern von lokale Variablen und Parameter
-	 */
-	struct Stack
-	{
-		// Verwendbar 32-Bit (extended 16-Bit) Registern
-		unsigned int edi; // ext. Destination Index Register
-		unsigned int esi; // ext. Source Index Register
-		unsigned int ebx; // ext. Base Register
-		void* ebp;	  // Stack Basepointer, fuer lokale Basis
+    /**
+     * Struct to represent the stack frame for a coroutine.
+     * Stores registers and the coroutine's parameter, necessary for state saving and restoration during switches.
+     */
+	struct Stack {
+		unsigned int edi;   // Extended Destination Index Register
+		unsigned int esi;   // Extended Source Index Register
+		unsigned int ebx;   // Extended Base Register
+		void* ebp;          // Stack Base Pointer, for local base
 
-		/**
-		 * @param Coroutine* Parameteruebergabe. Diese Parameter werden
-		 * zur laufzeit bestimmt.
-		 */
-		void (*coroutine)(Coroutine*); // startadresse
+        /**
+         * Pointer to the coroutine function to start execution.
+         */
+		void (*coroutine)(Coroutine*);
 
-		/* Return Address, leads to nowhere */
-		void* ret; // simulierte Rueckgabeadresse
+        /**
+         * Simulated return address, does not lead anywhere.
+         */
+		void* ret;
 
-		/* Return Object */
-		Coroutine* arg; // parameter an coroutine
+        /**
+         * Parameter for the coroutine function, determined at runtime.
+         */
+		Coroutine* arg;
 	};
 
 };

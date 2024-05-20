@@ -2,35 +2,23 @@
 #include "io/PrintStream.h"
 #include "thread/ActivityScheduler.h"
 
-// Initialer Zustand ist blocked, damit der Thread
-// nicht sofort laeuft
-Activity::Activity(void* tos) : Coroutine(tos), state(BLOCKED)
-{
-	//  Aktivierung durch der abgeleiteten Klasse (Activity) mittels
-	//  "wakeup".
+// Initial state is blocked so thread doesn't immediately run.
+Activity::Activity(void* tos) : Coroutine(tos), state(BLOCKED) {
 }
 
-Activity::Activity()
-{
-	// setzen Prozesszustand auf BLOCKED.
+Activity::Activity() {
 	this->state = BLOCKED;
-	// initialisieren der ersten Aktivität, des Schedulers und des
-	// Dispatchers
-	scheduler.start(this);
+	scheduler.start(this);  // Initializes first activity.
 }
 
-Activity::~Activity()
-{
-	scheduler.kill(this); // explizites Terminieren dieses Prozesses
+Activity::~Activity() {
+	scheduler.kill(this);   // Terminates activity.
 }
 
 void Activity::sleep() { scheduler.suspend(); }
 
-void Activity::wakeup()
-{
-    //aufwachen von Blockierten Activities nur sinvoll
-	if (isBlocked())
-	{
+void Activity::wakeup() {
+	if (isBlocked()) {
 		this->state = READY;
 		scheduler.schedule(this);
 	}
@@ -38,28 +26,23 @@ void Activity::wakeup()
 
 void Activity::yield() { scheduler.reschedule(); }
 
-void Activity::exit()
-{
-	// wartende Prozesse aufwachen
-	if (joined != 0)
-	{
+void Activity::exit() {
+	// Wakes-up next joined activities.
+	if (joined != 0) {
 		joined->wakeup();
 		joined = 0;
 	}
 
-	// aktuell wach oder aktive Prozess dann terminieren
-	scheduler.exit();
+	scheduler.exit();   // Terminates current activities.
 }
 
-void Activity::join()
-{
-	// aufgerufene Prozess (von ReadyList) ermitteln und zwischenspeichern
+void Activity::join() {
+    // Retrieves and stores the currently active process from the scheduler's ready list.
 	Activity* activeProcess = (Activity*)scheduler.active();
 
-	// Ueberpruefen ob Aufrufer kein Zombie und kein Aufgerufener selbst ist
-	// wenn ja join gerade laufende Prozess und suspendiere
-	if (!(this->isZombie()) && this != activeProcess)
-	{
+    // Check if the caller is not a zombie and is not attempting to join itself.
+    // If conditions are met, link this activity to the currently running process and suspend it.
+	if (!(this->isZombie()) && this != activeProcess) {
 		this->joined = activeProcess;
 		scheduler.suspend();
 	}

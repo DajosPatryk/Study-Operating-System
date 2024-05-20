@@ -1,41 +1,53 @@
 #ifndef Scheduler_h
 #define Scheduler_h
-
-/*
- * Scheduler: 	Diese Klasse implementiert die Zuteilungsstrategie
- *		fuer die CPU.
- *
- *	Anmerkung: Hier wird ein einfacher First-Come-First-Served
- *	Algorithmus implementiert, der sich auf eine
- *	ready-liste stuetzt, in dem alle lauffaehigen Prozesse
- *	miteinander verkettet sind.
- */
-
 #include "lib/Queue.h"
 #include "thread/Schedulable.h"
 
+/**
+ * Scheduler class:
+ * Manages the scheduling of tasks in a multitasking environment. This class is responsible
+ * for adding, removing, and selecting tasks for execution from a ready list, ensuring tasks
+ * are managed efficiently according to scheduling algorithms.
+ *
+ * The Scheduler uses a queue (implemented in the Queue class) to manage the list of tasks
+ * that are ready to be executed. Tasks in this context are represented by instances of the
+ * Schedulable class, which allows them to be enqueued and dequeued in a linked-list manner.
+ */
 class Scheduler {
 public:
-
-	// Einfuegen eines neuen Elements in die Ready-Liste.
+    /**
+     * Schedules a new task by adding it to the ready list.
+     * This method enqueues a Schedulable task to the readylist, making it available for execution.
+     * @param sched Pointer to the Schedulable task to be scheduled.
+     */
 	void schedule(Schedulable* sched);
 
-	// Entfernen eines Elements von der Ready-Liste.
+    /**
+     * Removes a task from the ready list.
+     * This method is called to dequeue a specific Schedulable task from the readylist,
+     * typically when the task is completed or needs to be suspended.
+     * @param sched Pointer to the Schedulable task to be removed.
+     */
 	void remove(Schedulable* sched);
 
-	// Aktiviert das vorderste der Liste mittels activate.
+    /**
+     * Reschedules tasks by selecting the next task to run.
+     * This method is responsible for managing task transitions, dequeuing the next task
+     * from the ready list and invoking activate to switch execution to it.
+     */
 	void reschedule();
 
-
 protected:
-	/* Diese pur-virtuelle Methode stellt die Schnittstelle zum
-	 * ActivityScheduler dar, der diese Klasse erweitert. Siehe
-	 * die Beschreibung dort.
-	 */
+    /**
+     * Pure virtual function to activate a task.
+     * This function must be implemented by derived classes to define how a task is activated
+     * or switched to. This could involve context switching mechanisms or simply marking the
+     * task as currently running.
+     * @param to Pointer to the Schedulable task that is to be activated.
+     */
 	virtual void activate(Schedulable* to) = 0;
 
-	// Die Ready-Liste
-	Queue readylist;
+	Queue readylist;    // Queue used to manage the list of ready tasks.
 
 };
 
