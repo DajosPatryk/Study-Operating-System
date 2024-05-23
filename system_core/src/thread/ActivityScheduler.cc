@@ -6,9 +6,10 @@ extern CPU cpu;
 extern Clock clock;
 
 void ActivityScheduler::start(Activity* act) {
-	// initialising first activity
-	Dispatcher::init(act);
-	startActivity = act;
+
+	act->changeTo(Activity::RUNNING);   // Scheduler
+	init((Coroutine*)act);               // Dispatcher
+	
 }
 
 void ActivityScheduler::suspend() {

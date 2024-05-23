@@ -34,7 +34,7 @@
 00000000000i[IMG   ] Disk image modules
 00000000000i[IMG   ]   flat concat sparse dll growing undoable volatile vmware3
 00000000000i[IMG   ]   vmware4 vbox vpc vvfat
-00000000000i[MEM0  ] allocated memory at 0x7f75e17dd010. after alignment, vector=0x7f75e17de000
+00000000000i[MEM0  ] allocated memory at 0x7f8a4e9dd010. after alignment, vector=0x7f8a4e9de000
 00000000000i[MEM0  ] 64,00MB
 00000000000i[MEM0  ] mem block size = 0x00020000, blocks=512
 00000000000i[MEM0  ] rom at 0xfffe0000/131072 ('/usr/local/share/bochs/BIOS-bochs-latest')
@@ -45,7 +45,7 @@
 00000000000i[DEV   ] PIIX3 PCI-to-ISA bridge present at device 1, function 0
 00000000000i[PLUGIN] init_dev of 'cmos' plugin device by virtual method
 00000000000i[CMOS  ] Using local time for initial clock
-00000000000i[CMOS  ] Setting initial clock to: Thu May 23 12:28:46 2024 (time0=1716460126)
+00000000000i[CMOS  ] Setting initial clock to: Thu May 23 12:41:29 2024 (time0=1716460889)
 00000000000i[PLUGIN] init_dev of 'dma' plugin device by virtual method
 00000000000i[DMA   ] channel 4 used by cascade
 00000000000i[PLUGIN] init_dev of 'pic' plugin device by virtual method
@@ -210,27 +210,125 @@
 00001509053i[BXVGA ] VBE known Display Interface b0c5
 00001511696i[VBIOS ] VBE Bios $Id: vbe.c 292 2021-06-03 12:24:22Z vruppert $
 00005165922i[BIOS  ] IDE time out
-03061984443i[BIOS  ] Booting from 07c0:0000
-03142535488i[CPU0  ] WARNING: HLT instruction with IF=0!
-04721832000p[SDL2  ] >>PANIC<< POWER button turned off.
-04721832000i[CPU0  ] CPU is in protected mode (halted)
-04721832000i[CPU0  ] CS.mode = 32 bit
-04721832000i[CPU0  ] SS.mode = 32 bit
-04721832000i[CPU0  ] EFER   = 0x00000000
-04721832000i[CPU0  ] | EAX=001063a4  EBX=001063a4  ECX=00107544  EDX=000003d5
-04721832000i[CPU0  ] | ESP=00109498  EBP=001094a4  ESI=00000000  EDI=00000000
-04721832000i[CPU0  ] | IOPL=0 id vip vif ac vm rf nt of df if tf sf zf AF pf cf
-04721832000i[CPU0  ] | SEG sltr(index|ti|rpl)     base    limit G D
-04721832000i[CPU0  ] |  CS:0008( 0001| 0|  0) 00000000 ffffffff 1 1
-04721832000i[CPU0  ] |  DS:0010( 0002| 0|  0) 00000000 ffffffff 1 1
-04721832000i[CPU0  ] |  SS:0010( 0002| 0|  0) 00000000 ffffffff 1 1
-04721832000i[CPU0  ] |  ES:0010( 0002| 0|  0) 00000000 ffffffff 1 1
-04721832000i[CPU0  ] |  FS:0010( 0002| 0|  0) 00000000 ffffffff 1 1
-04721832000i[CPU0  ] |  GS:0010( 0002| 0|  0) 00000000 ffffffff 1 1
-04721832000i[CPU0  ] | EIP=001019ec (001019ec)
-04721832000i[CPU0  ] | CR0=0x80000011 CR2=0x00000000
-04721832000i[CPU0  ] | CR3=0x0010b000 CR4=0x00000000
-04721832000i[CPU0  ] 0x001019ec>> ret  : C3
-04721832000i[CMOS  ] Last time is 1716461306 (Thu May 23 12:48:26 2024)
-04721832000i[      ] restoring default signal behavior
-04721832000i[SIM   ] quit_sim called with exit code 1
+02982976143i[BIOS  ] Booting from 07c0:0000
+03064999442i[CPU0  ] WARNING: HLT instruction with IF=0!
+05880108000i[SDL2  ] system RESET callback
+05880108000i[SYS   ] bx_pc_system_c::Reset(HARDWARE) called
+05880108000i[CPU0  ] cpu hardware reset
+05880108000i[APIC0 ] allocate APIC id=0 (MMIO enabled) to 0x0000fee00000
+05880108000i[CPU0  ] CPUID[0x00000000]: 00000005 756e6547 6c65746e 49656e69
+05880108000i[CPU0  ] CPUID[0x00000001]: 00000633 00010800 00000008 0fcbfbff
+05880108000i[CPU0  ] CPUID[0x00000002]: 00410601 00000000 00000000 00000000
+05880108000i[CPU0  ] CPUID[0x00000003]: 00000000 00000000 00000000 00000000
+05880108000i[CPU0  ] CPUID[0x00000004]: 00000000 00000000 00000000 00000000
+05880108000i[CPU0  ] CPUID[0x00000005]: 00000040 00000040 00000003 00000020
+05880108000i[CPU0  ] CPUID[0x80000000]: 80000008 00000000 00000000 00000000
+05880108000i[CPU0  ] CPUID[0x80000001]: 00000000 00000000 00000000 00000000
+05880108000i[CPU0  ] CPUID[0x80000002]: 20202020 20202020 20202020 6e492020
+05880108000i[CPU0  ] CPUID[0x80000003]: 286c6574 50202952 69746e65 52286d75
+05880108000i[CPU0  ] CPUID[0x80000004]: 20342029 20555043 20202020 00202020
+05880108000i[CPU0  ] CPUID[0x80000005]: 01ff01ff 01ff01ff 40020140 40020140
+05880108000i[CPU0  ] CPUID[0x80000006]: 00000000 42004200 02008140 00000000
+05880108000i[CPU0  ] CPUID[0x80000007]: 00000000 00000000 00000000 00000000
+05880108000i[CPU0  ] CPUID[0x80000008]: 00002028 00000000 00000000 00000000
+05880108000i[CPU0  ] CPU Features supported:
+05880108000i[CPU0  ] 		x87
+05880108000i[CPU0  ] 		486ni
+05880108000i[CPU0  ] 		pentium_ni
+05880108000i[CPU0  ] 		p6ni
+05880108000i[CPU0  ] 		mmx
+05880108000i[CPU0  ] 		debugext
+05880108000i[CPU0  ] 		vme
+05880108000i[CPU0  ] 		pse
+05880108000i[CPU0  ] 		pae
+05880108000i[CPU0  ] 		pge
+05880108000i[CPU0  ] 		pse36
+05880108000i[CPU0  ] 		mtrr
+05880108000i[CPU0  ] 		pat
+05880108000i[CPU0  ] 		sysenter_sysexit
+05880108000i[CPU0  ] 		clflush
+05880108000i[CPU0  ] 		sse
+05880108000i[CPU0  ] 		sse2
+05880108000i[CPU0  ] 		mwait
+05880108000i[CPU0  ] 		xapic
+05880108000i[PLUGIN] reset of 'pci' plugin device by virtual method
+05880108000i[PLUGIN] reset of 'pci2isa' plugin device by virtual method
+05880108000i[PLUGIN] reset of 'cmos' plugin device by virtual method
+05880108000i[PLUGIN] reset of 'dma' plugin device by virtual method
+05880108000i[PLUGIN] reset of 'pic' plugin device by virtual method
+05880108000i[PLUGIN] reset of 'pit' plugin device by virtual method
+05880108000i[PLUGIN] reset of 'vga' plugin device by virtual method
+05880108000i[PLUGIN] reset of 'floppy' plugin device by virtual method
+05880108000i[PLUGIN] reset of 'acpi' plugin device by virtual method
+05880108000i[PLUGIN] reset of 'hpet' plugin device by virtual method
+05880108000i[PLUGIN] reset of 'ioapic' plugin device by virtual method
+05880108000i[PLUGIN] reset of 'keyboard' plugin device by virtual method
+05880108000i[PLUGIN] reset of 'harddrv' plugin device by virtual method
+05880108000i[PLUGIN] reset of 'pci_ide' plugin device by virtual method
+05880108000i[PLUGIN] reset of 'unmapped' plugin device by virtual method
+05880108000i[PLUGIN] reset of 'biosdev' plugin device by virtual method
+05880108000i[PLUGIN] reset of 'speaker' plugin device by virtual method
+05880108000i[PLUGIN] reset of 'extfpuirq' plugin device by virtual method
+05880108000i[PLUGIN] reset of 'parallel' plugin device by virtual method
+05880108000i[PLUGIN] reset of 'serial' plugin device by virtual method
+05880112665i[BIOS  ] $Revision: 14314 $ $Date: 2021-07-14 18:10:19 +0200 (Wed, 14 Jul 2021) $
+05880426059i[KBD   ] reset-disable command received
+05880428841i[BIOS  ] Starting rombios32
+05880429279i[BIOS  ] Shutdown flag 0
+05880429877i[BIOS  ] ram_size=0x04000000
+05880430309i[BIOS  ] ram_end=64MB
+05880717645i[BIOS  ] Found 1 cpu(s)
+05880731298i[BIOS  ] bios_table_addr: 0x000f9d98 end=0x000fcc00
+05881059114i[PCI   ] i440FX PMC write to PAM register 59 (TLB Flush)
+05881387049i[P2ISA ] PCI IRQ routing: PIRQA# set to 0x0b
+05881387073i[P2ISA ] PCI IRQ routing: PIRQB# set to 0x09
+05881387097i[P2ISA ] PCI IRQ routing: PIRQC# set to 0x0b
+05881387121i[P2ISA ] PCI IRQ routing: PIRQD# set to 0x09
+05881387131i[P2ISA ] write: ELCR2 = 0x0a
+05881387900i[BIOS  ] PIIX3/PIIX4 init: elcr=00 0a
+05881401522i[BIOS  ] PCI: bus=0 devfn=0x00: vendor_id=0x8086 device_id=0x1237 class=0x0600
+05881403866i[BIOS  ] PCI: bus=0 devfn=0x08: vendor_id=0x8086 device_id=0x7000 class=0x0601
+05881406049i[BIOS  ] PCI: bus=0 devfn=0x09: vendor_id=0x8086 device_id=0x7010 class=0x0101
+05881406900i[BIOS  ] region 4: 0x0000c000
+05881408958i[BIOS  ] PCI: bus=0 devfn=0x0b: vendor_id=0x8086 device_id=0x7113 class=0x0680
+05881409234i[ACPI  ] new IRQ line = 11
+05881409248i[ACPI  ] new IRQ line = 9
+05881409318i[PCI   ] setting SMRAM control register to 0x4a
+05881573453i[CPU0  ] Enter to System Management Mode
+05881573464i[CPU0  ] RSM: Resuming from System Management Mode
+05881737520i[PCI   ] setting SMRAM control register to 0x0a
+05881764136i[BIOS  ] MP table addr=0x000f9e70 MPC table addr=0x000f9da0 size=0xc8
+05881765843i[BIOS  ] SMBIOS table addr=0x000f9e80
+05881767932i[BIOS  ] ACPI tables: RSDP addr=0x000f9fa0 ACPI DATA addr=0x03ff0000 size=0xff8
+05881770916i[BIOS  ] Firmware waking vector 0x3ff00cc
+05881773170i[PCI   ] i440FX PMC write to PAM register 59 (TLB Flush)
+05881773900i[BIOS  ] bios_table_cur_addr: 0x000f9fc4
+05881892020i[VBIOS ] VGABios $Id: vgabios.c 288 2021-05-28 19:05:28Z vruppert $
+05881892091i[BXVGA ] VBE known Display Interface b0c0
+05881892123i[BXVGA ] VBE known Display Interface b0c5
+05881894766i[VBIOS ] VBE Bios $Id: vbe.c 292 2021-06-03 12:24:22Z vruppert $
+05885548969i[BIOS  ] IDE time out
+08935924250i[BIOS  ] Booting from 07c0:0000
+09017572999i[CPU0  ] WARNING: HLT instruction with IF=0!
+18653088000p[SDL2  ] >>PANIC<< POWER button turned off.
+18653088000i[CPU0  ] CPU is in protected mode (halted)
+18653088000i[CPU0  ] CS.mode = 32 bit
+18653088000i[CPU0  ] SS.mode = 32 bit
+18653088000i[CPU0  ] EFER   = 0x00000000
+18653088000i[CPU0  ] | EAX=00106428  EBX=00106428  ECX=001075c4  EDX=000003d5
+18653088000i[CPU0  ] | ESP=0010a518  EBP=0010a524  ESI=00000000  EDI=00000000
+18653088000i[CPU0  ] | IOPL=0 id vip vif ac vm rf nt of df if tf sf zf AF PF cf
+18653088000i[CPU0  ] | SEG sltr(index|ti|rpl)     base    limit G D
+18653088000i[CPU0  ] |  CS:0008( 0001| 0|  0) 00000000 ffffffff 1 1
+18653088000i[CPU0  ] |  DS:0010( 0002| 0|  0) 00000000 ffffffff 1 1
+18653088000i[CPU0  ] |  SS:0010( 0002| 0|  0) 00000000 ffffffff 1 1
+18653088000i[CPU0  ] |  ES:0010( 0002| 0|  0) 00000000 ffffffff 1 1
+18653088000i[CPU0  ] |  FS:0010( 0002| 0|  0) 00000000 ffffffff 1 1
+18653088000i[CPU0  ] |  GS:0010( 0002| 0|  0) 00000000 ffffffff 1 1
+18653088000i[CPU0  ] | EIP=001019ec (001019ec)
+18653088000i[CPU0  ] | CR0=0x80000011 CR2=0x00000000
+18653088000i[CPU0  ] | CR3=0x0010b000 CR4=0x00000000
+18653088000i[CPU0  ] 0x001019ec>> ret  : C3
+18653088000i[CMOS  ] Last time is 1716465552 (Thu May 23 13:59:12 2024)
+18653088000i[      ] restoring default signal behavior
+18653088000i[SIM   ] quit_sim called with exit code 1

@@ -48,7 +48,7 @@ void Activity::join() {
 
     // Check if the caller is not a zombie and is not attempting to join itself.
     // If conditions are met, link this activity to the currently running process and suspend it.
-	if (!(this->isZombie()) && this != activeProcess) {
+	if (!(this->isZombie()) || this == activeProcess) {
 		this->joined = activeProcess;
 		scheduler.suspend();
 	}

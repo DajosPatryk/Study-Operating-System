@@ -56,7 +56,7 @@ SYSTEM_CC = \
 	device/PIC.cc \
 	device/PIT.cc \
 	device/Clock.cc \
-	mainInt.cc
+	mainPre.cc
 
 
 ##############################################################################
