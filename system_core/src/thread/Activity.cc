@@ -1,6 +1,9 @@
 #include "thread/Activity.h"
-#include "io/PrintStream.h"
+#include "interrupts/IntLock.h"
 #include "thread/ActivityScheduler.h"
+
+#include "device/CPU.h"
+extern CPU cpu;
 
 // Initial state is blocked so thread doesn't immediately run.
 Activity::Activity(void* tos) : Coroutine(tos), state(BLOCKED) {
@@ -18,6 +21,7 @@ Activity::~Activity() {
 void Activity::sleep() { scheduler.suspend(); }
 
 void Activity::wakeup() {
+	IntLock lock;
 	if (isBlocked()) {
 		this->state = READY;
 		scheduler.schedule(this);
@@ -27,6 +31,7 @@ void Activity::wakeup() {
 void Activity::yield() { scheduler.reschedule(); }
 
 void Activity::exit() {
+	IntLock lock;
 	// Wakes-up next joined activities.
 	if (joined != 0) {
 		joined->wakeup();
@@ -37,6 +42,7 @@ void Activity::exit() {
 }
 
 void Activity::join() {
+	IntLock lock;
     // Retrieves and stores the currently active process from the scheduler's ready list.
 	Activity* activeProcess = (Activity*)scheduler.active();
 

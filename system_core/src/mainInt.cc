@@ -70,13 +70,13 @@ unsigned stack1[1024];
 extern "C" int main()
 {
 
-    // Hello anton("Anton", out); // anton benutzt den Stack von main
-	// Hello berta("Berta", out, &stack0[1024]);
-	// Hello caesar("Caesar", out, &stack1[1024]);
+     Hello anton("Anton", out); // anton benutzt den Stack von main
+	 Hello berta("Berta", out, &stack0[1024]);
+	 Hello caesar("Caesar", out, &stack1[1024]);
 
 	cpu.enableInterrupts();
 	
-    // anton.body();
+    anton.body();
 	
     while(1);
 

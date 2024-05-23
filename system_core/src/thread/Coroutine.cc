@@ -1,6 +1,9 @@
 #include "thread/Coroutine.h"
+#include "device/CPU.h"
+extern CPU cpu;
 
 void Coroutine::startup(Coroutine* obj) {
+	cpu.enableInterrupts(); //important for first clock tick to activate!
 	obj->body();    // Call the main function of the given coroutine.
 	obj->exit();    // Terminate the coroutine after the body completes.
 }

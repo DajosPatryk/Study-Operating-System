@@ -1,16 +1,15 @@
 #include "device/Clock.h"
 #include "interrupts/InterruptVector.h"
-
 #include "io/PrintStream.h"
-extern PrintStream out;
-
 #include "thread/ActivityScheduler.h"
-extern ActivityScheduler scheduler;
-
-#include "device/PIC.h"
-extern PIC pic;
-
 #include "interrupts/IntLock.h"
+#include "device/PIC.h"
+#include "device/CgaChannel.h"
+
+extern ActivityScheduler scheduler;
+extern PrintStream out;
+extern PIC pic;
+extern CgaChannel cga;
 
 Clock::Clock() : Gate(InterruptVector::Timer), PIT()
 {
@@ -28,12 +27,9 @@ void Clock::windup(int us)
 	pic.enable(PIC::Interrupts::PIT);
 }
 
-#include "device/CgaChannel.h"
-extern CgaChannel cga;
-
 int state = 0;
 const char chars[] = {'/', '-', '\\', '|'};
-
+//propeller
 void testProp()
 {
 	state %= sizeof(chars);
@@ -60,7 +56,7 @@ void Clock::handle()
 	}
 	else
 	{
-		// testProp();
+		//testProp();
 		scheduler.checkSlice();
 	}
 }

@@ -56,6 +56,8 @@ protected:
      */
 	virtual void activate(Schedulable* to);
 
+    Activity *getRunning();
+	Activity *startActivity;
 };
 
 /**

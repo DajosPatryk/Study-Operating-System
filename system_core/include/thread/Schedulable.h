@@ -33,8 +33,8 @@ public:
 		return slice;
 	}
 
-private:
-	int slice;
+	int slice = 1;
+	int currentCount = 0;
 };
 
 #endif

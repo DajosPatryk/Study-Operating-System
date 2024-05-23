@@ -37,6 +37,10 @@ public:
      */
 	void reschedule();
 
+    bool isQueueEmpty(){ return readylist.isEmpty(); }
+
+	void checkSlice();
+
 protected:
     /**
      * Pure virtual function to activate a task.

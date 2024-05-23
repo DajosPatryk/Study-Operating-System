@@ -41,6 +41,8 @@ public:
      */
 	void remove(Chain* item);
 
+    bool isEmpty() { return head == nullptr; }
+
 private:
 	Chain* head;    // Pointer to the first item in the queue.
 	Chain** tail;   // Pointer to the last item's next pointer in the queue.

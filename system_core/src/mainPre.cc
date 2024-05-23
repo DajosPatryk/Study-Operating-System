@@ -23,6 +23,12 @@ public:
 	{
 		this->name = name;
 	}
+	Hello(const char* name, PrintStream& out, int slice)
+		: cout(out)
+	{
+		this->name = name;
+		this->quantum(slice);
+	}
 
 	Hello(const char* name, PrintStream& out, void* sp)
 		: Activity(sp), cout(out)
@@ -30,6 +36,14 @@ public:
 		this->name = name;
 		wakeup();
 	}
+	Hello(const char* name, PrintStream& out, void* sp, int slice)
+		: Activity(sp), cout(out)
+	{
+		this->name = name;
+		this->quantum(slice);
+		wakeup();
+	}
+
 
 	~Hello()
 	{
@@ -46,7 +60,7 @@ public:
 				cout.print(i);
 				cout.println();
 			}
-            for(int j=0; j<10000; j++);
+            for(int j=0; j<100000; j++);
 		}
 	}
 

@@ -42,9 +42,8 @@ public:
 		curr->resume(next);
 	}
 
-protected:
-	Coroutine* running; // Pointer to the currently active coroutine.
+
+	Coroutine* running = nullptr; // Pointer to the currently active coroutine.
 
 };
-
 #endif
