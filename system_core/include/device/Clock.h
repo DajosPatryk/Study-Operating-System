@@ -67,9 +67,12 @@ public:
 	 */
 	int ticks()
 	{
+		return clockTicks;
 	}
+	bool listempty = false;
     
 private:
+	int clockTicks = 0;
 };
 
 extern Clock clock;

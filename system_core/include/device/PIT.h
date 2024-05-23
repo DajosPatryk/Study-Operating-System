@@ -1,6 +1,8 @@
 #ifndef PIT_h
 #define PIT_h
 
+#define STANDARD_INTERVAL 20000 //20ms
+
 /*
  * PIT: Der Treiber fuer den Programmable Interval Timer
  *
@@ -29,9 +31,21 @@ public:
 	  */
 	void interval (int us);
 
+protected:
+	int us = STANDARD_INTERVAL;
+
 private:
 	enum Values {
-		TIME_BASE = 838  /* Dauer eines Zaehlticks in ns */
+		TIME_BASE = 838,  /* Dauer eines Zaehlticks in ns */
+		/* Zähler0(00)|High byte(10)|Periodische Impulse(010)| 0(binäre
+		   Zählung von 16 Bit)*/
+		HIGH_BYTE = 0b00100100,
+		/* Zähler0(00)|lOW byte(01)|Periodische Impulse(010)| binäre
+		   Zählung von 16 Bit (0)*/
+		LOW_BYTE = 0b00010100,
+		// MASK = 0b11111111,
+		MASK = 0x00FF,
+		SHIFT = 8
 	};
 
 	// Die I/O Ports des PIC
@@ -40,6 +54,12 @@ private:
 		DATA_PORT 	= 0x40
 	};
 
+	// Verbindungs ports zu Hardware.
+	IOPort8 control;
+	IOPort8 data;
+
+	// Variable, Zeit-Interval fuers PIT
+	unsigned int interv;
 };
 
 extern PIT pit;

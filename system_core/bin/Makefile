@@ -37,16 +37,6 @@ SYSTEM_C = \
 	lib/tools.c
 	
 
-# Test Coroutiness
-#SYSTEM_CC = \
-#	$(INITFINI) \
-#	device/CgaChannel.cc \
-#	device/CgaScreen.cc \
-#	io/PrintStream.cc \
-#	thread/Coroutine.cc \
-#	mainCo.cc
-
-# Test Activities
 SYSTEM_CC = \
 	$(INITFINI) \
 	device/CgaChannel.cc \
@@ -57,7 +47,15 @@ SYSTEM_CC = \
 	thread/ActivityScheduler.cc \
 	thread/Coroutine.cc \
 	thread/Scheduler.cc \
-	mainAct.cc
+	interrupts/Gate.cc \
+	interrupts/InterruptGuardian.cc \
+	interrupts/PageFaultGate.cc \
+	interrupts/PanicGate.cc \
+	interrupts/SpuriousGate.cc \
+	device/PIC.cc \
+	device/PIT.cc \
+	device/Clock.cc \
+	mainPre.cc
 
 
 ##############################################################################
