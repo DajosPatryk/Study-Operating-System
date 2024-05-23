@@ -2,6 +2,8 @@
 #include "device/CPU.h"
 extern CPU cpu;
 
+#pragma GCC diagnostic ignored "-Wpmf-conversions"
+
 void Coroutine::startup(Coroutine* obj) {
 	cpu.enableInterrupts(); //important for first clock tick to activate!
 	obj->body();    // Call the main function of the given coroutine.
@@ -9,21 +11,24 @@ void Coroutine::startup(Coroutine* obj) {
 }
 
 void Coroutine::setup(void* tos) {
-    // If tos is not nullptr, initialize a new stack from the given stack pointer.
-	if (tos != 0) {
-		Stack* stackTos = (Stack*)tos;
+    // if tos is not stack of main, setup frame is needed
+	if (!(tos == 0x0))
+	{
 
-        // Initialize stack registers to 0 to prevent data corruption.
-		stackTos->edi = 0;
-		stackTos->esi = 0;
-		stackTos->ebx = 0;
-		stackTos->ebp = 0;
+		this->sp = tos;
 
-        // Set up the coroutine function pointer to the 'startup' method,
-		stackTos->coroutine = &startup;
-		stackTos->ret = 0;
-
-		stackTos->arg = this;   // Store a pointer to this coroutine instance in 'arg' for use by 'startup'.
-		this->sp = stackTos;    // Save the pointer to the initialized stack in the coroutine's stack pointer (sp).
+		SetupFrame frame = SetupFrame();
+		frame.edi = 0;
+		frame.esi = 0;
+		frame.ebx = 0;
+		frame.ebp = 0;
+		frame.coroutine = &Coroutine::startup;
+		frame.nirwana = 0;
+		frame.arg = this;
+		// save setup frame
+		SetupFrame *ptr = (SetupFrame *)tos;
+		ptr--;
+		this->sp = ptr;
+		*(ptr) = frame;
 	}
 }

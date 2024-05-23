@@ -15,6 +15,7 @@ void ActivityScheduler::suspend() {
 	IntLock lock;
 	Activity* activeProcess = (Activity*)this->active();  // Retrieves and stores the currently active process.
 	activeProcess->changeTo(Activity::BLOCKED);
+	remove(activeProcess);
 	reschedule();                                         // Delegate to the scheduler and transition to the next process from the ready list.
 }
 
@@ -33,11 +34,6 @@ void ActivityScheduler::exit() {
 	
 }
 
-// aktiven Prozess schauen
-Activity *ActivityScheduler::getRunning()
-{
-	return (Activity *)Dispatcher::active();
-}
 
 void ActivityScheduler::activate(Schedulable* to) {
     // Retrieve the currently running process and prepare the next activity to be activated.

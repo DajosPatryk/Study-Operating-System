@@ -10,7 +10,7 @@ Activity::Activity(void* tos) : Coroutine(tos), state(BLOCKED) {
 }
 
 Activity::Activity() {
-	this->state = BLOCKED;
+	this->state = RUNNING;
 	scheduler.start(this);  // Initializes first activity.
 }
 
@@ -28,14 +28,14 @@ void Activity::wakeup() {
 	}
 }
 
-void Activity::yield() { scheduler.reschedule(); }
+void Activity::yield() { this->state = READY;scheduler.reschedule(); }
 
 void Activity::exit() {
 	IntLock lock;
 	// Wakes-up next joined activities.
-	if (joined != 0) {
+	if (joined != nullptr) {
 		joined->wakeup();
-		joined = 0;
+		joined = nullptr;
 	}
 
 	scheduler.exit();   // Terminates current activities.

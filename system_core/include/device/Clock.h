@@ -9,8 +9,12 @@
  * ein Ticken der Uhr ausgel"ost
  */
 
-#include "interrupts/Gate.h"
+#include "device/PIC.h"
 #include "device/PIT.h"
+#include "interrupts/Gate.h"
+#include "interrupts/InterruptVector.h"
+#include "io/PrintStream.h"
+#include "thread/ActivityScheduler.h"
 
 class Clock: public Gate, public PIT {
 public:

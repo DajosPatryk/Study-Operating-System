@@ -66,26 +66,16 @@ private:
      * Struct to represent the stack frame for a coroutine.
      * Stores registers and the coroutine's parameter, necessary for state saving and restoration during switches.
      */
-	struct Stack {
-		unsigned int edi;   // Extended Destination Index Register
-		unsigned int esi;   // Extended Source Index Register
-		unsigned int ebx;   // Extended Base Register
-		void* ebp;          // Stack Base Pointer, for local base
-
-        /**
-         * Pointer to the coroutine function to start execution.
-         */
-		void (*coroutine)(Coroutine*);
-
-        /**
-         * Simulated return address, does not lead anywhere.
-         */
-		void* ret;
-
-        /**
-         * Parameter for the coroutine function, determined at runtime.
-         */
-		Coroutine* arg;
+	struct SetupFrame
+	{
+		// setup stack to start coroutine
+		unsigned edi;
+		unsigned esi;
+		unsigned ebx;
+		void *ebp;
+		void (*coroutine)(Coroutine *);
+		void *nirwana;
+		Coroutine *arg;
 	};
 
 };
