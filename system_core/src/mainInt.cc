@@ -1,9 +1,13 @@
 // Testprogramm fuer kooperative Threads
 
 #include "device/CgaChannel.h"
+#include "device/CPU.h"
 #include "io/PrintStream.h"
 #include "thread/Activity.h"
 #include "thread/ActivityScheduler.h"
+#include "device/PIC.h"
+#include "device/Clock.h"
+#include "interrupts/InterruptGuardian.h"
 
 // Hello: Eine kooperative Aktivitaet
 //
@@ -13,33 +17,27 @@
 // Das sollte normalerweise *nicht* der Fall sein!
 class Hello: public Activity {
 public:
-	Hello(const char* name, PrintStream& out, int count=10)
+	Hello(const char* name, PrintStream& out)
 		: cout(out)
 	{
 		this->name = name;
-		this->count = count;
 	}
 
-	Hello(const char* name, PrintStream& out, void* sp, int count=10)
+	Hello(const char* name, PrintStream& out, void* sp)
 		: Activity(sp), cout(out)
 	{
 		this->name = name;
-		this->count = count;
 		wakeup();
 	}
-	
-	~Hello()
-	{
-		join();
-	}
-	
+
 	void body()
 	{
-		for(int i=0; i<=count; i++) {
+		for(int i=0; i<10; i++) {
 			cout.print(name);
 			cout.print(" ");
 			cout.print(i);
 			cout.println();
+
 			yield();
 		}
 	}
@@ -47,11 +45,16 @@ public:
 private:
 	const char* name;
 	PrintStream& cout;
-	int count;
 };
 
 //////////////////////////////////////////////////////////////////////////
 // Die Systemobjekte von Co-Stubs
+
+CPU cpu;
+
+InterruptGuardian interruptGuardian;
+PIC pic;
+Clock clock(25000);
 
 // globale Ein-/Ausgabeobjekte
 CgaChannel cga;         // unser CGA-Ausgabekanal
@@ -66,12 +69,16 @@ unsigned stack1[1024];
 
 extern "C" int main()
 {
-	Hello anton("Anton", out, 5); // anton benutzt den Stack von main
-	Hello berta("Berta", out, &stack0[1024], 10);
-	Hello caesar("Caesar", out, &stack1[1024], 15);
 
-	anton.body();
+    // Hello anton("Anton", out); // anton benutzt den Stack von main
+	// Hello berta("Berta", out, &stack0[1024]);
+	// Hello caesar("Caesar", out, &stack1[1024]);
+
+	cpu.enableInterrupts();
 	
+    // anton.body();
+	
+    while(1);
+
 	return 0;
 }
-

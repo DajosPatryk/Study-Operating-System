@@ -1,66 +1,77 @@
-// Testprogramm fuer Coroutinen
+// Testprogramm fuer kooperative Threads
 
 #include "device/CgaChannel.h"
+#include "device/CPU.h"
 #include "io/PrintStream.h"
-#include "thread/Coroutine.h"
+#include "thread/Activity.h"
+#include "thread/ActivityScheduler.h"
+#include "device/PIC.h"
+#include "device/Clock.h"
+#include "interrupts/InterruptGuardian.h"
+#include "interrupts/IntLock.h"
 
-// Eine Coroutinen-Klasse
+// Hello: Eine kooperative Aktivitaet
 //
 // Anmerkung: Diese Klasse dient
 // zu Testzwecken und der Einfacheit halber sind
 // alle Methoden dieser Klasse ausnahmsweise inline deklariert
 // Das sollte normalerweise *nicht* der Fall sein!
-
-class Hello: public Coroutine {
+class Hello: public Activity {
 public:
 	Hello(const char* name, PrintStream& out)
-		: cout(out), name(name), next(nullptr)
+		: cout(out)
 	{
+		this->name = name;
 	}
 
 	Hello(const char* name, PrintStream& out, void* sp)
-		: Coroutine(sp), cout(out), name(name), next(nullptr)
+		: Activity(sp), cout(out)
 	{
+		this->name = name;
+		wakeup();
 	}
 
-	void link(Coroutine& next)
+	~Hello()
 	{
-		this->next = &next;
+		join();
 	}
 
 	void body()
 	{
-		for(int i=0; i<6; i++) {
-			cout.print(name);
-			cout.print(" ");
-			cout.print(i);
-			cout.println();
-
-			resume(next);
+		for(int i=0; i<5; i++) {
+			{
+				IntLock lock;
+				cout.print(name);
+				cout.print(" ");
+				cout.print(i);
+				cout.println();
+			}
+            for(int j=0; j<10000; j++);
 		}
 	}
 
-	void exit()
-	{
-		cout.print("Panic!!!!");
-		cout.println();
-	}
-
-	PrintStream& cout;
+private:
 	const char* name;
-	Coroutine* next;
+	PrintStream& cout;
 };
 
 //////////////////////////////////////////////////////////////////////////
 // Die Systemobjekte von Co-Stubs
 
-// globale Ein-/Ausgabeobjekte
+CPU cpu;
 
+InterruptGuardian interruptGuardian;
+PIC pic;
+Clock clock(2500);
+
+// globale Ein-/Ausgabeobjekte
 CgaChannel cga;         // unser CGA-Ausgabekanal
 PrintStream out(cga);   // unseren PrintStream mit Ausgabekanal verknuepfen
 
-// die Stacks fuer unsere Prozesse/Coroutinen
+// Objekte der Prozessverwaltung
+ActivityScheduler scheduler;   // der Scheduler
 
+// die Stacks fuer unsere Prozesse/Coroutinen
 unsigned stack0[1024];
 unsigned stack1[1024];
 
@@ -70,12 +81,7 @@ extern "C" int main()
 	Hello berta("Berta", out, &stack0[1024]);
 	Hello caesar("Caesar", out, &stack1[1024]);
 
-	// alle Coroutinen zyklisch verketten
-	anton.link(berta);
-	berta.link(caesar);
-	caesar.link(anton);
-
-	// los geht's
+	cpu.enableInterrupts();
 	anton.body();
 
 	return 0;

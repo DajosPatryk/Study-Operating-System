@@ -17,6 +17,24 @@
  *   for future enhancements where process-specific attributes may be required.
  */
 class Schedulable: public Chain {
+public:
+	explicit Schedulable(int slice = 1)
+	{ 
+		quantum(slice); 
+	}
+
+	void quantum(int slice)
+	{ 
+		this->slice = slice;
+	}
+
+	int quantum()
+	{ 
+		return slice;
+	}
+
+private:
+	int slice;
 };
 
 #endif
