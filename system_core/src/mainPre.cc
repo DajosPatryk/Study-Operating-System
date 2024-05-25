@@ -52,7 +52,7 @@ public:
 
 	void body()
 	{
-		for(int i=0; i<5; i++) {
+		for(int i=0; i<10; i++) {
 			{
 				IntLock lock;
 				cout.print(name);
@@ -91,9 +91,9 @@ unsigned stack1[1024];
 
 extern "C" int main()
 {
-	Hello anton("Anton", out); // anton benutzt den Stack von main
+	Hello anton("Anton", out,10); // anton benutzt den Stack von main
 	Hello berta("Berta", out, &stack0[1024]);
-	Hello caesar("Caesar", out, &stack1[1024]);
+	Hello caesar("Caesar", out, &stack1[1024],5);
 
 	cpu.enableInterrupts();
 	anton.body();

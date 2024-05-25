@@ -6,10 +6,11 @@
 extern CPU cpu;
 
 // Initial state is blocked so thread doesn't immediately run.
-Activity::Activity(void* tos) : Coroutine(tos), state(BLOCKED) {
+Activity::Activity(void* tos) : Coroutine(tos){
+	this->state=BLOCKED;
 }
 
-Activity::Activity() {
+Activity::Activity() : Coroutine() {
 	this->state = RUNNING;
 	scheduler.start(this);  // Initializes first activity.
 }
@@ -50,6 +51,6 @@ void Activity::join() {
     // If conditions are met, link this activity to the currently running process and suspend it.
 	if (!(this->isZombie()) || this == activeProcess) {
 		this->joined = activeProcess;
-		scheduler.suspend();
+		activeProcess->sleep();
 	}
 }

@@ -10,6 +10,11 @@ void Coroutine::startup(Coroutine* obj) {
 	obj->exit();    // Terminate the coroutine after the body completes.
 }
 
+void Coroutine::resume(Coroutine *next)
+{
+	switchContext(this->sp, next->sp);
+}
+
 void Coroutine::setup(void* tos) {
     // if tos is not stack of main, setup frame is needed
 	if (!(tos == 0x0))

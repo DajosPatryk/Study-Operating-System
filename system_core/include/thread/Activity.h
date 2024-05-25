@@ -114,8 +114,8 @@ public:
 	void setJoined(Activity* activity) { this->joined = activity; }
 
 private:
-State state;        // Current state of the activity.
-Activity* joined;   // Pointer to another activity that this one may be waiting on.
+State state = BLOCKED;        // Current state of the activity.
+Activity* joined = nullptr;   // Pointer to another activity that this one may be waiting on.
 
 };
 

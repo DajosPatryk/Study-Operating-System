@@ -6,8 +6,8 @@ extern CPU cpu;
 extern Clock clock;
 
 void ActivityScheduler::start(Activity* act) {
-
-	act->changeTo(Activity::RUNNING);   // Scheduler
+	
+	//act->changeTo(Activity::RUNNING);   // Scheduler
 	Dispatcher::init(act);            // Dispatcher
 	
 }
@@ -23,9 +23,14 @@ void ActivityScheduler::suspend() {
 void ActivityScheduler::kill(Activity* act) {
 	IntLock lock;
 	act->changeTo(Activity::ZOMBIE);                  // Set the state to 'ZOMBIE', marking the process as terminable.
-	remove((Schedulable*)act);                       // Remove the process from the ready list.
+	                      // Remove the process from the ready list.
 	Activity* activeProcess = getRunning(); // Load a new process only if the active process is the one being killed.
-	if (activeProcess->isRunning() && activeProcess == act) reschedule();
+	if (activeProcess == act){
+		remove(act); 
+		reschedule();
+	}else{
+		remove(act);
+	} 
 }
 
 void ActivityScheduler::exit() {
@@ -77,7 +82,7 @@ void ActivityScheduler::activate(Schedulable* to) {
 
 		}else{
 			// move current to the ready list and start to
-			currentProcess->changeTo(Activity::READY);
+			//currentProcess->changeTo(Activity::READY);
 			schedule(currentProcess);
 			((Activity *)to)->changeTo(Activity::RUNNING);
 			dispatch((Activity *)to);

@@ -8,20 +8,17 @@ extern ActivityScheduler scheduler;
 
 void Scheduler::schedule(Schedulable* sched) {
 	IntLock lock;
-	Chain* tempSched = (Chain*)sched;
-	readylist.enqueue(tempSched);
+	readylist.enqueue(sched);
 }
 
 void Scheduler::remove(Schedulable* sched) {
 	IntLock lock;
-	Chain* tempSched = (Chain*)sched;
-	readylist.remove(tempSched);
+	readylist.remove(sched);
 }
 
 void Scheduler::reschedule() {
 	IntLock lock;
-	Schedulable* headSched = (Schedulable*)readylist.dequeue();
-	this->activate(headSched);
+	activate((Schedulable *)readylist.dequeue());
 }
 
 void Scheduler::checkSlice()

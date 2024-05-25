@@ -31,7 +31,7 @@ public:
      * The actual context switching is handled by the assembly function "switchContext".
      * @param next Pointer to the next coroutine to resume.
      */
-	void resume(Coroutine* next) { switchContext(this->sp, next->sp); }
+	void resume(Coroutine* next);
 
     /**
      * Pure virtual function defining the body of the coroutine.
@@ -44,6 +44,8 @@ public:
      * Must be implemented by derived classes to handle cleanup or termination actions.
      */
 	virtual void exit() = 0;
+    
+    void* sp;   // Saved stack pointer for this coroutine.
 
 private:
     /**
@@ -60,7 +62,7 @@ private:
      */
 	void setup(void* tos);
 
-    void* sp;   // Saved stack pointer for this coroutine.
+    
 
     /**
      * Struct to represent the stack frame for a coroutine.
