@@ -8,13 +8,13 @@ extern Clock clock;
 void ActivityScheduler::start(Activity* act) {
 
 	act->changeTo(Activity::RUNNING);   // Scheduler
-	init((Coroutine*)act);               // Dispatcher
+	Dispatcher::init(act);            // Dispatcher
 	
 }
 
 void ActivityScheduler::suspend() {
 	IntLock lock;
-	Activity* activeProcess = (Activity*)this->active();  // Retrieves and stores the currently active process.
+	Activity* activeProcess = getRunning();  // Retrieves and stores the currently active process.
 	activeProcess->changeTo(Activity::BLOCKED);
 	remove(activeProcess);
 	reschedule();                                         // Delegate to the scheduler and transition to the next process from the ready list.
@@ -24,13 +24,13 @@ void ActivityScheduler::kill(Activity* act) {
 	IntLock lock;
 	act->changeTo(Activity::ZOMBIE);                  // Set the state to 'ZOMBIE', marking the process as terminable.
 	remove((Schedulable*)act);                       // Remove the process from the ready list.
-	Activity* activeProcess = (Activity*)(this->active()); // Load a new process only if the active process is the one being killed.
+	Activity* activeProcess = getRunning(); // Load a new process only if the active process is the one being killed.
 	if (activeProcess->isRunning() && activeProcess == act) reschedule();
 }
 
 void ActivityScheduler::exit() {
 	IntLock lock;
-	Activity* activeProcess = (Activity*)active();  // Retrieve and store the currently active process.
+	Activity* activeProcess = getRunning();  // Retrieve and store the currently active process.
 	kill(activeProcess);
 	
 }
@@ -38,7 +38,7 @@ void ActivityScheduler::exit() {
 
 void ActivityScheduler::activate(Schedulable* to) {
     // Retrieve the currently running process and prepare the next activity to be activated.
-	Activity* currentProcess = (Activity*)(this->active());
+	Activity* currentProcess = getRunning();
 
 	//little difference in handling depending on state of current process
 	if (currentProcess->isBlocked() || currentProcess->isZombie()){
@@ -67,7 +67,7 @@ void ActivityScheduler::activate(Schedulable* to) {
 			dispatch((Activity *)to);
 		}
 	}
-	//current process ready
+	//current process runninng
 	else
 	{
 		if(to==nullptr){
@@ -84,4 +84,9 @@ void ActivityScheduler::activate(Schedulable* to) {
 		}
 	}
 
+}
+
+Activity *ActivityScheduler::getRunning()
+{
+	return (Activity *)Dispatcher::active();
 }

@@ -55,6 +55,7 @@ protected:
      * @param to Pointer to the Schedulable (activity) to be activated.
      */
 	virtual void activate(Schedulable* to);
+    Activity *getRunning();
 
 };
 

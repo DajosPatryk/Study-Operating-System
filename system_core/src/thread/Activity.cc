@@ -44,7 +44,7 @@ void Activity::exit() {
 void Activity::join() {
 	IntLock lock;
     // Retrieves and stores the currently active process from the scheduler's ready list.
-	Activity* activeProcess = (Activity*)scheduler.active();
+	Activity* activeProcess = (Activity*)scheduler.running;
 
     // Check if the caller is not a zombie and is not attempting to join itself.
     // If conditions are met, link this activity to the currently running process and suspend it.

@@ -7,7 +7,6 @@
 #include "device/CgaChannel.h"
 
 extern ActivityScheduler scheduler;
-extern PrintStream out;
 extern PIC pic;
 extern CgaChannel cga;
 
@@ -27,13 +26,13 @@ void Clock::windup(int us)
 	pic.enable(PIC::Interrupts::PIT);
 }
 
-int state = 0;
+int i = 0;
 const char chars[] = {'/', '-', '\\', '|'};
 //propeller
-void testProp()
+void interruptTest()
 {
-	state %= sizeof(chars);
-	const char c = chars[state++];
+	i %= sizeof(chars);
+	const char c = chars[i++];
 
 	int width = 0, height = 0;
 	cga.getCursor(width, height);
@@ -49,14 +48,14 @@ void Clock::handle()
 
 	clockTicks++;
 	pic.ack();
-
+	//while waiting for ready activity no need to call checkSlice
 	if (listempty == true)
 	{
 		return;
 	}
 	else
 	{
-		//testProp();
+		//interruptTest();
 		scheduler.checkSlice();
 	}
 }
