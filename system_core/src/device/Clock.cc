@@ -26,9 +26,9 @@ void Clock::windup(int us)
 	pic.enable(PIC::Interrupts::PIT);
 }
 
+//propeller test zu nutzen beim mainInt
 int i = 0;
 const char chars[] = {'/', '-', '\\', '|'};
-//propeller
 void interruptTest()
 {
 	i %= sizeof(chars);
@@ -45,10 +45,10 @@ void interruptTest()
 
 void Clock::handle()
 {
-
+	//ticks up and acknowledge interrupt so next one of same type can come
 	clockTicks++;
 	pic.ack();
-	//while waiting for ready activity no need to call checkSlice
+	//while waiting for ready activity to join readylist no need to call checkSlice
 	if (listempty == true)
 	{
 		return;

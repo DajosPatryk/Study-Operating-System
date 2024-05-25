@@ -7,8 +7,7 @@ extern Clock clock;
 
 void ActivityScheduler::start(Activity* act) {
 	
-	//act->changeTo(Activity::RUNNING);   // Scheduler
-	Dispatcher::init(act);            // Dispatcher
+	Dispatcher::init(act);            // Dispatching first activity
 	
 }
 
@@ -42,7 +41,7 @@ void ActivityScheduler::exit() {
 
 
 void ActivityScheduler::activate(Schedulable* to) {
-    // Retrieve the currently running process and prepare the next activity to be activated.
+    // Retrieve the currently running process
 	Activity* currentProcess = getRunning();
 
 	//little difference in handling depending on state of current process
@@ -50,20 +49,19 @@ void ActivityScheduler::activate(Schedulable* to) {
 		//list empty, go into while to wait for new ready activity
 		if(to == nullptr){
 			Schedulable *next;
-			clock.listempty = true;
+			clock.listempty = true; //clock interrupt won't call checkSlice in while
 			while (true)
 			{
 				cpu.enableInterrupts(); //Interrupts on!
 				next = (Schedulable *)scheduler.readylist.dequeue();
-
-				// break from while if next is not nullptr (smth joined readylist)
+				// break from while if next is not nullptr (which means ready activity was added to readylist)
 				if (next != nullptr)
 				{
 					break;
 				}
 			}
 			cpu.disableInterrupts(); //interrupts off!
-			clock.listempty = false;
+			clock.listempty = false; 
 			// activate new activity
 			activate(next);
 		}else{
@@ -82,7 +80,6 @@ void ActivityScheduler::activate(Schedulable* to) {
 
 		}else{
 			// move current to the ready list and start to
-			//currentProcess->changeTo(Activity::READY);
 			schedule(currentProcess);
 			((Activity *)to)->changeTo(Activity::RUNNING);
 			dispatch((Activity *)to);

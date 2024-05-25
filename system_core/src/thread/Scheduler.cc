@@ -6,6 +6,8 @@
 
 extern ActivityScheduler scheduler;
 
+//manipulating ReadyList is critical and no other process can interrupt while manipulating it-->IntLocks needed
+
 void Scheduler::schedule(Schedulable* sched) {
 	IntLock lock;
 	readylist.enqueue(sched);

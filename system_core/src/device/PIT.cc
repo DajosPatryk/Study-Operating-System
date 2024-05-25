@@ -18,7 +18,7 @@ PIT::PIT(int us) : control(CONTROL_PORT), data(DATA_PORT) { interval(us); }
  * ausgeloest wird.*/
 void PIT::interval(int us)
 {
-	//  Herz pro Takt, alle us Mikrosekunden wird ein interrupt ausgeloest
+	//Herz pro Takt, alle us Mikrosekunden wird ein interrupt ausgeloest
 	this->interv = (1000 * us) / TIME_BASE;
 
 	// write the low bytes of interval Time

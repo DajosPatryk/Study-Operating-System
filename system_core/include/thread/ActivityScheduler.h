@@ -55,7 +55,10 @@ protected:
      * @param to Pointer to the Schedulable (activity) to be activated.
      */
 	virtual void activate(Schedulable* to);
-    
+
+    /**
+     * allows for safer check on active process within activity scheduler
+    */
     Activity *getRunning();
 
 };

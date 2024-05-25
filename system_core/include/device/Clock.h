@@ -73,6 +73,7 @@ public:
 	{
 		return clockTicks;
 	}
+	//needed later to not call checkSlice() when not needed
 	bool listempty = false;
     
 private:
