@@ -9,6 +9,7 @@
 #include "device/Clock.h"
 #include "interrupts/InterruptGuardian.h"
 #include "interrupts/IntLock.h"
+#include "device/Keyboard.h"
 
 // Hello: Eine kooperative Aktivitaet
 //
@@ -16,56 +17,31 @@
 // zu Testzwecken und der Einfacheit halber sind
 // alle Methoden dieser Klasse ausnahmsweise inline deklariert
 // Das sollte normalerweise *nicht* der Fall sein!
-class Hello: public Activity {
+class Echo: public Activity {
 public:
-	Hello(const char* name, PrintStream& out)
+	explicit Echo(PrintStream& out)
 		: cout(out)
 	{
-		this->name = name;
-	}
-	Hello(const char* name, PrintStream& out, int slice)
-		: cout(out)
-	{
-		this->name = name;
-		this->quantum(slice);
 	}
 
-	Hello(const char* name, PrintStream& out, void* sp)
+	explicit Echo(PrintStream& out, void* sp)
 		: Activity(sp), cout(out)
 	{
-		this->name = name;
 		wakeup();
-	}
-	Hello(const char* name, PrintStream& out, void* sp, int slice)
-		: Activity(sp), cout(out)
-	{
-		this->name = name;
-		this->quantum(slice);
-		wakeup();
-	}
-
-
-	~Hello()
-	{
-		join();
 	}
 
 	void body()
 	{
-		for(int i=0; i<10; i++) {
-			{
-				IntLock lock;
-				cout.print(name);
-				cout.print(" ");
-				cout.print(i);
-				cout.println();
-			}
-            for(int j=0; j<100000; j++);
-		}
+		char c;
+		Key key;
+		do{
+			key = keyboard.read();
+				c = key.getValue();
+				cout.print(c);
+		}while(c!='x');
 	}
 
 private:
-	const char* name;
 	PrintStream& cout;
 };
 
@@ -78,6 +54,8 @@ InterruptGuardian interruptGuardian;
 PIC pic;
 Clock clock(2500);
 
+Keyboard keyboard;
+
 // globale Ein-/Ausgabeobjekte
 CgaChannel cga;         // unser CGA-Ausgabekanal
 PrintStream out(cga);   // unseren PrintStream mit Ausgabekanal verknuepfen
@@ -85,18 +63,12 @@ PrintStream out(cga);   // unseren PrintStream mit Ausgabekanal verknuepfen
 // Objekte der Prozessverwaltung
 ActivityScheduler scheduler;   // der Scheduler
 
-// die Stacks fuer unsere Prozesse/Coroutinen
-unsigned stack0[1024];
-unsigned stack1[1024];
-
 extern "C" int main()
 {
-	Hello anton("Anton", out,10); // anton benutzt den Stack von main
-	Hello berta("Berta", out, &stack0[1024]);
-	Hello caesar("Caesar", out, &stack1[1024],5);
+	Echo echo(out);
 
 	cpu.enableInterrupts();
-	anton.body();
+	echo.body();
 
 	return 0;
 }
