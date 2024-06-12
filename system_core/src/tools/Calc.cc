@@ -71,7 +71,7 @@ void Calculator::body()
 			continue;
 		}
         //write only if there is still place left in line
-		if(bufferIndex <= EXPR_SIZE_MAX){
+		if(bufferIndex < EXPR_SIZE_MAX){
 			insert(c);
 		}
 
@@ -89,7 +89,7 @@ void Calculator::insert(char c)
 		size++;
 	}
    
-   if(size > EXPR_SIZE_MAX){
+   if(size == EXPR_SIZE_MAX){
 		return;
 	}	
 	// move consecutive one to the right
@@ -176,6 +176,9 @@ void Calculator::renderBuffer()
 
 void Calculator::clearBuffer()
 {
+    bufferIndex = 0;
+	interp.numberStackIndex = 0;
+	interp.operatorStackIndex = 0;
     // Alle Zeichen nullen und Null-Byte hinter der höchsten Stelle setzen
     for (unsigned i=0; i<=EXPR_SIZE_MAX; ++i)
         buffer[i] = 0;
@@ -203,4 +206,6 @@ void Calculator::printErrorMsg(unsigned code)
     default:
         break;
     }
+    out.println();
+    clearBuffer();
 }

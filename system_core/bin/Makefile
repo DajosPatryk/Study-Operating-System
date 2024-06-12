@@ -61,7 +61,7 @@ SYSTEM_CC = \
 	tools/Interp.cc \
 	tools/Scanner.cc \
 	tools/Calc.cc \
-	mainKbd.cc
+	mainCalc.cc
 
 
 ##############################################################################
