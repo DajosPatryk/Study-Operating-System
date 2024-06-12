@@ -35,12 +35,23 @@ bool Scanner::lookahead(char* dest)
 
 bool Scanner::isDigit(char ch)
 {
-   return false;
+   const char numberChars[] = {'0', '1', '2', '3', '4',
+				    '5', '6', '7', '8', '9'};
+
+	bool isNumber = false;
+	for (char a : numberChars) {
+		if (ch == a) {
+			isNumber = true;
+			break;
+		}
+	}
+
+	return isNumber;
 }
 
 bool Scanner::isWhitespace(char ch)
 {
-   return false;
+   return ch == ' ';
 }
 
 void Scanner::init(char* input)

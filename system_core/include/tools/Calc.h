@@ -4,6 +4,20 @@
 #include "thread/Activity.h"
 #include "tools/Interp.h"
 
+#include "device/Keyboard.h"
+#include "device/CgaScreen.h"
+
+#include "device/CPU.h"
+extern CPU cpu;
+
+#define BACKSPACE 8
+#define ENTER 10
+#define END 79
+#define LEFT 75
+#define RIGHT 77
+#define TOP 72
+#define BOTTOM 80
+
 /** Ein einfacher interaktiver Taschenrechner */
 class Calculator : public Activity
 {
@@ -143,6 +157,9 @@ private:
 
     /** Eingabepuffer. Speichert den Inhalt der aktuellen Zeile sowie ein Null-Byte. */
     char buffer[EXPR_SIZE_MAX + 1];
+    
+    Keyboard keyboard;
+    int bufferIndex = 0;
 };
 
 #endif

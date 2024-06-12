@@ -1,7 +1,10 @@
 #include "tools/Interp.h"
+#include "io/PrintStream.h"
+extern PrintStream out;
 
 unsigned Interpreter::eval(char* input, int& result)
 {
+    this->input = input;
     if (!input)
         return BAD_BUFFER;
 
@@ -194,5 +197,128 @@ int Interpreter::evalNum()
 
 int Interpreter::evalDump()
 {
-    return 0;
+    const char hexNumberChars[] = {'0', '1', '2', '3', '4', '5', '6', '7',
+                                   '8', '9', 'a', 'b', 'c', 'd', 'e', 'f', 'A', 'B', 'C', 'D', 'E', 'F'};
+
+    int end = 0;
+    while (input[end++] != '\0')
+        ;
+    end--;
+
+    int nextState = 3;
+
+    unsigned res = 0;
+
+    for (int i = 1; i < end; i++)
+    {
+        char c = input[i];
+
+        if (nextState == 3)
+        {
+            if (!isWhitespace(c))
+            {
+                status = ARITHM_ERROR;
+                return 0;
+            }
+
+            nextState--;
+            continue;
+        }
+
+        if (nextState == 2)
+        {
+            if (c != '0')
+            {
+                status = ARITHM_ERROR;
+                return 0;
+            }
+
+            nextState--;
+            continue;
+        }
+
+        if (nextState == 1)
+        {
+            if (c != 'x')
+            {
+                status = ARITHM_ERROR;
+                return 0;
+            }
+
+            nextState = 0;
+            continue;
+        }
+
+        bool isHexNumber = false;
+        for (char a : hexNumberChars)
+        {
+            if (c == a)
+            {
+                isHexNumber = true;
+                break;
+            }
+        }
+
+        if (isHexNumber)
+        {
+            unsigned val;
+            if (c >= '0' && c <= '9')
+            {
+                // source: https://stackoverflow.com/questions/5029840/convert-char-to-int-in-c-and-c
+                // ASCII-Werte der Ziffern '0' bis '9' sind (48 bis 57)
+                // Also die Subtraktion von 48 führt dazu, dass der numerische Wert der Ziffer erhalten bleibt.
+                val = (int)c - 48;
+            }
+            else
+            {
+                // In Hexadezimalen Notation, Buchstaben A-F (oder a-f), gleichwertig sind
+                switch (c)
+                {
+                case 'a':
+                case 'A':
+                    val = 10;
+                    break;
+
+                case 'b':
+                case 'B':
+                    val = 11;
+                    break;
+
+                case 'c':
+                case 'C':
+                    val = 12;
+                    break;
+
+                case 'd':
+                case 'D':
+                    val = 13;
+                    break;
+
+                case 'e':
+                case 'E':
+                    val = 14;
+                    break;
+
+                case 'f':
+                case 'F':
+                    val = 15;
+                    break;
+                }
+            }
+
+            res = (res * 16) + val;
+        }
+        else
+        {
+            // Sonst Fehlermeldung
+            // z.B Unexpected characters, Incorrect syntax or Invalid calculations
+            out.print(c);
+            status = BAD_BUFFER;
+            return 0;
+        }
+    }
+
+    // Wert auf address des res lesen und ausgeben.
+    lastResult = *((int *)res);
+    return lastResult;
 }

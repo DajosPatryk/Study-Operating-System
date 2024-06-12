@@ -71,6 +71,12 @@ public:
      */
     unsigned eval(char* input, int& result);
 
+    int numberStack[181 + 1];
+	char operatorStack[181 + 1];
+	int numberStackIndex = 0;
+	int operatorStackIndex = 0;
+	char *input;
+
 private:
     /*
         Diese Funktionen kümmern sich um das Parsen und Auswerten
@@ -92,6 +98,7 @@ private:
 
     /** Status des Interpreters. Null, wenn alles OK ist, ansonsten ein Fehlercode. */
     unsigned status;
+    int lastResult = 0;
 };
 
 #endif
