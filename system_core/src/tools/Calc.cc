@@ -27,22 +27,137 @@ void Calculator::init()
 
 void Calculator::body()
 {
+    char c;
+	Key key;
+	do {
+		key = keyboard.read();
+		c = key.getValue();
+
+		if (c == ENTER) {
+			enter();
+			continue;
+		}
+
+		if (c == LEFT) {
+			moveLeft();
+			continue;
+		}
+
+		if (c == RIGHT) {
+			moveRight();
+			continue;
+		}
+
+		if (c == BACKSPACE) {
+			int x, y;
+			cga.getCursor(x, y);
+
+			x--;
+
+			if(x < 0) continue;
+
+			for(int i = x; i < EXPR_SIZE_MAX; i++){
+				buffer[i] = buffer[i + 1];
+
+				cga.setCursor(i, y);
+
+				cga.show(buffer[i]);
+			}
+
+			cga.setCursor(x, y);
+
+			bufferIndex--;
+
+			continue;
+		}
+        //write only if there is still place left in line
+		if(bufferIndex <= EXPR_SIZE_MAX){
+			insert(c);
+		}
+
+	} while ((int)c != END);
+
 }
 
 void Calculator::insert(char c)
 {
+    int x, y;
+	cga.getCursor(x, y);
+
+	int size = 0;
+	while(buffer[size] != 0){
+		size++;
+	}
+   
+   if(size > EXPR_SIZE_MAX){
+		return;
+	}	
+	// move consecutive one to the right
+	for (int i = EXPR_SIZE_MAX - 1; i > x; i--) {
+		buffer[i] = buffer[i - 1];
+
+		cga.setCursor(i, y);
+
+		cga.show(buffer[i]);
+	}
+
+	cga.setCursor(x, y);
+
+	buffer[bufferIndex++] = c;
+	out.print(c);
 }
 
 void Calculator::enter()
 {
+    int res = 0;
+	unsigned status = interp.eval(buffer, res);
+
+	if (status != 0) {
+		printErrorMsg(status);
+		return;
+	}
+
+	out.println();
+	out.print("Result: ");
+
+	out.print(res);
+
+	out.println();
+	clearBuffer();
 }
 
 void Calculator::moveLeft()
 {
+    int x, y;
+	cga.getCursor(x, y);
+	x--;
+
+	if (x < 0)
+		return;
+
+	bufferIndex = x;
+
+	cga.setCursor(x, y);
 }
 
 void Calculator::moveRight()
 {
+    int x, y;
+	cga.getCursor(x, y);
+	x++;
+	
+	int size = 0;
+	while(buffer[size] != 0){
+		size++;
+	}
+
+
+	if (x > EXPR_SIZE_MAX || x > size)
+		return;
+
+	bufferIndex = x;
+
+	cga.setCursor(x, y);
 }
 
 void Calculator::renderBuffer()
