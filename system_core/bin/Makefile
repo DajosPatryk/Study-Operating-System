@@ -56,7 +56,12 @@ SYSTEM_CC = \
 	device/PIC.cc \
 	device/PIT.cc \
 	device/Clock.cc \
-	mainPre.cc
+	device/Keyboard.cc \
+	device/CodeTable.cc \
+	tools/Interp.cc \
+	tools/Scanner.cc \
+	tools/Calc.cc \
+	mainKbd.cc
 
 
 ##############################################################################

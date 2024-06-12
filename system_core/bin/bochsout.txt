@@ -34,7 +34,7 @@
 00000000000i[IMG   ] Disk image modules
 00000000000i[IMG   ]   flat concat sparse dll growing undoable volatile vmware3
 00000000000i[IMG   ]   vmware4 vbox vpc vvfat
-00000000000i[MEM0  ] allocated memory at 0x7f59febdd010. after alignment, vector=0x7f59febde000
+00000000000i[MEM0  ] allocated memory at 0x7fc9113dd010. after alignment, vector=0x7fc9113de000
 00000000000i[MEM0  ] 64,00MB
 00000000000i[MEM0  ] mem block size = 0x00020000, blocks=512
 00000000000i[MEM0  ] rom at 0xfffe0000/131072 ('/usr/local/share/bochs/BIOS-bochs-latest')
@@ -45,7 +45,7 @@
 00000000000i[DEV   ] PIIX3 PCI-to-ISA bridge present at device 1, function 0
 00000000000i[PLUGIN] init_dev of 'cmos' plugin device by virtual method
 00000000000i[CMOS  ] Using local time for initial clock
-00000000000i[CMOS  ] Setting initial clock to: Sat May 25 16:46:35 2024 (time0=1716648395)
+00000000000i[CMOS  ] Setting initial clock to: Wed Jun 12 15:14:26 2024 (time0=1718198066)
 00000000000i[PLUGIN] init_dev of 'dma' plugin device by virtual method
 00000000000i[DMA   ] channel 4 used by cascade
 00000000000i[PLUGIN] init_dev of 'pic' plugin device by virtual method
@@ -79,7 +79,7 @@
 00000000000i[CD1   ] load cdrom with path='costubs.iso'
 00000000000i[CD1   ] Opening image file as a cd.
 00000000000i[HD    ] Media present in CD-ROM drive
-00000000000i[HD    ] Capacity is 2629 sectors (5,13 MB)
+00000000000i[HD    ] Capacity is 2635 sectors (5,15 MB)
 00000000000i[PLUGIN] init_dev of 'pci_ide' plugin device by virtual method
 00000000000i[DEV   ] PIIX3 PCI IDE controller present at device 1, function 1
 00000000000i[PLUGIN] init_dev of 'unmapped' plugin device by virtual method
@@ -209,27 +209,30 @@
 00001509021i[BXVGA ] VBE known Display Interface b0c0
 00001509053i[BXVGA ] VBE known Display Interface b0c5
 00001511696i[VBIOS ] VBE Bios $Id: vbe.c 292 2021-06-03 12:24:22Z vruppert $
-00005165922i[BIOS  ] IDE time out
-02968941873i[BIOS  ] Booting from 07c0:0000
-03756216000p[SDL2  ] >>PANIC<< POWER button turned off.
-03756216000i[CPU0  ] CPU is in protected mode (active)
-03756216000i[CPU0  ] CS.mode = 32 bit
-03756216000i[CPU0  ] SS.mode = 32 bit
-03756216000i[CPU0  ] EFER   = 0x00000000
-03756216000i[CPU0  ] | EAX=001064c0  EBX=001064c0  ECX=0010640c  EDX=00000000
-03756216000i[CPU0  ] | ESP=00107340  EBP=00107348  ESI=00103052  EDI=00000000
-03756216000i[CPU0  ] | IOPL=0 id vip vif ac vm rf nt of df IF tf sf zf AF PF cf
-03756216000i[CPU0  ] | SEG sltr(index|ti|rpl)     base    limit G D
-03756216000i[CPU0  ] |  CS:0008( 0001| 0|  0) 00000000 ffffffff 1 1
-03756216000i[CPU0  ] |  DS:0010( 0002| 0|  0) 00000000 ffffffff 1 1
-03756216000i[CPU0  ] |  SS:0010( 0002| 0|  0) 00000000 ffffffff 1 1
-03756216000i[CPU0  ] |  ES:0010( 0002| 0|  0) 00000000 ffffffff 1 1
-03756216000i[CPU0  ] |  FS:0010( 0002| 0|  0) 00000000 ffffffff 1 1
-03756216000i[CPU0  ] |  GS:0010( 0002| 0|  0) 00000000 ffffffff 1 1
-03756216000i[CPU0  ] | EIP=0010427f (0010427f)
-03756216000i[CPU0  ] | CR0=0x80000011 CR2=0x00000000
-03756216000i[CPU0  ] | CR3=0x0010b000 CR4=0x00000000
-03756216000i[CPU0  ] 0x0010427f>> leave  : C9
-03756216000i[CMOS  ] Last time is 1716649334 (Sat May 25 17:02:14 2024)
-03756216000i[      ] restoring default signal behavior
-03756216000i[SIM   ] quit_sim called with exit code 1
+00005165899i[BIOS  ] IDE time out
+03039960516i[BIOS  ] Booting from 07c0:0000
+03117170281i[KBD   ] setting typematic info
+03117171093i[KBD   ] setting delay to 250 mS (unused)
+03117171093i[KBD   ] setting repeat rate to 30,0 cps (unused)
+03250924000p[SDL2  ] >>PANIC<< POWER button turned off.
+03250924000i[CPU0  ] CPU is in protected mode (active)
+03250924000i[CPU0  ] CS.mode = 32 bit
+03250924000i[CPU0  ] SS.mode = 32 bit
+03250924000i[CPU0  ] EFER   = 0x00000000
+03250924000i[CPU0  ] | EAX=0000078e  EBX=00108558  ECX=00109884  EDX=00109890
+03250924000i[CPU0  ] | ESP=00109460  EBP=00109478  ESI=00000000  EDI=00000000
+03250924000i[CPU0  ] | IOPL=0 id vip vif ac vm rf nt of df IF tf sf zf af PF cf
+03250924000i[CPU0  ] | SEG sltr(index|ti|rpl)     base    limit G D
+03250924000i[CPU0  ] |  CS:0008( 0001| 0|  0) 00000000 ffffffff 1 1
+03250924000i[CPU0  ] |  DS:0010( 0002| 0|  0) 00000000 ffffffff 1 1
+03250924000i[CPU0  ] |  SS:0010( 0002| 0|  0) 00000000 ffffffff 1 1
+03250924000i[CPU0  ] |  ES:0010( 0002| 0|  0) 00000000 ffffffff 1 1
+03250924000i[CPU0  ] |  FS:0010( 0002| 0|  0) 00000000 ffffffff 1 1
+03250924000i[CPU0  ] |  GS:0010( 0002| 0|  0) 00000000 ffffffff 1 1
+03250924000i[CPU0  ] | EIP=0010202a (0010202a)
+03250924000i[CPU0  ] | CR0=0x80000011 CR2=0x00000000
+03250924000i[CPU0  ] | CR3=0x0010b000 CR4=0x00000000
+03250924000i[CPU0  ] 0x0010202a>> shr ax, 0x08 : 66C1E808
+03250924000i[CMOS  ] Last time is 1718198878 (Wed Jun 12 15:27:58 2024)
+03250924000i[      ] restoring default signal behavior
+03250924000i[SIM   ] quit_sim called with exit code 1
