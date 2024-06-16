@@ -26,22 +26,6 @@ void Clock::windup(int us)
 	pic.enable(PIC::Interrupts::PIT);
 }
 
-//propeller test zu nutzen beim mainInt
-int i = 0;
-const char chars[] = {'/', '-', '\\', '|'};
-void interruptTest()
-{
-	i %= sizeof(chars);
-	const char c = chars[i++];
-
-	int width = 0, height = 0;
-	cga.getCursor(width, height);
-
-	cga.setCursor(0, 0);
-	cga.show(c);
-
-	cga.setCursor(width, height);
-}
 
 void Clock::handle()
 {
@@ -55,7 +39,6 @@ void Clock::handle()
 	}
 	else
 	{
-		//interruptTest();
 		scheduler.checkSlice();
 	}
 }

@@ -34,7 +34,7 @@
 00000000000i[IMG   ] Disk image modules
 00000000000i[IMG   ]   flat concat sparse dll growing undoable volatile vmware3
 00000000000i[IMG   ]   vmware4 vbox vpc vvfat
-00000000000i[MEM0  ] allocated memory at 0x7ff16addd010. after alignment, vector=0x7ff16adde000
+00000000000i[MEM0  ] allocated memory at 0x7f8ea7bdd010. after alignment, vector=0x7f8ea7bde000
 00000000000i[MEM0  ] 64,00MB
 00000000000i[MEM0  ] mem block size = 0x00020000, blocks=512
 00000000000i[MEM0  ] rom at 0xfffe0000/131072 ('/usr/local/share/bochs/BIOS-bochs-latest')
@@ -45,7 +45,7 @@
 00000000000i[DEV   ] PIIX3 PCI-to-ISA bridge present at device 1, function 0
 00000000000i[PLUGIN] init_dev of 'cmos' plugin device by virtual method
 00000000000i[CMOS  ] Using local time for initial clock
-00000000000i[CMOS  ] Setting initial clock to: Wed Jun 12 16:04:00 2024 (time0=1718201040)
+00000000000i[CMOS  ] Setting initial clock to: Wed Jun 12 16:11:23 2024 (time0=1718201483)
 00000000000i[PLUGIN] init_dev of 'dma' plugin device by virtual method
 00000000000i[DMA   ] channel 4 used by cascade
 00000000000i[PLUGIN] init_dev of 'pic' plugin device by virtual method
@@ -209,33 +209,33 @@
 00001509021i[BXVGA ] VBE known Display Interface b0c0
 00001509053i[BXVGA ] VBE known Display Interface b0c5
 00001511696i[VBIOS ] VBE Bios $Id: vbe.c 292 2021-06-03 12:24:22Z vruppert $
-00005165899i[BIOS  ] IDE time out
-02962716046i[BIOS  ] Booting from 07c0:0000
-03039967286i[KBD   ] setting typematic info
-03039968098i[KBD   ] setting delay to 250 mS (unused)
-03039968098i[KBD   ] setting repeat rate to 30,0 cps (unused)
-03039974311i[KBD   ] setting typematic info
-03039975087i[KBD   ] setting delay to 250 mS (unused)
-03039975087i[KBD   ] setting repeat rate to 30,0 cps (unused)
-10315032000p[SDL2  ] >>PANIC<< POWER button turned off.
-10315032000i[CPU0  ] CPU is in protected mode (active)
-10315032000i[CPU0  ] CS.mode = 32 bit
-10315032000i[CPU0  ] SS.mode = 32 bit
-10315032000i[CPU0  ] EFER   = 0x00000000
-10315032000i[CPU0  ] | EAX=0010a124  EBX=00108e00  ECX=0010a144  EDX=00000000
-10315032000i[CPU0  ] | ESP=00109834  EBP=00109858  ESI=00103052  EDI=00000000
-10315032000i[CPU0  ] | IOPL=0 id vip vif ac vm rf nt of df IF tf sf zf AF pf cf
-10315032000i[CPU0  ] | SEG sltr(index|ti|rpl)     base    limit G D
-10315032000i[CPU0  ] |  CS:0008( 0001| 0|  0) 00000000 ffffffff 1 1
-10315032000i[CPU0  ] |  DS:0010( 0002| 0|  0) 00000000 ffffffff 1 1
-10315032000i[CPU0  ] |  SS:0010( 0002| 0|  0) 00000000 ffffffff 1 1
-10315032000i[CPU0  ] |  ES:0010( 0002| 0|  0) 00000000 ffffffff 1 1
-10315032000i[CPU0  ] |  FS:0010( 0002| 0|  0) 00000000 ffffffff 1 1
-10315032000i[CPU0  ] |  GS:0010( 0002| 0|  0) 00000000 ffffffff 1 1
-10315032000i[CPU0  ] | EIP=001030ce (001030ce)
-10315032000i[CPU0  ] | CR0=0x80000011 CR2=0x00000000
-10315032000i[CPU0  ] | CR3=0x0010c000 CR4=0x00000000
-10315032000i[CPU0  ] 0x001030ce>> push eax : 50
-10315032000i[CMOS  ] Last time is 1718203618 (Wed Jun 12 16:46:58 2024)
-10315032000i[      ] restoring default signal behavior
-10315032000i[SIM   ] quit_sim called with exit code 1
+00005165922i[BIOS  ] IDE time out
+03088825319i[BIOS  ] Booting from 07c0:0000
+03165965306i[KBD   ] setting typematic info
+03165966118i[KBD   ] setting delay to 250 mS (unused)
+03165966118i[KBD   ] setting repeat rate to 30,0 cps (unused)
+03165972295i[KBD   ] setting typematic info
+03165973107i[KBD   ] setting delay to 250 mS (unused)
+03165973107i[KBD   ] setting repeat rate to 30,0 cps (unused)
+05149876000p[SDL2  ] >>PANIC<< POWER button turned off.
+05149876000i[CPU0  ] CPU is in protected mode (active)
+05149876000i[CPU0  ] CS.mode = 32 bit
+05149876000i[CPU0  ] SS.mode = 32 bit
+05149876000i[CPU0  ] EFER   = 0x00000000
+05149876000i[CPU0  ] | EAX=00000000  EBX=00108e40  ECX=0010a184  EDX=00000000
+05149876000i[CPU0  ] | ESP=00109880  EBP=00109898  ESI=00103052  EDI=00000000
+05149876000i[CPU0  ] | IOPL=0 id vip vif ac vm rf nt of df IF tf sf zf af pf cf
+05149876000i[CPU0  ] | SEG sltr(index|ti|rpl)     base    limit G D
+05149876000i[CPU0  ] |  CS:0008( 0001| 0|  0) 00000000 ffffffff 1 1
+05149876000i[CPU0  ] |  DS:0010( 0002| 0|  0) 00000000 ffffffff 1 1
+05149876000i[CPU0  ] |  SS:0010( 0002| 0|  0) 00000000 ffffffff 1 1
+05149876000i[CPU0  ] |  ES:0010( 0002| 0|  0) 00000000 ffffffff 1 1
+05149876000i[CPU0  ] |  FS:0010( 0002| 0|  0) 00000000 ffffffff 1 1
+05149876000i[CPU0  ] |  GS:0010( 0002| 0|  0) 00000000 ffffffff 1 1
+05149876000i[CPU0  ] | EIP=001030da (001030da)
+05149876000i[CPU0  ] | CR0=0x80000011 CR2=0x00000000
+05149876000i[CPU0  ] | CR3=0x0010c000 CR4=0x00000000
+05149876000i[CPU0  ] 0x001030da>> cmp dword ptr ss:[ebp-16], 0x00000000 : 837DF000
+05149876000i[CMOS  ] Last time is 1718202770 (Wed Jun 12 16:32:50 2024)
+05149876000i[      ] restoring default signal behavior
+05149876000i[SIM   ] quit_sim called with exit code 1
