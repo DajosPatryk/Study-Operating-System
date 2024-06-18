@@ -13,7 +13,6 @@
 #include "device/PIT.h"
 #include "interrupts/Gate.h"
 #include "interrupts/InterruptVector.h"
-#include "io/PrintStream.h"
 #include "thread/ActivityScheduler.h"
 
 class Clock: public Gate, public PIT {
@@ -73,7 +72,7 @@ public:
 	{
 		return clockTicks;
 	}
-	//needed later to not call checkSlice() when not needed
+	//boolean benutzt um das Ausfuhren von Prozesswechsel bei leeren ReadyList zu vermeiden
 	bool listempty = false;
     
 private:

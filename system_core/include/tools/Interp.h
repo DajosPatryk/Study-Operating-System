@@ -71,10 +71,6 @@ public:
      */
     unsigned eval(char* input, int& result);
 
-    int numberStack[181 + 1];
-	char operatorStack[181 + 1];
-	int numberStackIndex = 0;
-	int operatorStackIndex = 0;
 	char *input;
 
 private:
@@ -98,7 +94,7 @@ private:
 
     /** Status des Interpreters. Null, wenn alles OK ist, ansonsten ein Fehlercode. */
     unsigned status;
-    int lastResult = 0;
+    int lastResult = 0; //benutzt beim evalDump
 };
 
 #endif

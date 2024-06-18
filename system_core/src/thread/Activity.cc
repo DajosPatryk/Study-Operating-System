@@ -1,7 +1,6 @@
 #include "thread/Activity.h"
 #include "interrupts/IntLock.h"
 #include "thread/ActivityScheduler.h"
-
 #include "device/CPU.h"
 extern CPU cpu;
 
@@ -9,7 +8,7 @@ extern CPU cpu;
 Activity::Activity(void* tos) : Coroutine(tos){
 	this->state=BLOCKED;
 }
-
+//diese ist von die activity benutzt die auf stack von main lauft
 Activity::Activity() : Coroutine() {
 	this->state = RUNNING;
 	scheduler.start(this);  // Initializes first activity.
@@ -19,7 +18,9 @@ Activity::~Activity() {
 	scheduler.kill(this);   // Terminates activity.
 }
 
-void Activity::sleep() { scheduler.suspend(); }
+void Activity::sleep() { 
+	scheduler.suspend(); 
+}
 
 void Activity::wakeup() {
 	IntLock lock;
@@ -29,17 +30,20 @@ void Activity::wakeup() {
 	}
 }
 
-void Activity::yield() { this->state = READY;scheduler.reschedule(); }
+void Activity::yield() { 
+	this->state = READY;
+	scheduler.reschedule(); 
+}
 
 void Activity::exit() {
 	IntLock lock;
-	// Wakes-up next joined activities.
+	// Wakes-up joined activity.
 	if (joined != nullptr) {
 		joined->wakeup();
 		joined = nullptr;
 	}
 
-	scheduler.exit();   // Terminates current activities.
+	scheduler.exit();   // Terminates current activity.
 }
 
 void Activity::join() {

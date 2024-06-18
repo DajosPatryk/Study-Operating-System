@@ -57,7 +57,7 @@ protected:
 	virtual void activate(Schedulable* to);
 
     /**
-     * allows for safer check on active process within activity scheduler
+     * hole Zeiger auf gerade laufende activity
     */
     Activity *getRunning();
 

@@ -1,6 +1,6 @@
 #include "thread/Scheduler.h"
 #include "interrupts/IntLock.h"
-#include "../include/thread/Activity.h"
+#include "thread/Activity.h"
 
 #include "thread/ActivityScheduler.h"
 
@@ -26,6 +26,8 @@ void Scheduler::reschedule() {
 void Scheduler::checkSlice()
 {
 	IntLock lock;
+	//hier gelangen durch clock interrupt, prufen bo gerade laufende Prozess
+	//weiter laufen kann wenn ihre zugewiesene Zeitscheibe nicht uberschritten hat
 	Activity *current = (Activity *)scheduler.running;
 	if (current->currentCount < current->slice)
 	{

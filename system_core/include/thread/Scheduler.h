@@ -39,6 +39,10 @@ public:
 
     bool isQueueEmpty(){ return readylist.isEmpty(); }
 
+    /**
+     * Pruft ob das Zeitscheibe der gerade untebrochene Prozess abgelaufen ist
+     * wenn ja fuhrt ein Prozzeswechsel, sonsts lass Prozess weiter laufen
+     */
 	void checkSlice();
 
 protected:

@@ -1,8 +1,6 @@
 #include "tools/Calc.h"
-
-#include "device/CgaChannel.h" // ermöglicht Kontrolle über Cursor
-#include "device/Keyboard.h" // ermöglicht Eingaben durch Tastatur
-#include "io/PrintStream.h" // ermöglicht Linefeeds und Ausgabe von Zahlen
+#include "device/CgaChannel.h" 
+#include "io/PrintStream.h"
 
 extern CgaChannel cga;
 extern PrintStream out;
@@ -49,12 +47,23 @@ void Calculator::body()
 		}
 
 		if (c == BACKSPACE) {
+			backspace();
+			continue;
+		}
+        //write only if there is still place left in line
+		if(bufferIndex < EXPR_SIZE_MAX){
+			insert(c);
+		}
+
+	} while ((int)c != END);//solange calc funktioniert bis man Taste END druckt
+
+}
+
+void Calculator::backspace(){
 			int x, y;
 			cga.getCursor(x, y);
-
 			x--;
-
-			if(x < 0) continue;
+			if(x < 0) return;
 
 			for(int i = x; i < EXPR_SIZE_MAX; i++){
 				buffer[i] = buffer[i + 1];
@@ -67,16 +76,6 @@ void Calculator::body()
 			cga.setCursor(x, y);
 
 			bufferIndex--;
-
-			continue;
-		}
-        //write only if there is still place left in line
-		if(bufferIndex < EXPR_SIZE_MAX){
-			insert(c);
-		}
-
-	} while ((int)c != END);
-
 }
 
 void Calculator::insert(char c)
@@ -177,8 +176,6 @@ void Calculator::renderBuffer()
 void Calculator::clearBuffer()
 {
     bufferIndex = 0;
-	interp.numberStackIndex = 0;
-	interp.operatorStackIndex = 0;
     // Alle Zeichen nullen und Null-Byte hinter der höchsten Stelle setzen
     for (unsigned i=0; i<=EXPR_SIZE_MAX; ++i)
         buffer[i] = 0;

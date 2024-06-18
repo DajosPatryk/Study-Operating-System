@@ -10,13 +10,12 @@
 #include "device/CPU.h"
 extern CPU cpu;
 
+//identifier fur zusatzliche Tasten die wir benutzen
 #define BACKSPACE 8
 #define ENTER 10
 #define END 79
 #define LEFT 75
 #define RIGHT 77
-#define TOP 72
-#define BOTTOM 80
 
 /** Ein einfacher interaktiver Taschenrechner */
 class Calculator : public Activity
@@ -126,6 +125,11 @@ private:
      * hierbei etwaige Randfälle.
      */
     void moveRight();
+
+    /**
+     * Behandelt betatigenn von backspace um eingabe zu loschen
+     */
+    void backspace();
 
     // ========================================================================
     // Hilfsmethoden

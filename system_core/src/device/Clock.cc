@@ -1,14 +1,8 @@
 #include "device/Clock.h"
-#include "interrupts/InterruptVector.h"
 #include "io/PrintStream.h"
-#include "thread/ActivityScheduler.h"
-#include "interrupts/IntLock.h"
-#include "device/PIC.h"
-#include "device/CgaChannel.h"
 
 extern ActivityScheduler scheduler;
 extern PIC pic;
-extern CgaChannel cga;
 
 Clock::Clock() : Gate(InterruptVector::Timer), PIT()
 {
@@ -29,10 +23,10 @@ void Clock::windup(int us)
 
 void Clock::handle()
 {
-	//ticks up and acknowledge interrupt so next one of same type can come
+	//erhohe ticks und danach bestatige Bearbeitung dieser Interrupt
 	clockTicks++;
 	pic.ack();
-	//while waiting for ready activity to join readylist no need to call checkSlice
+	//checkslice wo das reschedule nach Ablauf der Zeitscheibe passiert nur bei nicht leeren Readylist
 	if (listempty == true)
 	{
 		return;

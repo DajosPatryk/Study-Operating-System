@@ -17,8 +17,8 @@ public:
 
 	BoundedBuffer()
 	{
-		head = 0;
-		tail = 0;
+		write = 0;
+		read = 0;
 		length = 0;
 	}
 
@@ -29,18 +29,17 @@ public:
 	 */
 	void add(T& elem)
 	{
-		//when buffer is not full we can add elem to it
-		if(!(length == size)){
-			buffer[head] = elem;
+		//wenn buffer nicht voll kann man Inhalte einschreiben
+		if(!((write==read)&& length!=0)){
+			buffer[write] = elem;
 			length++;
-
-			if(head == (size -1)){
-				head=0;
+			if(write == (size -1)){
+				write=0;
 			}else{
-				head=head+1;
+				write=write+1;
 			}
 		}
-		//when this method is called wakeup activity waiting for input
+		//nach dem addieren wecke wartende auf input activity
 		if(active !=0 && active->isBlocked()){
 			active->wakeup();
 			active=0;
@@ -53,32 +52,35 @@ public:
 	 */
 	T get()
 	{
-		IntLock lock; //multiple adding to buffer is ok but read is critical and
-		//needs to be protected
+		IntLock lock;
+		//manipulation von gleicher Variable length hier und in add
+		//kritisch zu schutzen in einer Funktion, da add kommt aus Interrupt
+		//diese Methode ist besser dafur geeignet
 
-		//if buffer is empty, block activity until input comes
+		//wenn buffer leer ist lege aufrufer zu schlafen
 		if(length==0){
 			active = (Activity*)scheduler.active();
 			active->sleep();
 		}
-		//otherwise retrieve from buffer
+		//nachdem buffer nicht leer ist oder die wartende prozess war aufgewacht weil Eingabe gekommen ist
+		//lese das inhalt von buffer
 		length--;
 
-		if(tail==(size-1)){
-			tail=0;
+		if(read==(size-1)){
+			read=0;
 			return buffer[size-1];
 		}else{
-			tail=tail+1;
-			return buffer[tail-1];
+			read=read+1;
+			return buffer[read-1];
 		}
 	}
 
 private:
 	T buffer[size];
-	int head;
-	int tail;
-	int length;
-	Activity* active;
+	int write;			//"schreibkopf"
+	int read;			//"lesekopf"
+	int length;			//hilfsvariable um sicher zu stellen ob puffer leer oder voll ist
+	Activity* active;	//gemerkte Activity die auf Eingabe wartet
 };
 
 #endif

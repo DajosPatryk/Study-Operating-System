@@ -197,16 +197,14 @@ int Interpreter::evalNum()
 
 int Interpreter::evalDump()
 {
-    const char hexNumberChars[] = {'0', '1', '2', '3', '4', '5', '6', '7',
-                                   '8', '9', 'a', 'b', 'c', 'd', 'e', 'f', 'A', 'B', 'C', 'D', 'E', 'F'};
-
+    //die laenge des inputs bestimmen
     int end = 0;
     while (input[end++] != '\0')
         ;
     end--;
 
+    //schauen ob es Eingabe zu Vorgabe passt, * schon abgehandelt da die fuhrt zu Ausfuhrung von hier
     int nextState = 3;
-
     unsigned res = 0;
 
     for (int i = 1; i < end; i++)
@@ -215,28 +213,27 @@ int Interpreter::evalDump()
 
         if (nextState == 3)
         {
-            if (!isWhitespace(c))
+            // nach * ermogliche viele Whitespaces (oder auch kein)
+            while (isWhitespace(c))
             {
-                status = ARITHM_ERROR;
-                return 0;
+                if (++i >= end)
+                {
+                    status = ARITHM_ERROR;
+                    return 0;
+                }
+                c = input[i];
             }
 
-            nextState--;
-            continue;
-        }
-
-        if (nextState == 2)
-        {
+            // danach ist wichtig das 0 kommt
             if (c != '0')
             {
                 status = ARITHM_ERROR;
                 return 0;
             }
-
-            nextState--;
+            nextState = 1;
             continue;
         }
-
+        //und x fur 0x
         if (nextState == 1)
         {
             if (c != 'x')
@@ -249,31 +246,18 @@ int Interpreter::evalDump()
             continue;
         }
 
-        bool isHexNumber = false;
-        for (char a : hexNumberChars)
+        //danach kommt eigentliche Adresse im hexadezimal
+        unsigned val;
+        //behandel Ziffer von 0 bis 9 normal
+        if (c >= '0' && c <= '9')
         {
-            if (c == a)
-            {
-                isHexNumber = true;
-                break;
-            }
+            val = (int)c - 48;
         }
-
-        if (isHexNumber)
-        {
-            unsigned val;
-            if (c >= '0' && c <= '9')
-            {
-                // source: https://stackoverflow.com/questions/5029840/convert-char-to-int-in-c-and-c
-                // ASCII-Werte der Ziffern '0' bis '9' sind (48 bis 57)
-                // Also die Subtraktion von 48 führt dazu, dass der numerische Wert der Ziffer erhalten bleibt.
-                val = (int)c - 48;
-            }
             else
+        {
+            //fur Buchstaben brauchen wir ein switch
+            switch (c)
             {
-                // In Hexadezimalen Notation, Buchstaben A-F (oder a-f), gleichwertig sind
-                switch (c)
-                {
                 case 'a':
                 case 'A':
                     val = 10;
@@ -303,22 +287,18 @@ int Interpreter::evalDump()
                 case 'F':
                     val = 15;
                     break;
-                }
+                //wenn eine ungultige Buchstabe kommt werfe Fehler
+                default:
+                out.print(" ");
+                out.print(c);
+                status = BAD_BUFFER;
+                return 0;
             }
-
-            res = (res * 16) + val;
         }
-        else
-        {
-            // Sonst Fehlermeldung
-            // z.B Unexpected characters, Incorrect syntax or Invalid calculations
-            out.print(c);
-            status = BAD_BUFFER;
-            return 0;
-        }
+    res = (res * 16) + val;
+        
     }
 
-    // Wert auf address des res lesen und ausgeben.
     lastResult = *((int *)res);
     return lastResult;
 }

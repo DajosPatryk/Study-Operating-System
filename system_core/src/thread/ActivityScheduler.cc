@@ -21,15 +21,13 @@ void ActivityScheduler::suspend() {
 
 void ActivityScheduler::kill(Activity* act) {
 	IntLock lock;
-	act->changeTo(Activity::ZOMBIE);                  // Set the state to 'ZOMBIE', marking the process as terminable.
-	                      // Remove the process from the ready list.
+	act->changeTo(Activity::ZOMBIE);// Set the state to 'ZOMBIE', marking the process as terminable.
 	Activity* activeProcess = getRunning(); // Load a new process only if the active process is the one being killed.
+	// Remove the process from the ready list.
+	remove(act); 
 	if (activeProcess == act){
-		remove(act); 
-		reschedule();
-	}else{
-		remove(act);
-	} 
+		reschedule();}
+	
 }
 
 void ActivityScheduler::exit() {
@@ -74,10 +72,9 @@ void ActivityScheduler::activate(Schedulable* to) {
 	else
 	{
 		if(to==nullptr){
-			// schedule current again if readylist empty
-			((Activity *)currentProcess)->changeTo(Activity::RUNNING);
-			dispatch((Activity *)currentProcess);
-
+			// wenn nur gerade laufende Prozess lauffahig,
+			//kein Kontextwechsel noetig, einfach return
+			return;
 		}else{
 			// move current to the ready list and start to
 			schedule(currentProcess);

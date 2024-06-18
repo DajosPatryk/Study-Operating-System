@@ -34,7 +34,7 @@
 00000000000i[IMG   ] Disk image modules
 00000000000i[IMG   ]   flat concat sparse dll growing undoable volatile vmware3
 00000000000i[IMG   ]   vmware4 vbox vpc vvfat
-00000000000i[MEM0  ] allocated memory at 0x7f8ea7bdd010. after alignment, vector=0x7f8ea7bde000
+00000000000i[MEM0  ] allocated memory at 0x7f91c9ddd010. after alignment, vector=0x7f91c9dde000
 00000000000i[MEM0  ] 64,00MB
 00000000000i[MEM0  ] mem block size = 0x00020000, blocks=512
 00000000000i[MEM0  ] rom at 0xfffe0000/131072 ('/usr/local/share/bochs/BIOS-bochs-latest')
@@ -45,7 +45,7 @@
 00000000000i[DEV   ] PIIX3 PCI-to-ISA bridge present at device 1, function 0
 00000000000i[PLUGIN] init_dev of 'cmos' plugin device by virtual method
 00000000000i[CMOS  ] Using local time for initial clock
-00000000000i[CMOS  ] Setting initial clock to: Wed Jun 12 16:11:23 2024 (time0=1718201483)
+00000000000i[CMOS  ] Setting initial clock to: Tue Jun 18 16:35:38 2024 (time0=1718721338)
 00000000000i[PLUGIN] init_dev of 'dma' plugin device by virtual method
 00000000000i[DMA   ] channel 4 used by cascade
 00000000000i[PLUGIN] init_dev of 'pic' plugin device by virtual method
@@ -176,66 +176,66 @@
 00000321276i[BIOS  ] Shutdown flag 0
 00000321874i[BIOS  ] ram_size=0x04000000
 00000322306i[BIOS  ] ram_end=64MB
-00000334575i[BIOS  ] Found 1 cpu(s)
-00000348228i[BIOS  ] bios_table_addr: 0x000f9d98 end=0x000fcc00
-00000676044i[PCI   ] i440FX PMC write to PAM register 59 (TLB Flush)
-00001003979i[P2ISA ] PCI IRQ routing: PIRQA# set to 0x0b
-00001004003i[P2ISA ] PCI IRQ routing: PIRQB# set to 0x09
-00001004027i[P2ISA ] PCI IRQ routing: PIRQC# set to 0x0b
-00001004051i[P2ISA ] PCI IRQ routing: PIRQD# set to 0x09
-00001004061i[P2ISA ] write: ELCR2 = 0x0a
-00001004830i[BIOS  ] PIIX3/PIIX4 init: elcr=00 0a
-00001018452i[BIOS  ] PCI: bus=0 devfn=0x00: vendor_id=0x8086 device_id=0x1237 class=0x0600
-00001020796i[BIOS  ] PCI: bus=0 devfn=0x08: vendor_id=0x8086 device_id=0x7000 class=0x0601
-00001022979i[BIOS  ] PCI: bus=0 devfn=0x09: vendor_id=0x8086 device_id=0x7010 class=0x0101
-00001023214i[PIDE  ] BAR #4: i/o base address = 0xc000
-00001023830i[BIOS  ] region 4: 0x0000c000
-00001025888i[BIOS  ] PCI: bus=0 devfn=0x0b: vendor_id=0x8086 device_id=0x7113 class=0x0680
-00001026164i[ACPI  ] new IRQ line = 11
-00001026178i[ACPI  ] new IRQ line = 9
-00001026206i[ACPI  ] new PM base address: 0xb000
-00001026220i[ACPI  ] new SM base address: 0xb100
-00001026248i[PCI   ] setting SMRAM control register to 0x4a
-00001190383i[CPU0  ] Enter to System Management Mode
-00001190394i[CPU0  ] RSM: Resuming from System Management Mode
-00001354450i[PCI   ] setting SMRAM control register to 0x0a
-00001381066i[BIOS  ] MP table addr=0x000f9e70 MPC table addr=0x000f9da0 size=0xc8
-00001382773i[BIOS  ] SMBIOS table addr=0x000f9e80
-00001384862i[BIOS  ] ACPI tables: RSDP addr=0x000f9fa0 ACPI DATA addr=0x03ff0000 size=0xff8
-00001387846i[BIOS  ] Firmware waking vector 0x3ff00cc
-00001390100i[PCI   ] i440FX PMC write to PAM register 59 (TLB Flush)
-00001390830i[BIOS  ] bios_table_cur_addr: 0x000f9fc4
-00001508950i[VBIOS ] VGABios $Id: vgabios.c 288 2021-05-28 19:05:28Z vruppert $
-00001509021i[BXVGA ] VBE known Display Interface b0c0
-00001509053i[BXVGA ] VBE known Display Interface b0c5
-00001511696i[VBIOS ] VBE Bios $Id: vbe.c 292 2021-06-03 12:24:22Z vruppert $
-00005165922i[BIOS  ] IDE time out
-03088825319i[BIOS  ] Booting from 07c0:0000
-03165965306i[KBD   ] setting typematic info
-03165966118i[KBD   ] setting delay to 250 mS (unused)
-03165966118i[KBD   ] setting repeat rate to 30,0 cps (unused)
-03165972295i[KBD   ] setting typematic info
-03165973107i[KBD   ] setting delay to 250 mS (unused)
-03165973107i[KBD   ] setting repeat rate to 30,0 cps (unused)
-05149876000p[SDL2  ] >>PANIC<< POWER button turned off.
-05149876000i[CPU0  ] CPU is in protected mode (active)
-05149876000i[CPU0  ] CS.mode = 32 bit
-05149876000i[CPU0  ] SS.mode = 32 bit
-05149876000i[CPU0  ] EFER   = 0x00000000
-05149876000i[CPU0  ] | EAX=00000000  EBX=00108e40  ECX=0010a184  EDX=00000000
-05149876000i[CPU0  ] | ESP=00109880  EBP=00109898  ESI=00103052  EDI=00000000
-05149876000i[CPU0  ] | IOPL=0 id vip vif ac vm rf nt of df IF tf sf zf af pf cf
-05149876000i[CPU0  ] | SEG sltr(index|ti|rpl)     base    limit G D
-05149876000i[CPU0  ] |  CS:0008( 0001| 0|  0) 00000000 ffffffff 1 1
-05149876000i[CPU0  ] |  DS:0010( 0002| 0|  0) 00000000 ffffffff 1 1
-05149876000i[CPU0  ] |  SS:0010( 0002| 0|  0) 00000000 ffffffff 1 1
-05149876000i[CPU0  ] |  ES:0010( 0002| 0|  0) 00000000 ffffffff 1 1
-05149876000i[CPU0  ] |  FS:0010( 0002| 0|  0) 00000000 ffffffff 1 1
-05149876000i[CPU0  ] |  GS:0010( 0002| 0|  0) 00000000 ffffffff 1 1
-05149876000i[CPU0  ] | EIP=001030da (001030da)
-05149876000i[CPU0  ] | CR0=0x80000011 CR2=0x00000000
-05149876000i[CPU0  ] | CR3=0x0010c000 CR4=0x00000000
-05149876000i[CPU0  ] 0x001030da>> cmp dword ptr ss:[ebp-16], 0x00000000 : 837DF000
-05149876000i[CMOS  ] Last time is 1718202770 (Wed Jun 12 16:32:50 2024)
-05149876000i[      ] restoring default signal behavior
-05149876000i[SIM   ] quit_sim called with exit code 1
+00000334584i[BIOS  ] Found 1 cpu(s)
+00000348237i[BIOS  ] bios_table_addr: 0x000f9d98 end=0x000fcc00
+00000676053i[PCI   ] i440FX PMC write to PAM register 59 (TLB Flush)
+00001003988i[P2ISA ] PCI IRQ routing: PIRQA# set to 0x0b
+00001004012i[P2ISA ] PCI IRQ routing: PIRQB# set to 0x09
+00001004036i[P2ISA ] PCI IRQ routing: PIRQC# set to 0x0b
+00001004060i[P2ISA ] PCI IRQ routing: PIRQD# set to 0x09
+00001004070i[P2ISA ] write: ELCR2 = 0x0a
+00001004839i[BIOS  ] PIIX3/PIIX4 init: elcr=00 0a
+00001018461i[BIOS  ] PCI: bus=0 devfn=0x00: vendor_id=0x8086 device_id=0x1237 class=0x0600
+00001020805i[BIOS  ] PCI: bus=0 devfn=0x08: vendor_id=0x8086 device_id=0x7000 class=0x0601
+00001022988i[BIOS  ] PCI: bus=0 devfn=0x09: vendor_id=0x8086 device_id=0x7010 class=0x0101
+00001023223i[PIDE  ] BAR #4: i/o base address = 0xc000
+00001023839i[BIOS  ] region 4: 0x0000c000
+00001025897i[BIOS  ] PCI: bus=0 devfn=0x0b: vendor_id=0x8086 device_id=0x7113 class=0x0680
+00001026173i[ACPI  ] new IRQ line = 11
+00001026187i[ACPI  ] new IRQ line = 9
+00001026215i[ACPI  ] new PM base address: 0xb000
+00001026229i[ACPI  ] new SM base address: 0xb100
+00001026257i[PCI   ] setting SMRAM control register to 0x4a
+00001190392i[CPU0  ] Enter to System Management Mode
+00001190403i[CPU0  ] RSM: Resuming from System Management Mode
+00001354459i[PCI   ] setting SMRAM control register to 0x0a
+00001381075i[BIOS  ] MP table addr=0x000f9e70 MPC table addr=0x000f9da0 size=0xc8
+00001382782i[BIOS  ] SMBIOS table addr=0x000f9e80
+00001384871i[BIOS  ] ACPI tables: RSDP addr=0x000f9fa0 ACPI DATA addr=0x03ff0000 size=0xff8
+00001387855i[BIOS  ] Firmware waking vector 0x3ff00cc
+00001390109i[PCI   ] i440FX PMC write to PAM register 59 (TLB Flush)
+00001390839i[BIOS  ] bios_table_cur_addr: 0x000f9fc4
+00001508959i[VBIOS ] VGABios $Id: vgabios.c 288 2021-05-28 19:05:28Z vruppert $
+00001509030i[BXVGA ] VBE known Display Interface b0c0
+00001509062i[BXVGA ] VBE known Display Interface b0c5
+00001511705i[VBIOS ] VBE Bios $Id: vbe.c 292 2021-06-03 12:24:22Z vruppert $
+00005165954i[BIOS  ] IDE time out
+02967030461i[BIOS  ] Booting from 07c0:0000
+03043911309i[KBD   ] setting typematic info
+03043912121i[KBD   ] setting delay to 250 mS (unused)
+03043912121i[KBD   ] setting repeat rate to 30,0 cps (unused)
+03043918292i[KBD   ] setting typematic info
+03043919104i[KBD   ] setting delay to 250 mS (unused)
+03043919104i[KBD   ] setting repeat rate to 30,0 cps (unused)
+03366904000p[SDL2  ] >>PANIC<< POWER button turned off.
+03366904000i[CPU0  ] CPU is in protected mode (active)
+03366904000i[CPU0  ] CS.mode = 32 bit
+03366904000i[CPU0  ] SS.mode = 32 bit
+03366904000i[CPU0  ] EFER   = 0x00000000
+03366904000i[CPU0  ] | EAX=00108bfc  EBX=00108bfc  ECX=00109f44  EDX=00000000
+03366904000i[CPU0  ] | ESP=001099d0  EBP=001099d8  ESI=0010302c  EDI=00000000
+03366904000i[CPU0  ] | IOPL=0 id vip vif ac vm rf nt of df IF tf sf zf AF PF cf
+03366904000i[CPU0  ] | SEG sltr(index|ti|rpl)     base    limit G D
+03366904000i[CPU0  ] |  CS:0008( 0001| 0|  0) 00000000 ffffffff 1 1
+03366904000i[CPU0  ] |  DS:0010( 0002| 0|  0) 00000000 ffffffff 1 1
+03366904000i[CPU0  ] |  SS:0010( 0002| 0|  0) 00000000 ffffffff 1 1
+03366904000i[CPU0  ] |  ES:0010( 0002| 0|  0) 00000000 ffffffff 1 1
+03366904000i[CPU0  ] |  FS:0010( 0002| 0|  0) 00000000 ffffffff 1 1
+03366904000i[CPU0  ] |  GS:0010( 0002| 0|  0) 00000000 ffffffff 1 1
+03366904000i[CPU0  ] | EIP=00105c2c (00105c2c)
+03366904000i[CPU0  ] | CR0=0x80000011 CR2=0x00000000
+03366904000i[CPU0  ] | CR3=0x0010b000 CR4=0x00000000
+03366904000i[CPU0  ] 0x00105c2c>> mov ebx, dword ptr ss:[ebp-4] : 8B5DFC
+03366904000i[CMOS  ] Last time is 1718722179 (Tue Jun 18 16:49:39 2024)
+03366904000i[      ] restoring default signal behavior
+03366904000i[SIM   ] quit_sim called with exit code 1
