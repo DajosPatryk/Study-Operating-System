@@ -12,25 +12,27 @@ public:
 	/** Hier werden Zeichen definiert, welche nicht zu einem AsciiZeichen
 	 *  umgewandelt werden sollen, da sie als Steuerzeichen dienen.
 	 */
-	enum {
-		CTRL 		= 29,
-		SHIFT_LEFT 	= 42,
-		SHIFT_RIGHT 	= 54,
-		ALT 		= 56,
-		CAPS_LOCK 	= 58,
-		NUM_LOCK 	= 69,
-		SCROLL_LOCK 	= 70,
-		POS1 		= 71,
-		UP 		= 72,
-		PAGE_UP 	= 73,
-		LEFT 		= 75,
-		RIGHT 		= 77,
-		END 		= 79,
-		DOWN 		= 80,
-		PAGE_DOWN 	= 81,
-		INS 		= 82,
-		DEL 		= 83
-	};
+    enum {
+        ESC         = 27,
+        CTRL        = 29,
+        SHIFT_LEFT  = 42,
+        SHIFT_RIGHT = 54,
+        ALT         = 56,
+        CAPS_LOCK   = 58,
+        NUM_LOCK    = 69,
+        SCROLL_LOCK = 70,
+        POS1        = 71,
+        UP          = 72,
+        PAGE_UP     = 73,
+        LEFT        = 75,
+        RIGHT       = 77,
+        END         = 79,
+        DOWN        = 80,
+        PAGE_DOWN   = 81,
+        INS         = 82,
+        DEL         = 83,
+    };
+
 
 	CodeTable()
 	{

@@ -113,6 +113,9 @@ private:
      */
     void moveRight();
 
+    // Methode zum Löschen von Zeichen aus der Konsole
+    void backspace();
+
     // ========================================================================
     // Hilfsmethoden
     // ========================================================================
