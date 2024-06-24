@@ -38,11 +38,11 @@ private:
 	enum Values {
 		TIME_BASE = 838,  // Dauer eines Zaehlticks in ns 
 		//hier gleich Steurworter vorbereiten
-		/* Zähler0(00)|High byte(10)|Periodische Impulse(010)| 
-		0(binäre Zählung von 16 Bit)*/
+		/* Zähler0 00,high byte 10,periodische impulse 010, 
+		binäre Zählung von 16 Bit 0*/
 		HIGH_BYTE = 0b00100100,
-		/* Zähler0(00)|lOW byte(01)|Periodische Impulse(010)| 
-		binäre Zählung von 16 Bit (0)*/
+		/* Zähler0 00,low byte 01,periodische impulse 010, 
+		binäre Zählung von 16 Bit 0*/
 		LOW_BYTE = 0b00010100,
 		MASK = 0x00FF,
 		SHIFT = 8
