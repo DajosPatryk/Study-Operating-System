@@ -1,6 +1,8 @@
 #include "tools/Calc.h"
-#include "device/CgaChannel.h" 
-#include "io/PrintStream.h"
+
+#include "device/CgaChannel.h" // ermöglicht Kontrolle über Cursor
+#include "device/Keyboard.h" // ermöglicht Eingaben durch Tastatur
+#include "io/PrintStream.h" // ermöglicht Linefeeds und Ausgabe von Zahlen
 
 extern CgaChannel cga;
 extern PrintStream out;
@@ -31,55 +33,69 @@ void Calculator::body()
 		key = keyboard.read();
 		c = key.getValue();
 
-		if (c == ENTER) {
-			enter();
-			continue;
-		}
 
-		if (c == LEFT) {
-			moveLeft();
-			continue;
-		}
+        switch (c) {
+            case LEFT:
+                moveLeft();
+                break;
 
-		if (c == RIGHT) {
-			moveRight();
-			continue;
-		}
+            case RIGHT:
+                moveRight();
+                break;
 
-		if (c == BACKSPACE) {
-			backspace();
-			continue;
-		}
-        //write only if there is still place left in line
-		if(bufferIndex < EXPR_SIZE_MAX){
-			insert(c);
-		}
+            case BACKSPACE:
+                backspace();
+                break;
 
-	} while ((int)c != END);//solange calc funktioniert bis man Taste END druckt
+            case ENTER:
+                enter();
+                break;
+
+            default:
+			//write only if there is still place left in line
+                if (bufferIndex < EXPR_SIZE_MAX) {
+                    insert(c);
+                } break;
+        }
+
+
+	} while ((int)c != ESC);//solange calc funktioniert bis man Taste ESC druckt
 
 }
 
 void Calculator::backspace(){
+	/**
+     * Backspace Funktion löscht das Zeichen links vom Cursor,
+     * und verschiebt alle weiteren dementsprechend nach Links
+     */
 			int x, y;
 			cga.getCursor(x, y);
-			x--;
-			if(x < 0) return;
+			
+			if(x > 0)
+			{
+				x--;
+				for(int i = x; i < EXPR_SIZE_MAX; i++){
+					buffer[i] = buffer[i + 1];
 
-			for(int i = x; i < EXPR_SIZE_MAX; i++){
-				buffer[i] = buffer[i + 1];
+					cga.setCursor(i, y);
 
-				cga.setCursor(i, y);
+					cga.show(buffer[i]);
+				}
 
-				cga.show(buffer[i]);
+				cga.setCursor(x, y);
+
+				bufferIndex--;
 			}
-
-			cga.setCursor(x, y);
-
-			bufferIndex--;
 }
 
 void Calculator::insert(char c)
 {
+	/**
+    * Insert Funktion fügt neues Zeichen an Stelle des Cursors ein,
+    * falls dieser nicht am Ende des Buffers ist,
+    * und verschiebt alle Zeichen rechts dementsprechend weiter nach rechts
+    * wenn der Buffer nicht bereits voll ist
+    */
     int x, y;
 	cga.getCursor(x, y);
 
@@ -91,7 +107,6 @@ void Calculator::insert(char c)
    if(size == EXPR_SIZE_MAX){
 		return;
 	}	
-	// move consecutive one to the right
 	for (int i = EXPR_SIZE_MAX - 1; i > x; i--) {
 		buffer[i] = buffer[i - 1];
 
@@ -101,13 +116,15 @@ void Calculator::insert(char c)
 	}
 
 	cga.setCursor(x, y);
-
 	buffer[bufferIndex++] = c;
 	out.print(c);
 }
 
 void Calculator::enter()
 {
+	/**
+    * Evaluiert den eingegebenen Ausdruck und leert den Buffer
+    */
     int res = 0;
 	unsigned status = interp.eval(buffer, res);
 
@@ -116,8 +133,7 @@ void Calculator::enter()
 		return;
 	}
 
-	out.println();
-	out.print("Result: ");
+	out.print("\nResult: ");
 
 	out.print(res);
 
@@ -127,12 +143,15 @@ void Calculator::enter()
 
 void Calculator::moveLeft()
 {
+	/**
+     * Bewegt den Cursor nach Links, wenn der nicht bereits ganz links it.
+     */
     int x, y;
 	cga.getCursor(x, y);
 	x--;
 
 	if (x < 0)
-		return;
+	return;
 
 	bufferIndex = x;
 
@@ -141,6 +160,10 @@ void Calculator::moveLeft()
 
 void Calculator::moveRight()
 {
+	/**
+    * Bewegt den Cursor nach Rechts, wenn der nicht bereits ganz rechts,
+    * oder am Ende des Buffers ist.
+    */
     int x, y;
 	cga.getCursor(x, y);
 	x++;
@@ -203,6 +226,7 @@ void Calculator::printErrorMsg(unsigned code)
     default:
         break;
     }
+	//wichtig fur saubere Ausgabe anderen Eingaben danach
     out.println();
     clearBuffer();
 }

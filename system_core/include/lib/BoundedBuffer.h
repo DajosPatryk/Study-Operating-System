@@ -29,8 +29,9 @@ public:
 	 */
 	void add(T& elem)
 	{
-		//wenn buffer nicht voll kann man Inhalte einschreiben
-		if(!((write==read)&& length!=0)){
+		//prüft, ob Buffer voll ist, schreibt wenn nicht
+		if(!((read==write)&& length!=0))
+        {
 			buffer[write] = elem;
 			length++;
 			if(write == (size -1)){
@@ -39,7 +40,7 @@ public:
 				write=write+1;
 			}
 		}
-		//nach dem addieren wecke wartende auf input activity
+		//Aufwecken von wartender Activity
 		if(active !=0 && active->isBlocked()){
 			active->wakeup();
 			active=0;
@@ -57,7 +58,7 @@ public:
 		//kritisch zu schutzen in einer Funktion, da add kommt aus Interrupt
 		//diese Methode ist besser dafur geeignet
 
-		//wenn buffer leer ist lege aufrufer zu schlafen
+		// Schlafenlegen des lesenden Prozesses, falls Puffer leer ist
 		if(length==0){
 			active = (Activity*)scheduler.active();
 			active->sleep();
@@ -66,6 +67,10 @@ public:
 		//lese das inhalt von buffer
 		length--;
 
+        /*
+         * Wenn read am Ende des Buffers ist, wird es nach dem Lesen auf den Anfang gesetzt.
+         * Sonst wird es normal auf die nächste Position verschoben.
+         */
 		if(read==(size-1)){
 			read=0;
 			return buffer[size-1];

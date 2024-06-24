@@ -13,7 +13,7 @@ extern CPU cpu;
 //identifier fur zusatzliche Tasten die wir benutzen
 #define BACKSPACE 8
 #define ENTER 10
-#define END 79
+#define ESC 27
 #define LEFT 75
 #define RIGHT 77
 
