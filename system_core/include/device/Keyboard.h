@@ -64,7 +64,8 @@ public:
 
 	/**	Die Interruptbehandlungsfunktion.
 	 */
-	void handle();
+	bool prologue();
+	void epilogue();
 
 	/**	Diese Methode liefert ein Zeichen aus dem Tastaturpuffer
 	 *	zur�ck. Diese Methode blockiert, wenn der Puffer leer ist.
