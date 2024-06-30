@@ -18,7 +18,22 @@ Keyboard::Keyboard() :
 	pic.enable(PIC::KEYBOARD);
 }
 
-void Keyboard::handle()
+bool Keyboard::prologue() {
+    if (ctrl.Port.read() & AUX_BIT) {
+        return false;
+    } else {
+        scanCode = dataPort.read();
+        return true;
+    }
+}
+
+void Keyboard::epilogue() {
+    analyzeScanCode();
+    pic.ack(PIC::KEYBOARD);
+}
+
+/**
+ * void Keyboard::handle()
 {
 	if(ctrlPort.read() & AUX_BIT){
 		//behandle hier die Maus
@@ -28,6 +43,7 @@ void Keyboard::handle()
 	}
 	pic.ack(PIC::KEYBOARD);
 }
+ */
 
 
 Key Keyboard::read()
@@ -193,7 +209,7 @@ void Keyboard::reboot ()
 	*(unsigned short*) 0x472 = 0x1234;
 
 	waitForWrite();
-	ctrlPort.write (RESET_CODE);     // Reset auslösen
+	ctrlPort.write (RESET_CODE);     // Reset auslï¿½sen
 }
 
 

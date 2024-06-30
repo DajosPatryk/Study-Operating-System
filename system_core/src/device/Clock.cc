@@ -21,7 +21,8 @@ void Clock::windup(int us)
 }
 
 
-void Clock::handle()
+/**
+ * void Clock::handle()
 {
 	//erhohe ticks und danach bestatige Bearbeitung dieser Interrupt
 	clockTicks++;
@@ -35,4 +36,15 @@ void Clock::handle()
 	{
 		scheduler.checkSlice();
 	}
+}
+ */
+
+bool Clock::prologue() {
+    clockTicks++; //erhöhen von Ticks
+    pic.ack();
+    return !listempty;
+}
+
+void Clock::epilogue() {
+    scheduler.checkSlice();
 }

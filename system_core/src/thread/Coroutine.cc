@@ -1,11 +1,13 @@
 #include "thread/Coroutine.h"
 #include "device/CPU.h"
+#include "sync/Monitor.h"
 extern CPU cpu;
+extern Monitor monitor1;
 
 #pragma GCC diagnostic ignored "-Wpmf-conversions"
 
 void Coroutine::startup(Coroutine* obj) {
-	cpu.enableInterrupts(); //important for first clock tick to activate!
+	monitor.leave(); // Monitor statt Interrupts.
 	obj->body();    // Call the main function of the given coroutine.
 	obj->exit();    // Terminate the coroutine after the body completes.
 }
