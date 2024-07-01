@@ -23,7 +23,7 @@ void Activity::sleep() {
 }
 
 void Activity::wakeup() {
-	IntLock lock;
+	
 	if (isBlocked()) {
 		this->state = READY;
 		scheduler.schedule(this);
@@ -36,7 +36,7 @@ void Activity::yield() {
 }
 
 void Activity::exit() {
-	IntLock lock;
+	
 	// Wakes-up joined activity.
 	if (joined != nullptr) {
 		joined->wakeup();
@@ -47,7 +47,7 @@ void Activity::exit() {
 }
 
 void Activity::join() {
-	IntLock lock;
+	
     // Retrieves and stores the currently active process from the scheduler's ready list.
 	Activity* activeProcess = (Activity*)scheduler.running;
 
