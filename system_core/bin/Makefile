@@ -64,6 +64,8 @@ SYSTEM_CC = \
 	user/Hello.cc \
 	user/Init.cc \
 	sync/Monitor.cc \
+	system/Console.cc\
+	sync/KernelSemaphore.cc\
 	mainMonitor.cc
 
 

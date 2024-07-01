@@ -7,7 +7,7 @@ Console::Console(InputChannel& input, OutputChannel& output)
         : input(input), output(output) {}
 
 void Console::attach() {
-    consoleMonitor.enter()
+    consoleMonitor.enter();
 }
 
 void Console::detach() {

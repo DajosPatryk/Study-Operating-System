@@ -80,6 +80,8 @@ public:
 		}
 	}
 
+	bool isEmpty(){return length==0;} 
+
 private:
 	T buffer[size];
 	int write;			//"schreibkopf"

@@ -73,8 +73,7 @@ public:
 	{
 		return clockTicks;
 	}
-	//boolean benutzt um das Ausfuhren von Prozesswechsel bei leeren ReadyList zu vermeiden
-	bool listempty = false;
+	
     
 private:
 	int clockTicks = 0;
