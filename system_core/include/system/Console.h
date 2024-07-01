@@ -44,6 +44,8 @@ public:
         output.blueScreen(msg);
     }
 private:
+    InputChannel& input;
+    OutputChannel& output;
 };
 
 #endif

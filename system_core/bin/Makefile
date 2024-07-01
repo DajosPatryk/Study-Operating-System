@@ -61,7 +61,10 @@ SYSTEM_CC = \
 	tools/Interp.cc \
 	tools/Scanner.cc \
 	tools/Calc.cc \
-	mainCalc.cc
+	user/Hello.cc \
+	user/Init.cc \
+	sync/Monitor.cc \
+	mainMonitor.cc
 
 
 ##############################################################################

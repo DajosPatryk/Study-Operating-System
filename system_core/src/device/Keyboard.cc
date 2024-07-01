@@ -19,7 +19,7 @@ Keyboard::Keyboard() :
 }
 
 bool Keyboard::prologue() {
-    if (ctrl.Port.read() & AUX_BIT) {
+    if (ctrlPort.read() & AUX_BIT) {
         return false;
     } else {
         scanCode = dataPort.read();
