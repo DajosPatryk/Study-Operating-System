@@ -10,7 +10,8 @@
  */
 class Console: 	public InputChannel, public OutputChannel{
 public:
-	Console(InputChannel& input, OutputChannel& output);
+	Console(InputChannel& input, OutputChannel& output)
+	: input(input), output(output), mutex(Semaphore()){};
 
 	/** 	Konsole reservieren
 	 */

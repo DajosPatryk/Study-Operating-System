@@ -17,15 +17,16 @@ int Console::write(const char* data, int size) {
 
 int Console::read(char* data, int size) {
     int count = 0;
-    char ch;
 
     while (count < size) {
-        ch = data[count];
+        char ch = Console::read();
+
+        data[count] = ch;
+        output.write(ch);
+        count++;
+
         if (ch == '\n') {
             break;
-        } else {
-            output.write(&ch, 1); 
-            count++;
         }
        
     }
