@@ -3,6 +3,7 @@
 
 #include "io/InputChannel.h"
 #include "io/OutputChannel.h"
+#include "system/Semaphore.h"
 
 /**
  *  Console:	Die Systemkonsole
@@ -32,7 +33,7 @@ public:
 	 */
 	virtual int read(char* data, int size);
 
-	/** 	Liefert das nächste Zeichen aus dem Eingabepuffer zurück.
+	/** 	Liefert das nï¿½chste Zeichen aus dem Eingabepuffer zurï¿½ck.
 	 */
 	char read();
 
@@ -46,6 +47,7 @@ public:
 private:
     InputChannel& input;
     OutputChannel& output;
+	Semaphore mutex;
 };
 
 #endif

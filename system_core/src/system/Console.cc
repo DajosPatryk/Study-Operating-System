@@ -1,20 +1,17 @@
 #include "system/Console.h"
-#include "sync/Monitor.h"
 
-extern Monitor consoleMonitor;
-
-Console::Console(InputChannel& input, OutputChannel& output)
-        : input(input), output(output) {}
 
 void Console::attach() {
-    consoleMonitor.enter();
+    mutex.wait();
 }
 
 void Console::detach() {
-    consoleMonitor.leave();
+    mutex.signal();
 }
 
 int Console::write(const char* data, int size) {
+    //analog zu cga
+    KernelLock lock;
     return output.write(data, size);
 }
 
@@ -27,9 +24,10 @@ int Console::read(char* data, int size) {
         if (ch == '\n') {
             break;
         } else {
-            output.write(&ch, 1);
+            output.write(&ch, 1); 
+            count++;
         }
-        count++;
+       
     }
 
     return count;
@@ -37,12 +35,9 @@ int Console::read(char* data, int size) {
 
 char Console::read() {
     char ch;
-    input.read(&ch, 1); // Liest
-    output.write(&ch, 1); // Echo
+    input.read(&ch, 1);
     return ch;
 }
 
-void Console::blueScreen(const char* msg) {
-    output.blueScreen(msg);
-}
+
 

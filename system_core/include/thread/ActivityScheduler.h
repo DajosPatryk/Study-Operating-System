@@ -60,6 +60,8 @@ protected:
      * hole Zeiger auf gerade laufende activity
     */
     Activity *getRunning();
+    //neue bool Variable um das Warten bei leeren Liste komplett in ActSched zu machen
+    bool spinLock = true; 
 
 };
 

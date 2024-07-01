@@ -1,17 +1,21 @@
 #ifndef KernelSemaphore_h
 #define KernelSemaphore_h
-#include "system/Thread.h"
-#include "lib/Queue.h"
+#include "../include/lib/Queue.h"
+#include "thread/Activity.h"
+#include "thread/ActivityScheduler.h"
+
 
 
 /**
- * KernelSemaphore: Semaphorenimplementation für kooperative
+ * KernelSemaphore: Semaphorenimplementation fï¿½r kooperative
  * Prozesse oder zur Anwendung innerhalb des Kernels.
  */
-class KernelSemaphore: public Thread {
+class KernelSemaphore{
 public:
 	// Initialisierung des Zaehlers
-	explicit KernelSemaphore(int count = 1);
+	explicit KernelSemaphore(int count = 1){
+		count = count;
+	}
 
 	void wait();
 	void signal();

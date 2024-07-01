@@ -4,23 +4,25 @@
 #include "device/Clock.h"
 extern CPU cpu;
 extern Clock clock;
+#include "sync/KernelLock.h"
+#include "sync/Monitor.h"
+#include "user/Environment.h"
 
 void ActivityScheduler::start(Activity* act) {
 	
-	Dispatcher::init(act);            // Dispatching first activity
-	
+	Dispatcher::init(act);// Dispatching first activity
+    act->changeTo(Activity::RUNNING);
+	spinLock = false;
 }
 
 void ActivityScheduler::suspend() {
-	IntLock lock;
 	Activity* activeProcess = getRunning();  // Retrieves and stores the currently active process.
 	activeProcess->changeTo(Activity::BLOCKED);
 	remove(activeProcess);
-	reschedule();                                         // Delegate to the scheduler and transition to the next process from the ready list.
+	reschedule(); // Delegate to the scheduler and transition to the next process from the ready list.
 }
 
 void ActivityScheduler::kill(Activity* act) {
-	IntLock lock;
 	act->changeTo(Activity::ZOMBIE);// Set the state to 'ZOMBIE', marking the process as terminable.
 	Activity* activeProcess = getRunning(); // Load a new process only if the active process is the one being killed.
 	// Remove the process from the ready list.
@@ -31,7 +33,6 @@ void ActivityScheduler::kill(Activity* act) {
 }
 
 void ActivityScheduler::exit() {
-	IntLock lock;
 	Activity* activeProcess = getRunning();  // Retrieve and store the currently active process.
 	kill(activeProcess);
 	
@@ -39,49 +40,57 @@ void ActivityScheduler::exit() {
 
 
 void ActivityScheduler::activate(Schedulable* to) {
+	//wenn in aktiven Warten zuruckkehren
+	if(spinLock){
+		return;
+	}
     // Retrieve the currently running process
 	Activity* currentProcess = getRunning();
+	Activity* next = (Activity*) to;
 
-	//little difference in handling depending on state of current process
-	if (currentProcess->isBlocked() || currentProcess->isZombie()){
-		//list empty, go into while to wait for new ready activity
-		if(to == nullptr){
-			Schedulable *next;
-			clock.listempty = true; //clock interrupt won't call checkSlice in while
-			while (true)
+	//sinvoller erst schauen ob *to naechste  gultige activity ist
+	if(next == nullptr){
+		//little difference in handling depending on state of current process
+		if (currentProcess->isBlocked() || currentProcess->isZombie())
 			{
-				cpu.enableInterrupts(); //Interrupts on!
-				next = (Schedulable *)scheduler.readylist.dequeue();
-				// break from while if next is not nullptr (which means ready activity was added to readylist)
-				if (next != nullptr)
-				{
-					break;
+				//aktives Warten fur neue Ready activity
+				while (true)
+				{	//aktives warten merken
+					spinLock = true;
+					//mit dieser Stuck Code erlauben wir Interrupt epiloge bearbeitet zu sein
+					monitor.leave();
+                	cpu.halt();
+                	monitor.enter();
+
+					next = (Activity *)readylist.dequeue();
+					// break von while wenn etwas reingekommen ist
+					// und nicht aktiv (da anfangs sind sie blockiert)
+					if (next != nullptr && !next->isReady())
+					{
+						break;
+					}
 				}
+				//aktives warten ende
+				spinLock = false;
+				// activate new activity
+				next->changeTo(Activity::RUNNING);
+				dispatch(next);
+		}
+		//wenn die gerade laufende Prozess normal war und kein nachfolger da ist,
+		//wird einfach diese Methode verlassen und es lauft weiter
+	}else
+		{
+			if(currentProcess->isRunning())
+			{
+				//jetzige lauffahige Prozess zu ReadyList addieren
+				currentProcess->changeTo(Activity::READY);
+				scheduler.schedule(currentProcess);
 			}
-			cpu.disableInterrupts(); //interrupts off!
-			clock.listempty = false; 
-			// activate new activity
-			activate(next);
-		}else{
-			//if to  exists then activate it normally
-			((Activity *)to)->changeTo(Activity::RUNNING);
-			dispatch((Activity *)to);
+			//aktiviere naechste Activity
+			next->changeTo(Activity::RUNNING);
+			dispatch(next);
+
 		}
-	}
-	//current process runninng
-	else
-	{
-		if(to==nullptr){
-			// wenn nur gerade laufende Prozess lauffahig,
-			//kein Kontextwechsel noetig, einfach return
-			return;
-		}else{
-			// move current to the ready list and start to
-			schedule(currentProcess);
-			((Activity *)to)->changeTo(Activity::RUNNING);
-			dispatch((Activity *)to);
-		}
-	}
 
 }
 
