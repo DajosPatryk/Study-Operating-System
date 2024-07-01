@@ -60,7 +60,6 @@ SYSTEM_CC = \
 	device/CodeTable.cc \
 	tools/Interp.cc \
 	tools/Scanner.cc \
-	tools/Calc.cc \
 	user/Hello.cc \
 	user/Init.cc \
 	sync/Monitor.cc \
