@@ -10,7 +10,7 @@ Activity::Activity(void* tos) : Coroutine(tos){
 }
 //diese ist von die activity benutzt die auf stack von main lauft
 Activity::Activity() : Coroutine() {
-	this->state = RUNNING;
+	this->state = BLOCKED;
 	scheduler.start(this);  // Initializes first activity.
 }
 

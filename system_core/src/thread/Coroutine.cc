@@ -2,7 +2,6 @@
 #include "device/CPU.h"
 #include "sync/Monitor.h"
 extern CPU cpu;
-extern Monitor monitor1;
 
 #pragma GCC diagnostic ignored "-Wpmf-conversions"
 
