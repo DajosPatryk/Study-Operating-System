@@ -27,13 +27,12 @@ add_executable(
         src/device/CodeTable.cc
         src/device/PIC.cc
         src/device/PIT.cc
-        ../../../../../Keyboard.cc
-        ../../../../../Keyboard.cc
-        src/system/Console.cpp
-        src/system/Console.cpp
         src/system/Console.cc
         include/system/Semaphore.h
         include/system/Semaphore.h
+        src/sync/KernelSemaphore.cc
+        src/sync/KernelSemaphore.cc
+        src/sync/KernelSemaphore.cc
         src/sync/KernelSemaphore.cc
 )
 

@@ -1,5 +1,7 @@
 #ifndef Semaphore_h
 #define Semaphore_h
+#include "system/Thread.h"
+#include "lib/Queue.h"
 
 #include "sync/KernelSemaphore.h"
 #include "sync/KernelLock.h"
@@ -19,6 +21,10 @@ public:
 	void signal()
 	{
 	}
+private:
+    int count;
+    Queue sleepers = Queue();
 };
+
 
 #endif

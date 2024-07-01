@@ -1,7 +1,5 @@
 #include "sync/KernelSemaphore.h"
 
-extern Monitor monitor;
-
 KernelSemaphore::KernelSemaphore(int count) : count(count) {
 }
 

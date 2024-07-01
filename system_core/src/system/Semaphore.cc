@@ -1,16 +1,5 @@
 #include "system/Semaphore.h"
-#include "sync/Monitor.h"
 
-Semaphore::Semaphore(int count)
-        : KernelSemaphore(count)
-{}
-
-void Semaphore::wait() {
-    // Call the wait (P operation) method from KernelSemaphore
-    KernelSemaphore::p();
+Semaphore::Semaphore(int count) : KernelSemaphore(count), count(count) {
 }
 
-void Semaphore::signal() {
-    // Call the signal (V operation) method from KernelSemaphore
-    KernelSemaphore::v();
-}
