@@ -21,7 +21,7 @@ public:
 	void signal();
 
 private:
-    int count;
+    int count =1;
     Queue sleepers = Queue();
 };
 

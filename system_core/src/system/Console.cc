@@ -1,11 +1,14 @@
 #include "system/Console.h"
+#include "user/Environment.h"
 
 
 void Console::attach() {
+    out.println("attach");
     mutex.wait();
 }
 
 void Console::detach() {
+    out.println("detach");
     mutex.signal();
 }
 

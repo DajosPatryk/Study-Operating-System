@@ -3,9 +3,11 @@
 extern ActivityScheduler scheduler;
 
 
+
+
 void KernelSemaphore::wait() {
     //signal konsumieren
-    if (count > 0) count -= 1;
+    if (count > 0) count--;
     else {
         //wenn zaehler 0, lege activity zum schlafen
         Activity *sleeper = (Activity *)scheduler.active();

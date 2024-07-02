@@ -48,7 +48,7 @@ public:
 private:
     InputChannel& input;
     OutputChannel& output;
-	Semaphore mutex;
+	Semaphore mutex = Semaphore(1);
 };
 
 #endif

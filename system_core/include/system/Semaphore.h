@@ -4,12 +4,14 @@
 #include "sync/KernelSemaphore.h"
 #include "sync/KernelLock.h"
 
+
+
 /**
  *  Semaphore: Die Semaphorenimplementation f�r Benutzerprozesse
  */
 class Semaphore: private KernelSemaphore {
 public:
-	Semaphore(int count = 1): KernelSemaphore(count)
+	Semaphore(int count = 1): KernelSemaphore(1)
 	{}
 
 	void wait()
