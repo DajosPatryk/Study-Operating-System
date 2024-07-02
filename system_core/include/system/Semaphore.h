@@ -16,13 +16,13 @@ public:
 
 	void wait()
 	{
-		KernelLock lock;
+		//KernelLock lock;
         KernelSemaphore::wait();
 	}
 
 	void signal()
 	{
-		KernelLock lock;
+		//KernelLock lock;
         KernelSemaphore::signal();
 	}
 
