@@ -3,7 +3,7 @@
 #include "../include/lib/Queue.h"
 #include "thread/Activity.h"
 #include "thread/ActivityScheduler.h"
-
+#include "sync/KernelLock.h"
 
 
 /**
@@ -14,7 +14,7 @@ class KernelSemaphore{
 public:
 	// Initialisierung des Zaehlers
 	explicit KernelSemaphore(int count = 1){
-		count = count;
+		this->count = count;
 	}
 
 	void wait();

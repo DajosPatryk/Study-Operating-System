@@ -3,12 +3,10 @@
 
 
 void Console::attach() {
-    //out.println("attach");
     mutex.wait();
 }
 
 void Console::detach() {
-    //out.println("detach");
     mutex.signal();
 }
 
@@ -19,7 +17,6 @@ int Console::write(const char* data, int size) {
 
 int Console::read(char* data, int size) {
     int count = 0;
-    
     
     while (count < size) {
         char ch = Console::read();
