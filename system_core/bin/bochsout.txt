@@ -34,7 +34,7 @@
 00000000000i[IMG   ] Disk image modules
 00000000000i[IMG   ]   flat concat sparse dll growing undoable volatile vmware3
 00000000000i[IMG   ]   vmware4 vbox vpc vvfat
-00000000000i[MEM0  ] allocated memory at 0x7f6ef65dd010. after alignment, vector=0x7f6ef65de000
+00000000000i[MEM0  ] allocated memory at 0x7f18f67dd010. after alignment, vector=0x7f18f67de000
 00000000000i[MEM0  ] 64,00MB
 00000000000i[MEM0  ] mem block size = 0x00020000, blocks=512
 00000000000i[MEM0  ] rom at 0xfffe0000/131072 ('/usr/local/share/bochs/BIOS-bochs-latest')
@@ -45,7 +45,7 @@
 00000000000i[DEV   ] PIIX3 PCI-to-ISA bridge present at device 1, function 0
 00000000000i[PLUGIN] init_dev of 'cmos' plugin device by virtual method
 00000000000i[CMOS  ] Using local time for initial clock
-00000000000i[CMOS  ] Setting initial clock to: Sun Jul  7 18:34:47 2024 (time0=1720370087)
+00000000000i[CMOS  ] Setting initial clock to: Sun Jul  7 19:40:42 2024 (time0=1720374042)
 00000000000i[PLUGIN] init_dev of 'dma' plugin device by virtual method
 00000000000i[DMA   ] channel 4 used by cascade
 00000000000i[PLUGIN] init_dev of 'pic' plugin device by virtual method
@@ -210,30 +210,30 @@
 00001509053i[BXVGA ] VBE known Display Interface b0c5
 00001511696i[VBIOS ] VBE Bios $Id: vbe.c 292 2021-06-03 12:24:22Z vruppert $
 00005165899i[BIOS  ] IDE time out
-02976891542i[BIOS  ] Booting from 07c0:0000
-03054297279i[KBD   ] setting typematic info
-03054298091i[KBD   ] setting delay to 250 mS (unused)
-03054298091i[KBD   ] setting repeat rate to 30,0 cps (unused)
-03054532576i[CPU0  ] WARNING: HLT instruction with IF=0!
-06760148000p[SDL2  ] >>PANIC<< POWER button turned off.
-06760148000i[CPU0  ] CPU is in protected mode (halted)
-06760148000i[CPU0  ] CS.mode = 32 bit
-06760148000i[CPU0  ] SS.mode = 32 bit
-06760148000i[CPU0  ] EFER   = 0x00000000
-06760148000i[CPU0  ] | EAX=00109458  EBX=00111000  ECX=0010aec0  EDX=00110240
-06760148000i[CPU0  ] | ESP=0010aec0  EBP=00000000  ESI=00000000  EDI=00000000
-06760148000i[CPU0  ] | IOPL=0 id vip vif ac vm rf nt of df if tf sf ZF af PF cf
-06760148000i[CPU0  ] | SEG sltr(index|ti|rpl)     base    limit G D
-06760148000i[CPU0  ] |  CS:0008( 0001| 0|  0) 00000000 ffffffff 1 1
-06760148000i[CPU0  ] |  DS:0010( 0002| 0|  0) 00000000 ffffffff 1 1
-06760148000i[CPU0  ] |  SS:0010( 0002| 0|  0) 00000000 ffffffff 1 1
-06760148000i[CPU0  ] |  ES:0010( 0002| 0|  0) 00000000 ffffffff 1 1
-06760148000i[CPU0  ] |  FS:0010( 0002| 0|  0) 00000000 ffffffff 1 1
-06760148000i[CPU0  ] |  GS:0010( 0002| 0|  0) 00000000 ffffffff 1 1
-06760148000i[CPU0  ] | EIP=0010107a (0010107a)
-06760148000i[CPU0  ] | CR0=0x80000011 CR2=0x00000000
-06760148000i[CPU0  ] | CR3=0x00111000 CR4=0x00000000
-06760148000i[CPU0  ] 0x0010107a>> push eax : 50
-06760148000i[CMOS  ] Last time is 1720371777 (Sun Jul  7 19:02:57 2024)
-06760148000i[      ] restoring default signal behavior
-06760148000i[SIM   ] quit_sim called with exit code 1
+02981807042i[BIOS  ] Booting from 07c0:0000
+03059125299i[KBD   ] setting typematic info
+03059126111i[KBD   ] setting delay to 250 mS (unused)
+03059126111i[KBD   ] setting repeat rate to 30,0 cps (unused)
+03059363424i[CPU0  ] WARNING: HLT instruction with IF=0!
+05165228000p[SDL2  ] >>PANIC<< POWER button turned off.
+05165228000i[CPU0  ] CPU is in protected mode (halted)
+05165228000i[CPU0  ] CS.mode = 32 bit
+05165228000i[CPU0  ] SS.mode = 32 bit
+05165228000i[CPU0  ] EFER   = 0x00000000
+05165228000i[CPU0  ] | EAX=00109458  EBX=00111000  ECX=0010aec0  EDX=00110240
+05165228000i[CPU0  ] | ESP=0010aec0  EBP=00000000  ESI=00000000  EDI=00000000
+05165228000i[CPU0  ] | IOPL=0 id vip vif ac vm rf nt of df if tf sf ZF af PF cf
+05165228000i[CPU0  ] | SEG sltr(index|ti|rpl)     base    limit G D
+05165228000i[CPU0  ] |  CS:0008( 0001| 0|  0) 00000000 ffffffff 1 1
+05165228000i[CPU0  ] |  DS:0010( 0002| 0|  0) 00000000 ffffffff 1 1
+05165228000i[CPU0  ] |  SS:0010( 0002| 0|  0) 00000000 ffffffff 1 1
+05165228000i[CPU0  ] |  ES:0010( 0002| 0|  0) 00000000 ffffffff 1 1
+05165228000i[CPU0  ] |  FS:0010( 0002| 0|  0) 00000000 ffffffff 1 1
+05165228000i[CPU0  ] |  GS:0010( 0002| 0|  0) 00000000 ffffffff 1 1
+05165228000i[CPU0  ] | EIP=0010107a (0010107a)
+05165228000i[CPU0  ] | CR0=0x80000011 CR2=0x00000000
+05165228000i[CPU0  ] | CR3=0x00111000 CR4=0x00000000
+05165228000i[CPU0  ] 0x0010107a>> push eax : 50
+05165228000i[CMOS  ] Last time is 1720375333 (Sun Jul  7 20:02:13 2024)
+05165228000i[      ] restoring default signal behavior
+05165228000i[SIM   ] quit_sim called with exit code 1
