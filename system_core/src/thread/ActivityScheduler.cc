@@ -1,5 +1,4 @@
 #include "thread/ActivityScheduler.h"
-#include "interrupts/IntLock.h"
 #include "device/CPU.h"
 #include "device/Clock.h"
 extern CPU cpu;
@@ -12,13 +11,13 @@ void ActivityScheduler::start(Activity* act) {
 	
 	Dispatcher::init(act);// Dispatching first activity
     act->changeTo(Activity::RUNNING);
+	listempty=false;
 	
 }
 
 void ActivityScheduler::suspend() {
 	Activity* activeProcess = getRunning();  // Retrieves and stores the currently active process.
 	activeProcess->changeTo(Activity::BLOCKED);
-	remove(activeProcess);
 	reschedule(); // Delegate to the scheduler and transition to the next process from the ready list.
 }
 
@@ -39,14 +38,14 @@ void ActivityScheduler::exit() {
 }
 
 
-void ActivityScheduler::activate(Schedulable* to) {
+void ActivityScheduler::activate(Schedulable *to) {
 	//wenn in aktiven Warten zuruckkehren
 	if(listempty){
 		return;
 	}
     // Retrieve the currently running process
-	Activity* currentProcess = getRunning();
-	Activity* next = (Activity*) to;
+	Activity *currentProcess = getRunning();
+	Activity *next = (Activity*) to;
 
 	//sinvoller erst schauen ob *to naechste  gultige activity ist
 	if(next == nullptr){
@@ -54,7 +53,7 @@ void ActivityScheduler::activate(Schedulable* to) {
 		if (currentProcess->isBlocked() || currentProcess->isZombie())
 			{
 				//aktives Warten fur neue Ready activity
-				while (true)
+				while (next==nullptr)
 				{	//aktives warten merken
 					listempty = true;
 					//mit dieser Stuck Code erlauben wir Interrupt epiloge bearbeitet zu sein
@@ -63,11 +62,10 @@ void ActivityScheduler::activate(Schedulable* to) {
                 	monitor.enter();
 
 					next = (Activity *)readylist.dequeue();
-					// break von while wenn etwas reingekommen ist
-					// und nicht aktiv (da anfangs sind sie blockiert)
+					//falls ein Prozess abgefangen ist aber nicht lauffahig ist, setzte next wieder auf 0
 					if (next != nullptr && !next->isReady())
 					{
-						break;
+						next = 0;
 					}
 				}
 				//aktives warten ende

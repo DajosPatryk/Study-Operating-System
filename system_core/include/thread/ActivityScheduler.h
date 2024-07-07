@@ -46,8 +46,8 @@ public:
      * rescheduling to continue with another activity.
      */
 	void exit();
-
-protected:
+    //neue bool Variable um das Warten bei leeren Liste komplett in ActSched zu machen
+    bool listempty = true; 
     /**
      * Activates a new activity to run. This method is called by the Scheduler's rescheduling
      * mechanism and uses the Dispatcher's dispatch method to switch the context to the new
@@ -60,8 +60,7 @@ protected:
      * hole Zeiger auf gerade laufende activity
     */
     Activity *getRunning();
-    //neue bool Variable um das Warten bei leeren Liste komplett in ActSched zu machen
-    bool listempty = true; 
+    
 
 };
 

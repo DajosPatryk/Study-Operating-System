@@ -34,7 +34,7 @@
 00000000000i[IMG   ] Disk image modules
 00000000000i[IMG   ]   flat concat sparse dll growing undoable volatile vmware3
 00000000000i[IMG   ]   vmware4 vbox vpc vvfat
-00000000000i[MEM0  ] allocated memory at 0x7f2f7abdd010. after alignment, vector=0x7f2f7abde000
+00000000000i[MEM0  ] allocated memory at 0x7f95e13dd010. after alignment, vector=0x7f95e13de000
 00000000000i[MEM0  ] 64,00MB
 00000000000i[MEM0  ] mem block size = 0x00020000, blocks=512
 00000000000i[MEM0  ] rom at 0xfffe0000/131072 ('/usr/local/share/bochs/BIOS-bochs-latest')
@@ -45,7 +45,7 @@
 00000000000i[DEV   ] PIIX3 PCI-to-ISA bridge present at device 1, function 0
 00000000000i[PLUGIN] init_dev of 'cmos' plugin device by virtual method
 00000000000i[CMOS  ] Using local time for initial clock
-00000000000i[CMOS  ] Setting initial clock to: Sun Jul  7 20:04:20 2024 (time0=1720375460)
+00000000000i[CMOS  ] Setting initial clock to: Sun Jul  7 20:29:45 2024 (time0=1720376985)
 00000000000i[PLUGIN] init_dev of 'dma' plugin device by virtual method
 00000000000i[DMA   ] channel 4 used by cascade
 00000000000i[PLUGIN] init_dev of 'pic' plugin device by virtual method
@@ -209,31 +209,65 @@
 00001509021i[BXVGA ] VBE known Display Interface b0c0
 00001509053i[BXVGA ] VBE known Display Interface b0c5
 00001511696i[VBIOS ] VBE Bios $Id: vbe.c 292 2021-06-03 12:24:22Z vruppert $
-00005165922i[BIOS  ] IDE time out
-02901961015i[BIOS  ] Booting from 07c0:0000
-02975725295i[KBD   ] setting typematic info
-02975726107i[KBD   ] setting delay to 250 mS (unused)
-02975726107i[KBD   ] setting repeat rate to 30,0 cps (unused)
-02975960557i[CPU0  ] WARNING: HLT instruction with IF=0!
-04899356000p[SDL2  ] >>PANIC<< POWER button turned off.
-04899356000i[CPU0  ] CPU is in protected mode (halted)
-04899356000i[CPU0  ] CS.mode = 32 bit
-04899356000i[CPU0  ] SS.mode = 32 bit
-04899356000i[CPU0  ] EFER   = 0x00000000
-04899356000i[CPU0  ] | EAX=00109478  EBX=00111000  ECX=0010aee0  EDX=00110260
-04899356000i[CPU0  ] | ESP=0010aee0  EBP=00000000  ESI=00000000  EDI=00000000
-04899356000i[CPU0  ] | IOPL=0 id vip vif ac vm rf nt of df if tf sf ZF af PF cf
-04899356000i[CPU0  ] | SEG sltr(index|ti|rpl)     base    limit G D
-04899356000i[CPU0  ] |  CS:0008( 0001| 0|  0) 00000000 ffffffff 1 1
-04899356000i[CPU0  ] |  DS:0010( 0002| 0|  0) 00000000 ffffffff 1 1
-04899356000i[CPU0  ] |  SS:0010( 0002| 0|  0) 00000000 ffffffff 1 1
-04899356000i[CPU0  ] |  ES:0010( 0002| 0|  0) 00000000 ffffffff 1 1
-04899356000i[CPU0  ] |  FS:0010( 0002| 0|  0) 00000000 ffffffff 1 1
-04899356000i[CPU0  ] |  GS:0010( 0002| 0|  0) 00000000 ffffffff 1 1
-04899356000i[CPU0  ] | EIP=0010107a (0010107a)
-04899356000i[CPU0  ] | CR0=0x80000011 CR2=0x00000000
-04899356000i[CPU0  ] | CR3=0x00111000 CR4=0x00000000
-04899356000i[CPU0  ] 0x0010107a>> push eax : 50
-04899356000i[CMOS  ] Last time is 1720376684 (Sun Jul  7 20:24:44 2024)
-04899356000i[      ] restoring default signal behavior
-04899356000i[SIM   ] quit_sim called with exit code 1
+00005165899i[BIOS  ] IDE time out
+02932375992i[BIOS  ] Booting from 07c0:0000
+03009200310i[KBD   ] setting typematic info
+03009201086i[KBD   ] setting delay to 250 mS (unused)
+03009201086i[KBD   ] setting repeat rate to 30,0 cps (unused)
+06725808000i[KBD   ] internal keyboard buffer full, ignoring scancode.(9c)
+06846836000i[KBD   ] internal keyboard buffer full, ignoring scancode.(1c)
+06977636000i[KBD   ] internal keyboard buffer full, ignoring scancode.(9c)
+07064384000i[KBD   ] internal keyboard buffer full, ignoring scancode.(1c)
+07208780000i[KBD   ] internal keyboard buffer full, ignoring scancode.(9c)
+07268808000i[KBD   ] internal keyboard buffer full, ignoring scancode.(1c)
+07628492000i[KBD   ] internal keyboard buffer full, ignoring scancode.(9c)
+07931068000i[KBD   ] internal keyboard buffer full, ignoring scancode.(1c)
+08183684000i[KBD   ] internal keyboard buffer full, ignoring scancode.(9c)
+08405856000i[KBD   ] internal keyboard buffer full, ignoring scancode.(1c)
+08773456000i[KBD   ] internal keyboard buffer full, ignoring scancode.(9c)
+08914088000i[KBD   ] internal keyboard buffer full, ignoring scancode.(1c)
+09305960000i[KBD   ] internal keyboard buffer full, ignoring scancode.(9c)
+09385680000i[KBD   ] internal keyboard buffer full, ignoring scancode.(1c)
+09922112000i[KBD   ] internal keyboard buffer full, ignoring scancode.(1c)
+09961732000i[KBD   ] internal keyboard buffer full, ignoring scancode.(1c)
+09990452000i[KBD   ] internal keyboard buffer full, ignoring scancode.(1c)
+10030880000i[KBD   ] internal keyboard buffer full, ignoring scancode.(1c)
+10070928000i[KBD   ] internal keyboard buffer full, ignoring scancode.(1c)
+10111116000i[KBD   ] internal keyboard buffer full, ignoring scancode.(1c)
+10148932000i[KBD   ] internal keyboard buffer full, ignoring scancode.(1c)
+10189116000i[KBD   ] internal keyboard buffer full, ignoring scancode.(1c)
+10229936000i[KBD   ] internal keyboard buffer full, ignoring scancode.(1c)
+10270160000i[KBD   ] internal keyboard buffer full, ignoring scancode.(1c)
+10310004000i[KBD   ] internal keyboard buffer full, ignoring scancode.(1c)
+10350628000i[KBD   ] internal keyboard buffer full, ignoring scancode.(1c)
+10391144000i[KBD   ] internal keyboard buffer full, ignoring scancode.(1c)
+10427504000i[KBD   ] internal keyboard buffer full, ignoring scancode.(1c)
+10466124000i[KBD   ] internal keyboard buffer full, ignoring scancode.(1c)
+10505576000i[KBD   ] internal keyboard buffer full, ignoring scancode.(1c)
+10545700000i[KBD   ] internal keyboard buffer full, ignoring scancode.(1c)
+10586032000i[KBD   ] internal keyboard buffer full, ignoring scancode.(1c)
+10622680000i[KBD   ] internal keyboard buffer full, ignoring scancode.(9c)
+11549268000i[KBD   ] internal keyboard buffer full, ignoring scancode.(1c)
+12120436000i[KBD   ] internal keyboard buffer full, ignoring scancode.(9c)
+12838760000p[SDL2  ] >>PANIC<< POWER button turned off.
+12838760000i[CPU0  ] CPU is in protected mode (halted)
+12838760000i[CPU0  ] CS.mode = 32 bit
+12838760000i[CPU0  ] SS.mode = 32 bit
+12838760000i[CPU0  ] EFER   = 0x00000000
+12838760000i[CPU0  ] | EAX=00109ed0  EBX=00109ed0  ECX=0010f284  EDX=00000001
+12838760000i[CPU0  ] | ESP=0010a6dc  EBP=0010a6e8  ESI=00000000  EDI=00000000
+12838760000i[CPU0  ] | IOPL=0 id vip vif ac vm rf nt of df IF tf sf zf AF pf cf
+12838760000i[CPU0  ] | SEG sltr(index|ti|rpl)     base    limit G D
+12838760000i[CPU0  ] |  CS:0008( 0001| 0|  0) 00000000 ffffffff 1 1
+12838760000i[CPU0  ] |  DS:0010( 0002| 0|  0) 00000000 ffffffff 1 1
+12838760000i[CPU0  ] |  SS:0010( 0002| 0|  0) 00000000 ffffffff 1 1
+12838760000i[CPU0  ] |  ES:0010( 0002| 0|  0) 00000000 ffffffff 1 1
+12838760000i[CPU0  ] |  FS:0010( 0002| 0|  0) 00000000 ffffffff 1 1
+12838760000i[CPU0  ] |  GS:0010( 0002| 0|  0) 00000000 ffffffff 1 1
+12838760000i[CPU0  ] | EIP=001019ec (001019ec)
+12838760000i[CPU0  ] | CR0=0x80000011 CR2=0x00000000
+12838760000i[CPU0  ] | CR3=0x00111000 CR4=0x00000000
+12838760000i[CPU0  ] 0x001019ec>> ret  : C3
+12838760000i[CMOS  ] Last time is 1720380194 (Sun Jul  7 21:23:14 2024)
+12838760000i[      ] restoring default signal behavior
+12838760000i[SIM   ] quit_sim called with exit code 1

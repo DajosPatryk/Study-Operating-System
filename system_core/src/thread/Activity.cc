@@ -1,6 +1,6 @@
 #include "thread/Activity.h"
-#include "interrupts/IntLock.h"
 #include "thread/ActivityScheduler.h"
+#include "thread/Scheduler.h"
 #include "device/CPU.h"
 extern CPU cpu;
 
@@ -15,7 +15,7 @@ Activity::Activity() : Coroutine() {
 }
 
 Activity::~Activity() {
-	this->exit();   // Terminates activity.
+	scheduler.kill(this);   // Terminates activity.
 }
 
 void Activity::sleep() { 
@@ -24,15 +24,14 @@ void Activity::sleep() {
 
 void Activity::wakeup() {
 	
-	if (isBlocked()) {
+	if (this->isBlocked()) {
 		this->state = READY;
 		scheduler.schedule(this);
 	}
 }
 
 void Activity::yield() { 
-	this->state = READY;
-	scheduler.reschedule(); 
+	scheduler.activate((Schedulable *)scheduler.readylist.dequeue());
 }
 
 void Activity::exit() {
@@ -55,6 +54,6 @@ void Activity::join() {
     // If conditions are met, link this activity to the currently running process and suspend it.
 	if (!(this->isZombie()) || this == activeProcess) {
 		this->joined = activeProcess;
-		activeProcess->sleep();
+		scheduler.suspend();
 	}
 }

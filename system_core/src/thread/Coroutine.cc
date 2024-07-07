@@ -5,6 +5,11 @@ extern CPU cpu;
 
 #pragma GCC diagnostic ignored "-Wpmf-conversions"
 
+void Coroutine::resume(Coroutine *next)
+{
+    switchContext(this->sp, next->sp);
+}
+
 void Coroutine::startup(Coroutine* obj) {
 	monitor.leave(); // Monitor statt Interrupts.
 	obj->body();    // Call the main function of the given coroutine.

@@ -21,7 +21,7 @@ void Scheduler::remove(Schedulable* sched) {
 
 void Scheduler::reschedule() {
 	
-	activate((Schedulable *)readylist.dequeue());
+	activate(nullptr);
 }
 
 void Scheduler::checkSlice()
