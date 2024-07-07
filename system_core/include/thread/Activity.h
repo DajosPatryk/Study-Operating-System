@@ -2,7 +2,6 @@
 #define Activity_h
 #include "thread/Schedulable.h"
 #include "thread/Coroutine.h"
-#include "lib/Queue.h"
 
 /**
  * Activity class that extends Schedulable and Coroutine to implement task management

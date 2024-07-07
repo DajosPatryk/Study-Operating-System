@@ -1,5 +1,4 @@
 #include "thread/Scheduler.h"
-#include "interrupts/IntLock.h"
 #include "thread/Activity.h"
 
 #include "thread/ActivityScheduler.h"
@@ -20,7 +19,7 @@ void Scheduler::remove(Schedulable* sched) {
 }
 
 void Scheduler::reschedule() {
-	
+	//rescheduling jetzt im activate() while Schleife realisiert
 	activate(nullptr);
 }
 
