@@ -54,11 +54,11 @@ private:
 		DATA_PORT 	= 0x40
 	};
 
-	// Verbindungs ports zu Hardware.
+	//Zugang zu Ports
 	IOPort8 control;
 	IOPort8 data;
 
-	// Variable, Zeit-Interval fuers PIT
+	// Zeit Interval
 	unsigned int interv;
 };
 

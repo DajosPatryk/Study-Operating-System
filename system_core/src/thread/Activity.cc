@@ -15,7 +15,7 @@ Activity::Activity() : Coroutine() {
 }
 
 Activity::~Activity() {
-	scheduler.kill(this);   // Terminates activity.
+	this->exit();   // Terminates activity.
 }
 
 void Activity::sleep() { 

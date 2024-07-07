@@ -12,7 +12,7 @@ void ActivityScheduler::start(Activity* act) {
 	
 	Dispatcher::init(act);// Dispatching first activity
     act->changeTo(Activity::RUNNING);
-	spinLock = false;
+	
 }
 
 void ActivityScheduler::suspend() {
@@ -41,7 +41,7 @@ void ActivityScheduler::exit() {
 
 void ActivityScheduler::activate(Schedulable* to) {
 	//wenn in aktiven Warten zuruckkehren
-	if(spinLock){
+	if(listempty){
 		return;
 	}
     // Retrieve the currently running process
@@ -56,7 +56,7 @@ void ActivityScheduler::activate(Schedulable* to) {
 				//aktives Warten fur neue Ready activity
 				while (true)
 				{	//aktives warten merken
-					spinLock = true;
+					listempty = true;
 					//mit dieser Stuck Code erlauben wir Interrupt epiloge bearbeitet zu sein
 					monitor.leave();
                 	cpu.halt();
@@ -71,7 +71,7 @@ void ActivityScheduler::activate(Schedulable* to) {
 					}
 				}
 				//aktives warten ende
-				spinLock = false;
+				listempty = false;
 				// activate new activity
 				next->changeTo(Activity::RUNNING);
 				dispatch(next);

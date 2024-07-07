@@ -11,18 +11,18 @@
  */
 class Semaphore: private KernelSemaphore {
 public:
-	Semaphore(int count = 1): KernelSemaphore(1)
+	Semaphore(int count = 1): KernelSemaphore(count)
 	{}
 
 	void wait()
 	{
-		//KernelLock lock;
+		KernelLock lock;
         KernelSemaphore::wait();
 	}
 
 	void signal()
 	{
-		//KernelLock lock;
+		KernelLock lock;
         KernelSemaphore::signal();
 	}
 

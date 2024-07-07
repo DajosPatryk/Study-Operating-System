@@ -21,8 +21,6 @@ Keyboard::Keyboard() :
 bool Keyboard::prologue() {
     if (ctrlPort.read() & AUX_BIT) {
 		//normalerweise Mausbehandlung
-        pic.ack(PIC::KEYBOARD);
-    	return false;
     } else {
 		//man analysiert scancode jetzt nicht gleich, speichere im puffer
         scanCode = dataPort.read();

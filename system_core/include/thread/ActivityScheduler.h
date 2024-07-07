@@ -61,7 +61,7 @@ protected:
     */
     Activity *getRunning();
     //neue bool Variable um das Warten bei leeren Liste komplett in ActSched zu machen
-    bool spinLock = true; 
+    bool listempty = true; 
 
 };
 

@@ -80,8 +80,6 @@ public:
 	void yield()
 	{
 		KernelLock lock;
-        changeTo(READY);
-        scheduler.schedule(this);
         Activity::yield();
 	}
 
