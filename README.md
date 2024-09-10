@@ -29,6 +29,9 @@ This repository is part of an operating systems study project, written in C, C++
 ### PrintStream
 - Provides a PrintStream interface for outputting formatted text to the screen.
 
+### Custom WSL2 Configuration File
+- A custom run file for WSL2 systems.
+
 ### Run
 This operating system is meant to be ran on a bare-bones Linux system. It is required for to have C and C++ compilers installed and bochs emulator.
 
