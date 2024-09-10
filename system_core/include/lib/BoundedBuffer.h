@@ -53,7 +53,6 @@ public:
 	 */
 	T get()
 	{
-		IntLock lock;
 		//manipulation von gleicher Variable length hier und in add
 		//kritisch zu schutzen in einer Funktion, da add kommt aus Interrupt
 		//diese Methode ist besser dafur geeignet
@@ -79,6 +78,8 @@ public:
 			return buffer[read-1];
 		}
 	}
+
+	bool isEmpty(){return length==0;} 
 
 private:
 	T buffer[size];

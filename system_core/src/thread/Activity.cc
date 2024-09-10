@@ -1,6 +1,6 @@
 #include "thread/Activity.h"
-#include "interrupts/IntLock.h"
 #include "thread/ActivityScheduler.h"
+#include "thread/Scheduler.h"
 #include "device/CPU.h"
 extern CPU cpu;
 
@@ -10,7 +10,7 @@ Activity::Activity(void* tos) : Coroutine(tos){
 }
 //diese ist von die activity benutzt die auf stack von main lauft
 Activity::Activity() : Coroutine() {
-	this->state = RUNNING;
+	this->state = BLOCKED;
 	scheduler.start(this);  // Initializes first activity.
 }
 
@@ -23,20 +23,19 @@ void Activity::sleep() {
 }
 
 void Activity::wakeup() {
-	IntLock lock;
-	if (isBlocked()) {
+	
+	if (this->isBlocked()) {
 		this->state = READY;
 		scheduler.schedule(this);
 	}
 }
 
 void Activity::yield() { 
-	this->state = READY;
-	scheduler.reschedule(); 
+	scheduler.activate((Schedulable *)scheduler.readylist.dequeue());
 }
 
 void Activity::exit() {
-	IntLock lock;
+	
 	// Wakes-up joined activity.
 	if (joined != nullptr) {
 		joined->wakeup();
@@ -47,7 +46,7 @@ void Activity::exit() {
 }
 
 void Activity::join() {
-	IntLock lock;
+	
     // Retrieves and stores the currently active process from the scheduler's ready list.
 	Activity* activeProcess = (Activity*)scheduler.running;
 
@@ -55,6 +54,6 @@ void Activity::join() {
     // If conditions are met, link this activity to the currently running process and suspend it.
 	if (!(this->isZombie()) || this == activeProcess) {
 		this->joined = activeProcess;
-		activeProcess->sleep();
+		scheduler.suspend();
 	}
 }

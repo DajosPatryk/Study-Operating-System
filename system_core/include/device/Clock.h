@@ -63,7 +63,8 @@ public:
 	 *	die "checkSlice" Methode des Schedulers auf,
 	 *	um diesen ggf. zum praeemptiven Rescheduling zu veranlassen.
 	 */
-	void handle();
+	bool prologue();
+	void epilogue();
 
 	/* 	Liefert die Systemzeit in Ticks zurueck
 	 *	Kann hier "inline" implementiert werden
@@ -72,8 +73,7 @@ public:
 	{
 		return clockTicks;
 	}
-	//boolean benutzt um das Ausfuhren von Prozesswechsel bei leeren ReadyList zu vermeiden
-	bool listempty = false;
+	
     
 private:
 	int clockTicks = 0;

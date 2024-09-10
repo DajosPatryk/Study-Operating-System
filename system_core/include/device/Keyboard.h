@@ -64,7 +64,8 @@ public:
 
 	/**	Die Interruptbehandlungsfunktion.
 	 */
-	void handle();
+	bool prologue();
+	void epilogue();
 
 	/**	Diese Methode liefert ein Zeichen aus dem Tastaturpuffer
 	 *	zur�ck. Diese Methode blockiert, wenn der Puffer leer ist.
@@ -77,6 +78,7 @@ public:
 	virtual int read(char* data, int size);
 
 private:
+	BoundedBuffer<unsigned char, BUFFER_SIZE> scanCodeBuffer; //Puffer fur Scancodes die noetig bei aufg5 ist
 	BoundedBuffer<Key,BUFFER_SIZE> buffer;   //Der Tastaturpuffer
 	CodeTable codeTable;                    //Abbildung von Scancode -> Zeichen
 	unsigned char scanCode;                 //Der letzte von der Tastatur gelesen code

@@ -18,17 +18,33 @@ Keyboard::Keyboard() :
 	pic.enable(PIC::KEYBOARD);
 }
 
-void Keyboard::handle()
-{
-	if(ctrlPort.read() & AUX_BIT){
-		//behandle hier die Maus
-	}else{
-		scanCode = dataPort.read();
-		analyzeScanCode();
-	}
+bool Keyboard::prologue() {
+    if (ctrlPort.read() & AUX_BIT) {
+		//normalerweise Mausbehandlung
+    } else {
+		//man analysiert scancode jetzt nicht gleich, speichere im puffer
+        scanCode = dataPort.read();
+        scanCodeBuffer.add(scanCode);
+        pic.ack(PIC::KEYBOARD);
+        return true;
+    }
 	pic.ack(PIC::KEYBOARD);
+    return false;
 }
 
+void Keyboard::epilogue() {
+    //da jetzt scancodes gepuffert sind muss man ganzen puffer auslesen,
+	//dabei kurz interrupts ausschalten wenn man aus puffer Werte nimmt
+	CPU::disableInterrupts();
+    while(!scanCodeBuffer.isEmpty())
+    {
+        scanCode = scanCodeBuffer.get();
+        CPU::enableInterrupts();
+        analyzeScanCode();
+        CPU::disableInterrupts();
+    }
+    CPU::enableInterrupts();
+}
 
 Key Keyboard::read()
 {
@@ -193,7 +209,7 @@ void Keyboard::reboot ()
 	*(unsigned short*) 0x472 = 0x1234;
 
 	waitForWrite();
-	ctrlPort.write (RESET_CODE);     // Reset auslösen
+	ctrlPort.write (RESET_CODE);     // Reset auslï¿½sen
 }
 
 

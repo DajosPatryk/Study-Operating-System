@@ -31,9 +31,7 @@ public:
      * The actual context switching is handled by the assembly function "switchContext".
      * @param next Pointer to the next coroutine to resume.
      */
-	void resume(Coroutine* next){
-        switchContext(this->sp, next->sp);
-    };
+	void resume(Coroutine* next);
 
     /**
      * Pure virtual function defining the body of the coroutine.
@@ -49,7 +47,6 @@ public:
     
     void* sp;   // Saved stack pointer for this coroutine.
 
-private:
     /**
      * Static function to invoke the body of a given coroutine and call its exit method upon completion.
      * Serves as a bridge between non-object-oriented and object-oriented parts of the system.
@@ -71,9 +68,9 @@ private:
      * Stores registers and the coroutine's parameter, necessary for state saving and restoration during switches.
      */
 	struct Stack {
-		unsigned int edi;   // Extended Destination Index Register
-		unsigned int esi;   // Extended Source Index Register
-		unsigned int ebx;   // Extended Base Register
+		unsigned  edi;   // Extended Destination Index Register
+		unsigned  esi;   // Extended Source Index Register
+		unsigned  ebx;   // Extended Base Register
 		void* ebp;          // Stack Base Pointer, for local base
 
         /**

@@ -21,18 +21,12 @@ void Clock::windup(int us)
 }
 
 
-void Clock::handle()
-{
-	//erhohe ticks und danach bestatige Bearbeitung dieser Interrupt
-	clockTicks++;
-	pic.ack();
-	//checkslice wo das reschedule nach Ablauf der Zeitscheibe passiert nur bei nicht leeren Readylist
-	if (listempty == true)
-	{
-		return;
-	}
-	else
-	{
-		scheduler.checkSlice();
-	}
+bool Clock::prologue() {
+    clockTicks++; //erhöhen von Ticks
+    pic.ack();
+    return true; //wir wollen immer epilog haben fur Prozesswechsel
+}
+
+void Clock::epilogue() {
+    scheduler.checkSlice();
 }

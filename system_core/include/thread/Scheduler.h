@@ -45,7 +45,6 @@ public:
      */
 	void checkSlice();
 
-protected:
     /**
      * Pure virtual function to activate a task.
      * This function must be implemented by derived classes to define how a task is activated

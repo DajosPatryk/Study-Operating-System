@@ -101,17 +101,6 @@ public:
      */
     static void operator delete(void* p) {}
 
-    /**
-     * Gets the activity that this one is joined with (waiting on).
-     * @return Pointer to the joined activity.
-     */
-	Activity* getJoined() { return this->joined; }
-
-    /**
-     * Sets the activity that this one is joined with (waiting on).
-     * @param activity Pointer to the activity to join with.
-     */
-	void setJoined(Activity* activity) { this->joined = activity; }
 
 private:
 State state = BLOCKED;        // Current state of the activity.
